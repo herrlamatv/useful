@@ -28,5 +28,5 @@ Note: 1080p limits the height of the video, so if you want to download shorts fo
 - paste your link and wait
 
 ## Best
-- Same as the '1080p',<br>just that you download [[this]](https://github.com/herrlamatv/useful/releases/download/ytdlp.simple.files.1/dw-best.bat)
+- Same as the '[1080p](https://github.com/herrlamatv/useful#1080p)',<br>just that you download [[this]](https://github.com/herrlamatv/useful/releases/download/ytdlp.simple.files.1/dw-best.bat)
 - and start it.
