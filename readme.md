@@ -6,6 +6,7 @@ This **repo** brings useful stuff I use on a daily basis<br>Here you can find pl
 - Place the [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe) into the **Desktop\dw** (folder)
 <br>
 <br>
+
 ### You can download the Video in "1080p" or in "Best" (original)
 Note: 1080p limits the height of the video, so if you want to download shorts form content, like "Reels", "Shorts" or "Tiktoks", you will need to download them via **"Best"**<br>"BEST" makes it so the program saves the video in original quallity, this means <br>that if the video is in 4k (3840:2160), its much larger then you even need it.<br>Why: 
 
