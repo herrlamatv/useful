@@ -53,7 +53,7 @@ Clicking on the extention shall look like this:
 
 |1080p (cook)|best (cook)
 |---|---
-|[dis](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-1080p.bat)|[this](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-best.bat)
+|[this](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-1080p.bat)|[this](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-best.bat)
 
 
 ****
