@@ -37,7 +37,7 @@ Note: 1080p limits the height of the video, so if you want to download shorts fo
 If you get blocked, you need to verify that you are a human<br>How do I do that? <br>-> You have to export your cookies and work with them. <br> <br>What you need: 
 
 - Firefox (or any browser where you can export your cookies <br>**Chrome** doesnt work.<br>Chrome implemented a protection for Cookie-stealers (malware)
-- a Cookie exporting [**extention like this one (click!)**](https://addons.mozilla.org/de/firefox/addon/get-cookies-txt-locally/) ([sourcecode](https://github.com/kairi003/Get-cookies.txt-LOCALLY))
+- a Cookie exporting [**extention like this one (click!)**](https://addons.mozilla.org/de/firefox/addon/get-cookies-txt-locally/) ([sourcecode](https://github.com/kairi003/Get-cookies.txt-LOCALLY)) ([download source](https://github.com/kairi003/Get-cookies.txt-LOCALLY/archive/refs/heads/master.zip))
 - Idk if you need to but if you do, i'll work for sure: log into **YouTube**
 - If you want to be sure: click on a video (random, just to have some activity)
 
@@ -45,12 +45,17 @@ Clicking on the extention shall look like this:
 <img width="419" height="124" alt="image" src="https://github.com/user-attachments/assets/e6c7e021-9fa3-4c7c-8b3a-ff0756dd6e03" />
 
 - At that screen you can select **export all cookies** or **export**
-- exporting all cookies will give you a "**cookies.txt**"<br>Its the simplest, because its the same across all sites.<br>If you only want to export the cookies of a specific site,<br>you will have to change the "cookies.txt" in the [cook-dw-1080p.bat]()<br> to your .txt file.
-- Put the file ("**cookies.txt**") into the directory where the [cook-dw-1080p.bat]() and the [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe) are.
+- exporting all cookies will give you a "**cookies.txt**"<br>Its the simplest, because its the same across all sites.<br>If you only want to export the cookies of a specific site,<br>you will have to change the "cookies.txt" in the [cook-dw-1080p.bat](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-1080p.bat)<br> to your .txt file.
+- Put the file ("**cookies.txt**") into the directory where the [cook-dw-1080p.bat](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-1080p.bat) and the [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe) are.
 - Then start the file and paste the link in (like on the simple thing)
 - **THIS IS NOT PERMANENT!**<br>After 10-15 mins, your cookie (yt) will be expired and you will have to regenerate it.
+- Files:
+
+|1080p (cook)|best (cook)
+|---|---
+|[dis](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-1080p.bat)|[this](https://github.com/herrlamatv/useful/releases/download/ytdlp.cook.files.1/Cook-dw-best.bat)
 
 
 ****
 ### Explatations
-**cookie-stealer** : A cookie stealer is a malware ("Virus") that you install on your pc and checks Browsers to export the cookies (exactly what we are doing, just without your perm). <br> **a cookie** : a file/written text that saves your logins, so basicly, if you are logged in on youtube and you delete your cookie: Youtube thinks you are a new person (They know who you are anyways, because there are other mechanics as a tracking pixel, your ip/mac adress & more). <br>The cookie is there, so if you close the browser and reopen it and visit youtube.com, youtube sees there is a cookie created from youtube and you are **automaticly** logged in. <br>What Chrome did: They encrypted it so you/malware cant export it. <br>**Note: DONT SHARE YOUR COOKIE[s] WITH ANYONE!!!**<br> If you want to read smth abt it: [[here]](https://www.malwarebytes.com/cybersecurity/basics/cookie-hijacking)
+**Why was/am I blocked?** : If you download too much, youtube will cooldown you (your ip and/or your hwid, tbh idk) and it will say that youre a **bot**. To Prevent threads on their platform they will cooldown you. (to protect themselves)<br>_Some sites even block you entirely, then you'll get a http 403 Forbidden or something similar_<br>**Bot** : A bot ("Robot") is an automated script or some program<br>**hwid** : The HWID, aka Hardware id, is a number, linked to your ssd (I think)<br>SSD : The ssd is the _Solid state drive_, so your disk [example](https://geizhals.de/samsung-ssd-9100-pro-v191423.html)<br>HDD : a HDD is "the same", just much slower. The HDD is bigger and is a real disk (like a cd) that spinns + its more durable (timewise) because it can run longer without breaking, but its more fragile (dropping, magnets, ...) [example](https://geizhals.de/seagate-ironwolf-nas-hdd-rescue-10tb-st10000vn000-a2571431.html) [[inside]](https://gzhls.at/pix/e0/94/e094151892329810-l.webp)<br><br>**cookie-stealer** : A cookie stealer is a malware ("Virus") that you install on your pc and checks Browsers to export the cookies (exactly what we are doing, just without your perm). <br> **a cookie** : a file/written text that saves your logins, so basicly, if you are logged in on youtube and you delete your cookie: Youtube thinks you are a new person (They know who you are anyways, because there are other mechanics as a tracking pixel, your ip/mac adress & more). <br>The cookie is there, so if you close the browser and reopen it and visit youtube.com, youtube sees there is a cookie created from youtube and you are **automaticly** logged in. <br>What Chrome did: They encrypted it so you/malware cant export it. <br>**Note: DONT SHARE YOUR COOKIE[s] WITH ANYONE!!!**<br> If you want to read smth abt it: [[here]](https://www.malwarebytes.com/cybersecurity/basics/cookie-hijacking)
