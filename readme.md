@@ -1,5 +1,7 @@
 ## Useful stuff
-This **repo** brings useful stuff I use on a daily basis<br>Here you can find plenty of stuff I use, such as:<br>**Scripts** for applications & more <br><br>
+This **repo** brings useful stuff I use on a daily basis<br>Here you can find plenty of stuff I use, such as:<br>**Scripts** for applications & more
+### Directory:
+[yt-dlp:](https://github.com/herrlamatv/useful#yt-dlp-simple) : [1080p](https://github.com/herrlamatv/useful#1080p) | [Best](https://github.com/herrlamatv/useful#best)<br><br>
 ## yt-dlp: (Simple)
 - At first, you need [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe) (download by clicking)
 - Then: Create a folder on your **Desktop** named: **dw**
