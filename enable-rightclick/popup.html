@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: light dark; --fg: #1b1b1b; --bg: #fff; --grey: #6b6b6b; --off: #bbb; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #f2f2f2; --bg: #1e1e1e; --grey: #9e9e9e; --off: #555; }
+  }
+  body {
+    margin: 0;
+    padding: 14px;
+    width: 250px;
+    background: var(--bg);
+    color: var(--fg);
+    font: 13px/1.4 system-ui, "Segoe UI", sans-serif;
+  }
+  h1 { margin: 0 0 2px; font-size: 13px; font-weight: 600; }
+  #host { margin-bottom: 12px; color: var(--grey); word-break: break-all; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .sw { position: relative; width: 40px; height: 24px; flex: none; }
+  .sw input { position: absolute; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .sw span {
+    position: absolute; inset: 0; border-radius: 12px; background: var(--off); pointer-events: none;
+  }
+  .sw span::after {
+    content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+    border-radius: 50%; background: #fff;
+  }
+  .sw input:checked + span { background: #1a7f37; }
+  .sw input:checked + span::after { left: 19px; }
+  #note { margin-top: 12px; font-size: 11px; color: var(--grey); }
+  .off { display: none; }
+</style>
+</head>
+<body>
+  <h1>enable-rightclick</h1>
+  <div id="host"></div>
+
+  <div class="row" id="row">
+    <span>on for this site</span>
+    <label class="sw">
+      <input type="checkbox" id="sw">
+      <span></span>
+    </label>
+  </div>
+
+  <div id="note"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
