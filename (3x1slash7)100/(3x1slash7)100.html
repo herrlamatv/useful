@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>(3x1/7)100</title>
+<style>
+  :root {
+    --papier: #f3efe6;
+    --tinte: #23211d;
+    --grau: #8b8579;
+    --linie: #dcd5c6;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--papier);
+    color: var(--tinte);
+    font-family: var(--serif);
+    display: flex;
+    padding: 24px 16px;
+  }
+
+  main {
+    margin: auto;
+    width: 100%;
+    max-width: 26rem;
+    text-align: center;
+  }
+
+  .tag {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: .8rem;
+    letter-spacing: .12em;
+    text-transform: lowercase;
+    color: var(--grau);
+  }
+
+  output {
+    display: block;
+    margin: .1em 0 .15em;
+    font-size: clamp(4.5rem, 22vw, 8.5rem);
+    line-height: 1;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -.02em;
+  }
+
+  output small {
+    font-size: .42em;
+    color: var(--grau);
+    letter-spacing: 0;
+  }
+
+  .formel {
+    margin: 0 0 3rem;
+    font-family: var(--mono);
+    font-size: .85rem;
+    color: var(--grau);
+  }
+
+  .formel b {
+    font-weight: normal;
+    color: var(--tinte);
+  }
+
+  .tage {
+    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+  }
+
+  .tage button {
+    flex: 1;
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: .55rem 0 .5rem;
+    font: inherit;
+    font-size: 1.05rem;
+    color: var(--grau);
+    cursor: pointer;
+  }
+
+  .tage button:hover { color: var(--tinte); }
+
+  .tage button[aria-checked="true"] { color: var(--tinte); }
+
+  .tage button:focus-visible {
+    outline: 1px solid var(--tinte);
+    outline-offset: -2px;
+  }
+
+  .balken {
+    display: flex;
+    gap: 3px;
+    margin-top: .2rem;
+  }
+
+  .balken span {
+    flex: 1;
+    height: 3px;
+    background: var(--linie);
+    transition: background-color .15s;
+  }
+
+  .balken span.an { background: var(--tinte); }
+</style>
+</head>
+<body>
+
+<main>
+  <p class="tag" id="tag">mittwoch</p>
+  <output id="ergebnis" aria-live="polite">42<small>,86</small></output>
+  <p class="formel">(<b id="zahl">3</b> × 1/7) × 100</p>
+
+  <div class="tage" role="radiogroup" aria-label="Wochentag" id="tage"></div>
+  <div class="balken" id="balken" aria-hidden="true"></div>
+</main>
+
+<script>
+  const kurz = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+  const lang = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+
+  const tageEl = document.getElementById("tage");
+  const balkenEl = document.getElementById("balken");
+  const buttons = [];
+  const striche = [];
+
+  kurz.forEach((k, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = k;
+    b.setAttribute("role", "radio");
+    b.setAttribute("aria-label", lang[i]);
+    b.addEventListener("click", () => setze(i + 1));
+    tageEl.appendChild(b);
+    buttons.push(b);
+
+    const s = document.createElement("span");
+    balkenEl.appendChild(s);
+    striche.push(s);
+  });
+
+  function setze(n) {
+    const wert = (n * 1 / 7) * 100;
+    const [ganz, rest] = wert.toFixed(2).split(".");
+
+    document.getElementById("ergebnis").innerHTML = ganz + "<small>," + rest + "</small>";
+    document.getElementById("zahl").textContent = n;
+    document.getElementById("tag").textContent = lang[n - 1].toLowerCase();
+
+    buttons.forEach((b, i) => {
+      const aktiv = i === n - 1;
+      b.setAttribute("aria-checked", aktiv);
+      b.tabIndex = aktiv ? 0 : -1;
+    });
+    striche.forEach((s, i) => s.classList.toggle("an", i < n));
+
+    aktuell = n;
+  }
+
+  let aktuell = 1;
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key >= "1" && e.key <= "7") setze(+e.key);
+    else if (e.key === "ArrowRight") { setze(aktuell % 7 + 1); buttons[aktuell - 1].focus(); }
+    else if (e.key === "ArrowLeft") { setze((aktuell + 5) % 7 + 1); buttons[aktuell - 1].focus(); }
+  });
+
+  setze(new Date().getDay() || 7);
+</script>
+
+</body>
+</html>
