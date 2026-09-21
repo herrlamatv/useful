@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="options.title">Chroofer – Settings</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="options">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="Chroofer"></div>
+        <div>
+          <h1>Chroofer</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="langSwitch" class="lang-switch"></div>
+        <span class="hint" id="masterLabel">on</span>
+        <label class="toggle" data-i18n-title="app.masterTitle">
+          <input type="checkbox" id="master" />
+          <span class="track"></span>
+        </label>
+      </div>
+    </header>
+
+    <!-- ------------------------- Pro Website ------------------------- -->
+    <div class="panel always-on">
+      <div class="panel-head">
+        <h2 data-i18n="options.sitesTitle">Per website</h2>
+        <p data-i18n="options.sitesDesc">
+          Every rule has its own switch, its own profile and its own scope.
+        </p>
+      </div>
+
+      <div class="panel-body">
+        <div class="add-row">
+          <button class="btn primary" id="addCurrent" type="button" data-i18n="options.addCurrent">
+            Add the site I’m on right now
+          </button>
+          <span class="hint" id="currentHint"></span>
+        </div>
+        <div class="spacer"></div>
+        <div class="add-row">
+          <input type="text" id="newHost" class="grow" data-i18n-ph="options.addPlaceholder" />
+          <button class="btn" id="addSite" type="button" data-i18n="options.add">Add</button>
+        </div>
+        <div class="hint" id="addError" style="color: var(--red); margin-top: 6px"></div>
+      </div>
+
+      <div class="panel-body">
+        <div id="siteList"></div>
+      </div>
+    </div>
+
+    <!-- --------------------------- Global ---------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="global.title">Global</h2>
+        <p data-i18n="global.desc">Applies to every website that has no rule above.</p>
+      </div>
+      <div class="panel-body">
+        <div id="globalModes"></div>
+        <div id="globalDetail"></div>
+      </div>
+    </div>
+
+    <!-- -------------------------- Erweitert -------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opts.title">What gets spoofed</h2>
+        <p data-i18n="opts.desc">Applies to every profile – global and per website.</p>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="optCore"></div>
+      </div>
+      <div class="panel-body">
+        <div class="label" style="margin-bottom: 8px" data-i18n="opts.extra">Additionally</div>
+        <div class="list" id="optExtra"></div>
+        <div id="optValues"></div>
+      </div>
+      <div class="panel-body">
+        <div class="note" id="optNote"></div>
+      </div>
+    </div>
+
+    <!-- ------------------------ Sichern & Laden ---------------------- -->
+    <div class="panel">
+      <div class="panel-head"><h2 data-i18n="io.title">Backup &amp; restore</h2></div>
+      <div class="panel-body">
+        <div class="row wrap">
+          <button class="btn" id="export" type="button" data-i18n="io.export">Export</button>
+          <button class="btn" id="importBtn" type="button" data-i18n="io.import">Import</button>
+          <input type="file" id="importFile" accept="application/json,.json" hidden />
+          <div class="grow"></div>
+          <button class="btn danger" id="reset" type="button" data-i18n="io.reset">Reset to defaults</button>
+        </div>
+        <div class="hint" id="ioStatus" style="margin-top: 8px"></div>
+      </div>
+    </div>
+
+    <footer>
+      <span data-i18n="app.footer">Chroofer 1.0 · Manifest V3</span>
+      <span data-i18n="app.by">by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

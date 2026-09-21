@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Chroofer",
+    "description": "Name der Erweiterung, sichtbar in der Symbolleiste und unter chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Bestimme selbst, was Websites über dein System sehen: Betriebssystem, OS-Version, Browser und Version — global oder pro Website. by herrlamatv",
+    "description": "Beschreibung der Erweiterung unter chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "Chroofer",
+    "description": "Tooltip der Schaltfläche in der Symbolleiste"
+  }
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="popup.title">Chroofer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="popup">
+    <div class="row between" style="margin-bottom: 14px">
+      <div class="brand">
+        <div class="logo" role="img" aria-label="Chroofer"></div>
+        <div>
+          <h1>Chroofer</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <label class="toggle" data-i18n-title="app.masterTitle">
+        <input type="checkbox" id="master" />
+        <span class="track"></span>
+      </label>
+    </div>
+
+    <div class="panel always-on">
+      <div class="panel-head">
+        <div class="site-line">
+          <div class="site-host grow" id="host">…</div>
+          <span class="chip" id="chip">…</span>
+        </div>
+        <p id="status" data-i18n="popup.loading">loading …</p>
+      </div>
+
+      <div class="panel-body">
+        <div class="label" style="margin-bottom: 8px" data-i18n="popup.forThisSite">For this site</div>
+        <div id="modes"></div>
+        <div id="detail"></div>
+      </div>
+
+      <div class="panel-body">
+        <div class="row">
+          <button class="btn primary grow" id="reload" type="button" data-i18n="popup.reload">Reload page</button>
+          <button class="btn" id="check" type="button" data-i18n="popup.check">Check</button>
+        </div>
+        <div class="hint" style="margin-top: 8px" data-i18n="popup.reloadHint">
+          Changes take effect the next time the page loads.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="livePanel" hidden>
+      <div class="panel-head"><h2 data-i18n="popup.liveTitle">What this page sees right now</h2></div>
+      <div class="panel-body"><dl class="kv" id="live"></dl></div>
+    </div>
+
+    <footer>
+      <a href="#" id="openOptions" data-i18n="popup.allSettings">All settings …</a>
+      <span data-i18n="popup.footer">Chroofer · by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

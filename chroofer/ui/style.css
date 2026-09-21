@@ -1,0 +1,623 @@
+/* Chroofer - by herrlamatv
+   Off-White / Creme, weiche Rundungen, iOS-Schalter. */
+
+:root {
+  --bg: #f3efe5;
+  --bg-tint: #ebe5d7;
+  --surface: #fffdf8;
+  --surface-2: #faf6ec;
+  --line: #e7dfd0;
+  --line-soft: #efe9dc;
+  --text: #1f1d18;
+  --text-2: #7c7466;
+  --text-3: #a29a8a;
+  --accent: #0071e3;
+  --accent-soft: #e8f1fd;
+  --green: #34c759;
+  --red: #e5484d;
+  --track: #ded7c7;
+  --shadow-sm: 0 1px 2px rgba(74, 62, 40, 0.06);
+  --shadow: 0 1px 2px rgba(74, 62, 40, 0.05), 0 10px 26px rgba(74, 62, 40, 0.07);
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 9px;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 13.5px/1.5 -apple-system, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------ Kopfzeile ----------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+/* Dasselbe Bild wie in der Symbolleiste - ein Logo, nicht zwei. */
+.brand .logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: url("../icons/icon128.png") center / contain no-repeat;
+  flex: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand h1 {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.brand .by {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+/* ------------------------------- Panels ------------------------------- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel + .panel {
+  margin-top: 16px;
+}
+
+.panel-head {
+  padding: 15px 18px 0;
+}
+
+.panel-head h2 {
+  font-size: 15px;
+}
+
+.panel-head p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+.panel-body {
+  padding: 14px 18px 16px;
+}
+
+.panel-body + .panel-body {
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ------------------------- Zeilen wie in iOS -------------------------- */
+
+.list {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.list > .item + .item {
+  border-top: 1px solid var(--line-soft);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  min-height: 46px;
+}
+
+.item .txt {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.item .t {
+  font-size: 13.5px;
+}
+
+.item .d {
+  font-size: 11.5px;
+  color: var(--text-2);
+  margin-top: 1px;
+}
+
+/* ------------------------------ Schalter ------------------------------ */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 26px;
+  flex: none;
+}
+
+.toggle input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.toggle .track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--track);
+  transition: background 0.22s cubic-bezier(0.3, 0.9, 0.4, 1);
+}
+
+.toggle .track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(60, 50, 30, 0.28);
+  transition: transform 0.22s cubic-bezier(0.3, 0.9, 0.4, 1);
+}
+
+.toggle input:checked + .track {
+  background: var(--green);
+}
+
+.toggle input:checked + .track::after {
+  transform: translateX(18px);
+}
+
+.toggle input:disabled {
+  cursor: default;
+}
+
+.toggle input:disabled + .track {
+  opacity: 0.4;
+}
+
+.toggle input:focus-visible + .track {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ------------------------- Segmented Control -------------------------- */
+
+.seg {
+  display: flex;
+  background: var(--bg-tint);
+  border-radius: 10px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.seg button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(60, 50, 30, 0.16);
+}
+
+.seg button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Kompakter Sprachumschalter in der Kopfzeile. */
+.lang-switch .seg button {
+  flex: none;
+  padding: 5px 10px;
+  font-size: 11.5px;
+}
+
+/* ----------------------- Knöpfe, Felder, Chips ------------------------ */
+
+button.btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+
+button.btn:hover {
+  background: var(--surface-2);
+}
+
+button.btn:active {
+  transform: scale(0.98);
+}
+
+button.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+
+button.btn.primary:hover {
+  filter: brightness(1.06);
+}
+
+button.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--accent);
+}
+
+button.btn.ghost:hover {
+  background: var(--accent-soft);
+}
+
+button.btn.danger {
+  color: var(--red);
+}
+
+button.btn.danger:hover {
+  background: #fdeced;
+  border-color: #f4cfd1;
+}
+
+button.btn.small {
+  padding: 5px 11px;
+  font-size: 12px;
+}
+
+button.icon {
+  border: none;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+button.icon:hover {
+  background: var(--bg-tint);
+  color: var(--text);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 58px;
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 11.5px;
+}
+
+label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-2);
+  min-width: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--bg-tint);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.chip.on {
+  background: #e6f7ec;
+  color: #1c7a3e;
+}
+
+.chip.site {
+  background: var(--accent-soft);
+  color: #0a5bb5;
+}
+
+.chip.off {
+  background: var(--bg-tint);
+  color: var(--text-3);
+}
+
+/* -------------------------------- Rest -------------------------------- */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row.between {
+  justify-content: space-between;
+}
+
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mono {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 11.5px;
+  word-break: break-all;
+}
+
+.ua-box {
+  white-space: pre-wrap;
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  padding: 9px 10px;
+  max-height: 88px;
+  overflow: auto;
+  color: var(--text-2);
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.hint {
+  font-size: 11.5px;
+  color: var(--text-2);
+}
+
+.spacer {
+  height: 12px;
+}
+
+.sep {
+  height: 1px;
+  background: var(--line-soft);
+  margin: 14px 0;
+}
+
+.note {
+  background: #fdf6e6;
+  border: 1px solid #f0e2c2;
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  font-size: 11.5px;
+  color: #6b5a33;
+}
+
+.empty {
+  padding: 26px 18px;
+  text-align: center;
+  color: var(--text-2);
+  font-size: 12.5px;
+}
+
+footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.kv {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 5px 12px;
+  font-size: 11.5px;
+}
+
+.kv dt {
+  color: var(--text-2);
+}
+
+.kv dd {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  word-break: break-all;
+}
+
+body.dimmed .panel:not(.always-on) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* -------------------------------- Popup ------------------------------- */
+
+body.popup {
+  width: 384px;
+  padding: 14px;
+}
+
+body.popup .panel-head {
+  padding: 14px 15px 0;
+}
+
+body.popup .panel-body {
+  padding: 12px 15px 14px;
+}
+
+.site-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-host {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------ Optionen ------------------------------ */
+
+body.options {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 34px 22px 56px;
+}
+
+body.options header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.site-card {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.site-card + .site-card {
+  margin-top: 10px;
+}
+
+.site-card.open {
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.site-card.paused .site-name {
+  color: var(--text-3);
+}
+
+.site-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.site-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.site-sub {
+  font-size: 11.5px;
+  color: var(--text-2);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-detail {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 14px;
+}
+
+.add-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.add-row input[type="text"] {
+  flex: 1 1 260px;
+  width: auto;
+  min-width: 200px;
+}

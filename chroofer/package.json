@@ -1,0 +1,11 @@
+{
+  "name": "chroofer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chroofer - Chrome-Erweiterung zum Spoofen von Betriebssystem und Browser, global oder pro Website. by herrlamatv",
+  "author": "herrlamatv",
+  "scripts": {
+    "test": "node test/test.mjs"
+  }
+}

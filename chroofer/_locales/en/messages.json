@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Chroofer",
+    "description": "Extension name, shown in the toolbar and on chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Decide for yourself what websites see about your system: operating system, OS version, browser and version — globally or per website. by herrlamatv",
+    "description": "Extension description on chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "Chroofer",
+    "description": "Tooltip of the toolbar button"
+  }
+}
