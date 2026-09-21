@@ -1,0 +1,2526 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>num</title>
+<style>
+  :root {
+    --papier: #f3efe6;
+    --karte: #faf7f0;
+    --tinte: #23211d;
+    --grau: #8b8579;
+    --leise: #a8a296;
+    --linie: #dcd5c6;
+    --linie-zart: #e8e2d5;
+    --akzent: #7a4a24;
+    --treffer: #e7dcc4;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --papier: #16150f;
+      --karte: #1d1c15;
+      --tinte: #e9e3d4;
+      --grau: #918a79;
+      --leise: #6d675b;
+      --linie: #322f26;
+      --linie-zart: #26241c;
+      --akzent: #d2a273;
+      --treffer: #3a3325;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--papier);
+    color: var(--tinte);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  main { max-width: 62rem; margin: 0 auto; padding: 0 16px 6rem; }
+
+  /* Kopf */
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--papier);
+    border-bottom: 1px solid var(--linie);
+    padding-top: 14px;
+  }
+
+  .marke {
+    display: flex;
+    align-items: baseline;
+    gap: .6rem;
+    margin-bottom: .7rem;
+  }
+
+  .marke h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: normal;
+    letter-spacing: .02em;
+  }
+
+  .marke p {
+    margin: 0;
+    font-size: .8rem;
+    color: var(--grau);
+    flex: 1;
+  }
+
+  .werkzeuge { display: flex; align-items: center; gap: .4rem; }
+
+  .schalter {
+    appearance: none;
+    background: none;
+    border: 1px solid var(--linie);
+    border-radius: 2px;
+    color: var(--grau);
+    font-family: var(--mono);
+    font-size: .72rem;
+    padding: .25rem .5rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .schalter:hover { color: var(--tinte); border-color: var(--grau); }
+  .schalter[aria-pressed="true"] { color: var(--tinte); border-color: var(--tinte); }
+
+  /* Eingabe */
+
+  .eingabe { display: flex; gap: .5rem; flex-wrap: wrap; }
+
+  .eingabe input[type="text"] {
+    flex: 1 1 11rem;
+    min-width: 0;
+    background: var(--karte);
+    border: 1px solid var(--linie);
+    border-radius: 2px;
+    color: var(--tinte);
+    font-family: var(--mono);
+    font-size: 1.25rem;
+    padding: .5rem .6rem;
+  }
+
+  .eingabe select {
+    flex: 0 1 16rem;
+    min-width: 0;
+    background: var(--karte);
+    border: 1px solid var(--linie);
+    border-radius: 2px;
+    color: var(--tinte);
+    font-family: var(--serif);
+    font-size: 1rem;
+    padding: .5rem .4rem;
+  }
+
+  .eingabe input:focus, .eingabe select:focus, .suche input:focus {
+    outline: 1px solid var(--akzent);
+    outline-offset: -1px;
+  }
+
+  .gelesen {
+    margin: .35rem 0 0;
+    min-height: 1.2em;
+    font-family: var(--mono);
+    font-size: .76rem;
+    color: var(--grau);
+  }
+
+  .gelesen.fehler { color: var(--akzent); }
+
+  /* Modusleiste */
+
+  .leiste {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 0 .6rem;
+    flex-wrap: wrap;
+  }
+
+  .modi { display: flex; border: 1px solid var(--linie); border-radius: 2px; overflow: hidden; }
+
+  .modi button {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-right: 1px solid var(--linie);
+    color: var(--grau);
+    font-family: var(--serif);
+    font-size: .9rem;
+    padding: .3rem .85rem;
+    cursor: pointer;
+  }
+
+  .modi button:last-child { border-right: 0; }
+  .modi button[aria-pressed="true"] { background: var(--treffer); color: var(--tinte); }
+
+  .suche { flex: 1 1 8rem; display: flex; }
+
+  .suche input {
+    width: 100%;
+    background: none;
+    border: 1px solid var(--linie);
+    border-radius: 2px;
+    color: var(--tinte);
+    font-family: var(--serif);
+    font-size: .85rem;
+    padding: .3rem .5rem;
+  }
+
+  /* Kategorien */
+
+  .kategorien {
+    display: flex;
+    gap: 1px;
+    overflow-x: auto;
+    border-top: 1px solid var(--linie-zart);
+    scrollbar-width: thin;
+  }
+
+  .kategorien button {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--grau);
+    font-family: var(--serif);
+    font-size: .85rem;
+    padding: .45rem .6rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .kategorien button:hover { color: var(--tinte); }
+  .kategorien button[aria-pressed="true"] { color: var(--tinte); border-bottom-color: var(--akzent); }
+
+  /* Ergebnisse */
+
+  .quelle {
+    margin: 1.1rem 0 .3rem;
+    font-family: var(--mono);
+    font-size: .75rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--leise);
+  }
+
+  .zeilen { border-top: 1px solid var(--linie); }
+
+  .zeile {
+    display: grid;
+    grid-template-columns: minmax(8rem, 14rem) 1fr;
+    gap: .2rem 1rem;
+    align-items: baseline;
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--linie-zart);
+  }
+
+  .zeile.aktiv { background: var(--treffer); }
+  .zeile.trenn { border-top: 2px solid var(--linie); }
+
+  .namen { min-width: 0; }
+  .namen .haupt { display: block; font-size: .95rem; }
+  .namen .neben { display: block; font-size: .74rem; color: var(--leise); }
+
+  .namen .sym {
+    font-family: var(--mono);
+    font-size: .78rem;
+    color: var(--grau);
+    margin-left: .35rem;
+  }
+
+  .namen button {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .namen button:hover .haupt { color: var(--akzent); text-decoration: underline; }
+
+  .werte { min-width: 0; }
+
+  .ziffern {
+    display: block;
+    font-family: var(--mono);
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+    cursor: pointer;
+  }
+
+  .ziffern:hover { color: var(--akzent); }
+
+  .potenz {
+    display: block;
+    font-family: var(--mono);
+    font-size: .84rem;
+    color: var(--grau);
+    cursor: pointer;
+  }
+
+  sup { font-size: .8em; line-height: 0; }
+
+  .potenz:hover { color: var(--akzent); }
+
+  .ca { color: var(--leise); font-family: var(--serif); }
+
+  .mehr {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0 0 0 .3rem;
+    font: inherit;
+    font-family: var(--mono);
+    font-size: .8rem;
+    color: var(--akzent);
+    cursor: pointer;
+  }
+
+  /* Zahlenmodus */
+
+  .tafel { border-top: 1px solid var(--linie); }
+  .tafel .zeile { grid-template-columns: minmax(8rem, 12rem) 1fr; }
+
+  .hinweis { margin: .6rem 0 0; font-size: .8rem; color: var(--grau); }
+
+  .rahmen { overflow-x: auto; border: 1px solid var(--linie); border-radius: 2px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: .82rem; }
+
+  th, td {
+    text-align: left;
+    padding: .32rem .6rem;
+    border-bottom: 1px solid var(--linie-zart);
+    white-space: nowrap;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--karte);
+    font-weight: normal;
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--leise);
+    border-bottom: 1px solid var(--linie);
+  }
+
+  tbody tr:hover { background: var(--treffer); }
+  tbody tr.hier { background: var(--treffer); }
+
+  td.p, td.z { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  td.z { max-width: 24rem; overflow: hidden; text-overflow: ellipsis; }
+  td.kurz { font-family: var(--mono); color: var(--akzent); }
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--linie);
+    font-size: .78rem;
+    color: var(--leise);
+  }
+
+  .meldung {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(1rem);
+    background: var(--tinte);
+    color: var(--papier);
+    font-family: var(--mono);
+    font-size: .78rem;
+    padding: .4rem .8rem;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s, transform .18s;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .meldung.an { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Selbsttest */
+
+  #pruefung { display: none; font-family: var(--mono); font-size: .8rem; }
+  #pruefung.an { display: block; }
+  #pruefung .ok { color: var(--grau); }
+  #pruefung .fail { color: #c0392b; font-weight: bold; }
+  #pruefung .kopf { font-size: 1rem; margin: 1.2rem 0 .5rem; font-family: var(--serif); }
+  @media (prefers-color-scheme: dark) { #pruefung .fail { color: #ff7a6b; } }
+
+  @media (max-width: 34rem) {
+    .zeile { grid-template-columns: 1fr; gap: 0; }
+    .namen { display: flex; align-items: baseline; gap: .35rem; flex-wrap: wrap; }
+    .namen .neben { font-size: .72rem; }
+    .marke p { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<main>
+
+<header>
+  <div class="marke">
+    <h1>num</h1>
+    <p id="untertitel">Zahlen &amp; Einheiten</p>
+    <div class="werkzeuge">
+      <button class="schalter" id="sprache" type="button" title="Sprache">EN</button>
+      <button class="schalter" id="stellenAuf" type="button" title="Genauigkeit">12&nbsp;St.</button>
+    </div>
+  </div>
+
+  <div class="eingabe">
+    <input type="text" id="wert" value="1" autocomplete="off" spellcheck="false" inputmode="text">
+    <select id="einheit"></select>
+  </div>
+  <p class="gelesen" id="gelesen"></p>
+
+  <div class="leiste">
+    <div class="modi">
+      <button type="button" id="modusZahlen">Zahlen</button>
+      <button type="button" id="modusEinheiten">Einheiten</button>
+    </div>
+    <label class="suche"><input type="text" id="suche" placeholder="suchen (/)" autocomplete="off" spellcheck="false"></label>
+  </div>
+
+  <nav class="kategorien" id="kategorien"></nav>
+</header>
+
+<section id="ausgabe"></section>
+
+<footer id="fuss"></footer>
+
+</main>
+
+<div class="meldung" id="meldung" role="status" aria-live="polite"></div>
+<div id="pruefung"></div>
+
+<script>
+"use strict";
+
+/* ====================================================================
+   1 | Dezimalarithmetik
+
+   Ein Wert ist { m, e } und bedeutet  m x 10^e,  m als BigInt.
+   JavaScripts Number kann hier nicht helfen: ab 1e21 erzwingt es
+   Exponentialschreibweise (die Ziffernfolge einer Quadrillion waere
+   gar nicht darstellbar) und ab 1e308 gibt es nur noch Infinity.
+   ==================================================================== */
+
+function D(m, e) { return { m: typeof m === "bigint" ? m : BigInt(m), e: e | 0 }; }
+
+function betrag(m) { return m < 0n ? -m : m; }
+
+function stellenZahl(m) { return betrag(m).toString().length; }
+
+const POT = [];
+function pot10(k) {
+  if (k < 0) return 1n;
+  if (POT[k] === undefined) POT[k] = 10n ** BigInt(k);
+  return POT[k];
+}
+
+/* Nachlaufende Nullen der Mantisse in den Exponenten schieben.
+   Haelt die Mantissen kurz und macht Vergleiche verlaesslich. */
+function dNorm(a) {
+  if (a.m === 0n) return D(0n, 0);
+  let m = a.m, e = a.e;
+  while (m % 10n === 0n) { m /= 10n; e++; }
+  return { m: m, e: e };
+}
+
+/* Zahl aus einem String: "1", "-1.5", "1e-15", "2.54E3" */
+function dVon(s) {
+  s = String(s).trim();
+  if (!s) return null;
+  let neg = false;
+  if (s[0] === "+") s = s.slice(1);
+  else if (s[0] === "-") { neg = true; s = s.slice(1); }
+  let e = 0;
+  const i = s.search(/[eE]/);
+  if (i >= 0) {
+    const ex = s.slice(i + 1);
+    if (!/^[+-]?\d+$/.test(ex)) return null;
+    e = parseInt(ex, 10);
+    s = s.slice(0, i);
+  }
+  const p = s.indexOf(".");
+  if (p >= 0) { e -= s.length - p - 1; s = s.slice(0, p) + s.slice(p + 1); }
+  if (!/^\d*$/.test(s)) return null;
+  if (s === "") s = "0";
+  let m = BigInt(s);
+  if (neg) m = -m;
+  return dNorm({ m: m, e: e });
+}
+
+function dNull(a) { return a.m === 0n; }
+function dNeg(a) { return { m: -a.m, e: a.e }; }
+function dMul(a, b) { return dNorm({ m: a.m * b.m, e: a.e + b.e }); }
+
+function dAdd(a, b) {
+  if (a.m === 0n) return b;
+  if (b.m === 0n) return a;
+  /* Liegen die Groessenordnungen extrem weit auseinander, verschwindet der
+     kleinere Summand ohnehin unter jeder darstellbaren Stelle - ohne diese
+     Schranke wuerde 10n ** ... hier unnoetig riesig werden. */
+  if (Math.abs(a.e - b.e) > 400) return a.e > b.e ? a : b;
+  const e = Math.min(a.e, b.e);
+  const am = a.m * pot10(a.e - e);
+  const bm = b.m * pot10(b.e - e);
+  return dNorm({ m: am + bm, e: e });
+}
+
+function dSub(a, b) { return dAdd(a, dNeg(b)); }
+
+function dCmp(a, b) {
+  const d = dSub(a, b);
+  return d.m === 0n ? 0 : (d.m < 0n ? -1 : 1);
+}
+
+/* Auf n signifikante Stellen runden (kaufmaennisch). */
+function dRund(a, n) {
+  if (a.m === 0n) return a;
+  const l = stellenZahl(a.m);
+  if (l <= n) return a;
+  const weg = l - n;
+  const p = pot10(weg);
+  const neg = a.m < 0n;
+  const m = betrag(a.m);
+  let q = m / p;
+  if ((m % p) * 2n >= p) q += 1n;
+  return dNorm({ m: neg ? -q : q, e: a.e + weg });
+}
+
+/* Division mit Schutzstellen, danach auf n signifikante Stellen gerundet. */
+function dDiv(a, b, n) {
+  if (b.m === 0n) return null;
+  if (a.m === 0n) return D(0n, 0);
+  const ziel = Math.max(1, n | 0) + 6;
+  let k = ziel - (stellenZahl(a.m) - stellenZahl(b.m));
+  if (k < 0) k = 0;
+  const za = betrag(a.m) * pot10(k);
+  const zb = betrag(b.m);
+  let q = za / zb;
+  if ((za % zb) * 2n >= zb) q += 1n;
+  const neg = (a.m < 0n) !== (b.m < 0n);
+  return dRund(dNorm({ m: neg ? -q : q, e: a.e - b.e - k }), n);
+}
+
+/* Wie lang wuerde die ausgeschriebene Ziffernfolge? (vor dem Bauen pruefen) */
+function dLaenge(a) {
+  if (a.m === 0n) return 1;
+  const l = stellenZahl(a.m);
+  return a.e >= 0 ? l + a.e : Math.max(l, -a.e) + 2;
+}
+
+const ZU_LANG = 100000;
+
+/* Volle Ziffernfolge, technisch: "-0.00123" */
+function dPlain(a) {
+  if (a.m === 0n) return "0";
+  if (dLaenge(a) > ZU_LANG) return null;
+  const neg = a.m < 0n;
+  const s = betrag(a.m).toString();
+  let out;
+  if (a.e >= 0) {
+    out = s + "0".repeat(a.e);
+  } else {
+    const k = -a.e;
+    out = s.length > k
+      ? s.slice(0, s.length - k) + "." + s.slice(s.length - k)
+      : "0." + "0".repeat(k - s.length) + s;
+  }
+  return (neg ? "-" : "") + out;
+}
+
+/* Wissenschaftlich: Mantisse mit einer Stelle vor dem Komma + Exponent */
+function dSci(a) {
+  if (a.m === 0n) return { m: "0", e: 0 };
+  const neg = a.m < 0n;
+  const s = betrag(a.m).toString();
+  const e = a.e + s.length - 1;
+  const m = s.length > 1 ? s[0] + "." + s.slice(1) : s;
+  return { m: (neg ? "-" : "") + m, e: e };
+}
+
+/* Technisch: Exponent auf ein Vielfaches von 3 gebracht */
+function dEng(a) {
+  if (a.m === 0n) return { m: "0", e: 0 };
+  const sci = dSci(a);
+  let e = Math.floor(sci.e / 3) * 3;
+  const schub = sci.e - e;
+  const neg = a.m < 0n;
+  let s = betrag(a.m).toString();
+  const vor = 1 + schub;
+  if (s.length <= vor) s = s + "0".repeat(vor - s.length);
+  const m = s.slice(0, vor) + (s.length > vor ? "." + s.slice(vor) : "");
+  return { m: (neg ? "-" : "") + m, e: e };
+}
+
+/* ====================================================================
+   2 | Brueche
+
+   Manche Faktoren sind als Dezimalzahl nicht endlich: km/h ist 5/18,
+   Knoten 1852/3600, psi lbf/in². Als Bruch bleiben sie exakt, und es
+   wird genau einmal gerundet - ganz am Ende.
+   ==================================================================== */
+
+function rVon(s) {
+  const t = String(s).split("/");
+  const z = dVon(t[0]);
+  const n = t.length > 1 ? dVon(t[1]) : D(1n, 0);
+  if (!z || !n || n.m === 0n) return null;
+  return { z: z, n: n };
+}
+
+const EINS = { z: D(1n, 0), n: D(1n, 0) };
+
+/* Wert v in Einheit a -> Wert in Einheit b.
+   v * (az/an) ist der Basiswert, geteilt durch (bz/bn) das Ergebnis:
+   v * az * bn / (an * bz)  - eine einzige Division, eine einzige Rundung. */
+function rechne(v, a, b, stellen) {
+  const zaehler = dMul(dMul(v, a.z), b.n);
+  const nenner = dMul(a.n, b.z);
+  return dDiv(zaehler, nenner, stellen);
+}
+
+function ggt(x, y) {
+  x = betrag(x); y = betrag(y);
+  while (y) { const r = x % y; x = y; y = r; }
+  return x;
+}
+
+/* Exakte Division - moeglich, wenn im gekuerzten Nenner nur noch die
+   Faktoren 2 und 5 stehen, die Dezimalbruchentwicklung also abbricht.
+   Dann wird ueberhaupt nicht gerundet. */
+function dDivGenau(a, b) {
+  if (b.m === 0n) return null;
+  if (a.m === 0n) return D(0n, 0);
+  let z = betrag(a.m), n = betrag(b.m);
+  const g = ggt(z, n);
+  z /= g; n /= g;
+  let k2 = 0, k5 = 0;
+  while (n % 2n === 0n) { n /= 2n; k2++; }
+  while (n % 5n === 0n) { n /= 5n; k5++; }
+  if (n !== 1n) return null;
+  const m = Math.max(k2, k5);
+  if (m > 2000) return null;
+  z = z * (2n ** BigInt(m - k2)) * (5n ** BigInt(m - k5));
+  const neg = (a.m < 0n) !== (b.m < 0n);
+  return dNorm({ m: neg ? -z : z, e: a.e - b.e - m });
+}
+
+function rechneGenau(v, a, b) {
+  return dDivGenau(dMul(dMul(v, a.z), b.n), dMul(a.n, b.z));
+}
+
+/* ====================================================================
+   3 | Darstellung
+   ==================================================================== */
+
+const HOCH = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵",
+               "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹", "-": "⁻" };
+
+function hoch(n) {
+  return String(n).split("").map(function (c) { return HOCH[c] || c; }).join("");
+}
+
+/* Fuer die Anzeige wird der Exponent ein echtes <sup>: hochgestellte
+   Unicode-Ziffern sind im Monofont zu klein, um 10⁻¹³ und 10⁻¹⁵
+   sicher zu unterscheiden. Kopiert wird weiterhin die Unicode-Fassung. */
+function potBau(knoten, vor, basis, exp, nach) {
+  if (vor) knoten.appendChild(document.createTextNode(vor));
+  knoten.appendChild(document.createTextNode(basis));
+  const s = document.createElement("sup");
+  s.textContent = String(exp);
+  knoten.appendChild(s);
+  if (nach) knoten.appendChild(document.createTextNode(nach));
+  return knoten;
+}
+
+function potSpan(cls, vor, basis, exp, nach) {
+  return potBau(el("span", cls), vor, basis, exp, nach);
+}
+
+/* Technische Schreibweise (Exponent als Vielfaches von 3) als Knoten. */
+function engKnoten(a, spr, cls) {
+  const e = dEng(a);
+  if (a.m === 0n) return el("span", cls, "0");
+  if (e.e === 0) return el("span", cls, komma(e.m, spr));
+  return potSpan(cls, komma(e.m, spr) + " × ", "10", e.e, null);
+}
+
+/* Vollstaendige wissenschaftliche Schreibweise als Knoten. */
+function potenzKnoten(a, spr, cls) {
+  const sci = dSci(a);
+  if (a.m === 0n) return el("span", cls, "0");
+  if (sci.e === 0) return el("span", cls, komma(sci.m, spr));
+  const m = komma(sci.m, spr);
+  const vor = m === "1" ? "" : (m === "-1" ? "-" : m + " × ");
+  return potSpan(cls, vor, "10", sci.e, null);
+}
+
+const SCHMAL = " ";  /* schmales geschuetztes Leerzeichen */
+
+/* Ziffernfolge lesbar machen: Tausendertrenner nach Sprache, der
+   Nachkommateil nach ISO 80000 in Dreiergruppen mit schmalem Abstand. */
+function gruppiere(plain, spr) {
+  if (plain === null) return null;
+  const tTausend = spr === "de" ? "." : ",";
+  const tKomma = spr === "de" ? "," : ".";
+  let neg = "";
+  if (plain[0] === "-") { neg = "-"; plain = plain.slice(1); }
+  const p = plain.indexOf(".");
+  let ganz = p < 0 ? plain : plain.slice(0, p);
+  let bruch = p < 0 ? "" : plain.slice(p + 1);
+
+  if (ganz.length > 4) ganz = ganz.replace(/\B(?=(\d{3})+(?!\d))/g, tTausend);
+  if (bruch.length > 5) bruch = bruch.replace(/(\d{3})(?=\d)/g, "$1" + SCHMAL);
+
+  return neg + ganz + (bruch ? tKomma + bruch : "");
+}
+
+/* "1 × 10⁻¹⁵"  bzw. bei Exponent 0 schlicht die Mantisse */
+function potenzText(a, spr) {
+  const s = dSci(a);
+  const m = komma(s.m, spr);
+  if (a.m === 0n) return "0";
+  if (s.e === 0) return m;
+  if (s.m === "1") return "10" + hoch(s.e);
+  if (s.m === "-1") return "-10" + hoch(s.e);
+  return m + " × 10" + hoch(s.e);
+}
+
+/* Dezimalpunkt in das Trennzeichen der Sprache umsetzen */
+function komma(s, spr) {
+  return spr === "de" ? s.replace(".", ",") : s;
+}
+
+/* Sehr lange Ziffernfolgen anreissen; die volle Fassung bleibt abrufbar. */
+const KURZ_AB = 44;
+
+function kuerze(s) {
+  if (s === null || s.length <= KURZ_AB) return null;
+  return s.slice(0, KURZ_AB - 18) + "…" + s.slice(-14);
+}
+
+/* ====================================================================
+   4 | Groessenordnungen
+
+   Deutsch zaehlt lang (Milliarde = 10^9, Billion = 10^12), Englisch
+   kurz (billion = 10^9, trillion = 10^12). Genau deshalb steht hier
+   beides nebeneinander: "Billion" und "billion" sind nicht dasselbe.
+   ==================================================================== */
+
+/* Lange Leiter: Stamm + "illion" bei 10^(6n), + "illiarde" bei 10^(6n+3) */
+const STAMM_DE = ["M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Okt",
+  "Non", "Dez", "Undez", "Duodez", "Tredez", "Quattuordez", "Quindez",
+  "Sedez", "Septendez", "Oktodez", "Novemdez", "Vigint"];
+
+/* Kurze Leiter: Stamm + "illion" bei 10^(3n+3) */
+const STAMM_EN = ["m", "b", "tr", "quadr", "quint", "sext", "sept", "oct",
+  "non", "dec", "undec", "duodec", "tredec", "quattuordec", "quindec",
+  "sexdec", "septendec", "octodec", "novemdec", "vigint", "unvigint",
+  "duovigint", "trevigint", "quattuorvigint", "quinvigint", "sexvigint",
+  "septenvigint", "octovigint", "novemvigint", "trigint"];
+
+/* Die im Englischen gelaeufigen Kuerzel - K, M, B, T, dann Qa, Qi, Sx ...
+   Index i steht fuer 10^(3i+3). */
+const KURZ_EN = ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc",
+  "UDc", "DDc", "TDc", "QaDc", "QiDc", "SxDc", "SpDc", "OcDc", "NoDc", "Vg",
+  "UVg", "DVg", "TVg", "QaVg", "QiVg", "SxVg", "SpVg", "OcVg", "NoVg", "Tg"];
+
+/* Im Deutschen gibt es nur fuer die ersten Stufen eine gaengige Abkuerzung. */
+const KURZ_DE = { 3: "Tsd", 6: "Mio", 9: "Mrd", 12: "Bio", 15: "Brd", 18: "Trl", 21: "Trd" };
+
+const SI_PRAEFIX = [
+  ["Q", "Quetta", "quetta", 30], ["R", "Ronna", "ronna", 27],
+  ["Y", "Yotta", "yotta", 24], ["Z", "Zetta", "zetta", 21],
+  ["E", "Exa", "exa", 18], ["P", "Peta", "peta", 15],
+  ["T", "Tera", "tera", 12], ["G", "Giga", "giga", 9],
+  ["M", "Mega", "mega", 6], ["k", "Kilo", "kilo", 3],
+  ["h", "Hekto", "hecto", 2], ["da", "Deka", "deca", 1],
+  ["d", "Dezi", "deci", -1], ["c", "Zenti", "centi", -2],
+  ["m", "Milli", "milli", -3], ["µ", "Mikro", "micro", -6],
+  ["n", "Nano", "nano", -9], ["p", "Piko", "pico", -12],
+  ["f", "Femto", "femto", -15], ["a", "Atto", "atto", -18],
+  ["z", "Zepto", "zepto", -21], ["y", "Yokto", "yocto", -24],
+  ["r", "Ronto", "ronto", -27], ["q", "Quekto", "quecto", -30]
+];
+
+/* Binaerpraefixe (IEC 80000-13) - Zweierpotenzen, keine Zehnerpotenzen,
+   deshalb bekommen sie im Verzeichnis eine eigene Tafel. */
+const IEC_PRAEFIX = [
+  ["Ki", "Kibi", 10], ["Mi", "Mebi", 20], ["Gi", "Gibi", 30],
+  ["Ti", "Tebi", 40], ["Pi", "Pebi", 50], ["Ei", "Exbi", 60],
+  ["Zi", "Zebi", 70], ["Yi", "Yobi", 80], ["Ri", "Robi", 90],
+  ["Qi", "Quebi", 100]
+];
+
+/* Indisches System */
+const INDISCH = [
+  [3, "Hazaar"], [5, "Lakh"], [7, "Crore"], [9, "Arab"], [11, "Kharab"],
+  [13, "Neel"], [15, "Padma"], [17, "Shankh"], [19, "Mahashankh"]
+];
+
+/* --- die Leiter zu einer Tabelle zusammenfuehren ------------------- */
+
+const SKALA = {};   /* Exponent -> Eintrag */
+
+function skalaEintrag(e) {
+  if (!SKALA[e]) SKALA[e] = { e: e, de: "", deK: "", en: "", enK: "", si: "", siDe: "", siEn: "", ind: "" };
+  return SKALA[e];
+}
+
+/* klein: 10^0 bis 10^2 und die Kehrwerte */
+[[0, "Eins", "one"], [1, "Zehn", "ten"], [2, "Hundert", "hundred"],
+ [-1, "Zehntel", "tenth"], [-2, "Hundertstel", "hundredth"]].forEach(function (r) {
+  const s = skalaEintrag(r[0]);
+  s.de = r[1]; s.en = r[2];
+});
+
+/* deutsche lange Leiter, auf- und absteigend */
+skalaEintrag(3).de = "Tausend";
+skalaEintrag(-3).de = "Tausendstel";
+STAMM_DE.forEach(function (stamm, i) {
+  const n = i + 1;
+  [[6 * n, stamm + "illion"], [6 * n + 3, stamm + "illiarde"]].forEach(function (r) {
+    skalaEintrag(r[0]).de = r[1];
+    /* "Milliarde" -> "Milliardstel", "Million" -> "Millionstel" */
+    skalaEintrag(-r[0]).de = r[1].replace(/e$/, "") + "stel";
+  });
+});
+
+/* englische kurze Leiter, auf- und absteigend */
+skalaEintrag(3).en = "thousand";
+skalaEintrag(-3).en = "thousandth";
+STAMM_EN.forEach(function (stamm, i) {
+  const e = 3 * (i + 1) + 3;
+  skalaEintrag(e).en = stamm + "illion";
+  skalaEintrag(-e).en = stamm + "illionth";
+});
+
+/* Kuerzel */
+Object.keys(KURZ_DE).forEach(function (e) { skalaEintrag(+e).deK = KURZ_DE[e]; });
+KURZ_EN.forEach(function (k, i) { skalaEintrag(3 * i + 3).enK = k; });
+
+/* SI-Praefixe */
+SI_PRAEFIX.forEach(function (p) {
+  const s = skalaEintrag(p[3]);
+  s.si = p[0]; s.siDe = p[1]; s.siEn = p[2];
+});
+
+/* indische Stufen */
+INDISCH.forEach(function (p) { skalaEintrag(p[0]).ind = p[1]; });
+
+/* Sonderfaelle */
+skalaEintrag(100).de = "Googol"; skalaEintrag(100).en = "googol";
+skalaEintrag(303).en = "centillion";
+skalaEintrag(600).de = "Zentillion";
+
+const SKALA_LISTE = Object.keys(SKALA)
+  .map(Number)
+  .sort(function (a, b) { return b - a; })
+  .map(function (e) { return SKALA[e]; });
+
+/* Fuer den Zahlenmodus: nur Stufen, die einen Namen tragen, absteigend. */
+function leiter(feld) {
+  return SKALA_LISTE.filter(function (s) { return s[feld]; });
+}
+
+const LEITER = {
+  de: leiter("de"),
+  en: leiter("en"),
+  si: leiter("si"),
+  ind: leiter("ind")
+};
+
+/* Groesste Stufe, die nicht ueber dem Wert liegt. */
+function stufeFuer(a, liste) {
+  if (a.m === 0n) return null;
+  const e = dSci(a).e;
+  for (let i = 0; i < liste.length; i++) {
+    if (liste[i].e <= e) return liste[i];
+  }
+  return null;
+}
+
+/* Wert als "2,5 Milliarden" ausdruecken. */
+function alsStufe(a, liste, feld, stellen, spr) {
+  const s = stufeFuer(a, liste);
+  if (!s) return null;
+  const zahl = dDiv(a, D(1n, s.e), stellen);
+  if (!zahl) return null;
+  return {
+    zahl: zahl,
+    name: s[feld],
+    kurz: feld === "de" ? s.deK : (feld === "en" ? s.enK : s.si),
+    e: s.e,
+    text: gruppiere(dPlain(zahl), spr) + " " + s[feld]
+  };
+}
+
+/* --- Namen -> Exponent, fuer die Eingabe -------------------------- */
+
+const NAME_EXP = { de: {}, en: {} };
+
+function merkeName(spr, name, e) {
+  if (!name) return;
+  const k = name.toLowerCase();
+  if (NAME_EXP[spr][k] === undefined) NAME_EXP[spr][k] = e;
+}
+
+function merkeBeide(name, e) { merkeName("de", name, e); merkeName("en", name, e); }
+
+/* Erster Durchgang: jede Sprache traegt ihre eigenen Namen ein. */
+SKALA_LISTE.forEach(function (s) {
+  merkeName("de", s.de, s.e);
+  merkeName("en", s.en, s.e);
+  merkeBeide(s.ind, s.e);
+  /* Plural: "Millionen", "Milliarden", "millions" */
+  if (s.de) { merkeName("de", s.de + "n", s.e); merkeName("de", s.de + "en", s.e); }
+  if (s.en) merkeName("en", s.en + "s", s.e);
+});
+
+/* Zweiter Durchgang: die Namen der jeweils anderen Sprache als
+   Rueckfall - sie greifen nur dort, wo die eigene Leiter nichts kennt. */
+SKALA_LISTE.forEach(function (s) {
+  merkeName("de", s.en, s.e);
+  merkeName("en", s.de, s.e);
+  if (s.en) merkeName("de", s.en + "s", s.e);
+  if (s.de) { merkeName("en", s.de + "n", s.e); merkeName("en", s.de + "en", s.e); }
+});
+
+/* Kuerzel sind gross-/kleinschreibungsempfindlich: "M" ist Mega (10^6),
+   "m" ist Milli (10^-3). Darum eine eigene, exakte Tabelle. */
+const KUERZEL_EXP = {};
+SKALA_LISTE.forEach(function (s) {
+  if (s.deK) KUERZEL_EXP[s.deK] = s.e;
+  if (s.enK) KUERZEL_EXP[s.enK] = s.e;
+});
+SI_PRAEFIX.forEach(function (p) {
+  KUERZEL_EXP[p[0]] = p[3];
+  merkeBeide(p[1], p[3]);
+  merkeBeide(p[2], p[3]);
+});
+
+/* Binaerpraefixe fuehren zu Zweierpotenzen, nicht zu Zehnerpotenzen. */
+const IEC_WERT = {};
+IEC_PRAEFIX.forEach(function (p) {
+  IEC_WERT[p[0]] = dNorm(D(2n ** BigInt(p[2]), 0));
+  IEC_WERT[p[1].toLowerCase()] = IEC_WERT[p[0]];
+});
+
+/* ====================================================================
+   5 | Einheiten
+
+   Jede Einheit traegt ihren Faktor zur Basiseinheit als exakten String -
+   "0.0254" fuer Zoll, "5/18" fuer km/h, "1208925819614629174706176"
+   fuer YiB. Was sich nicht exakt schreiben laesst (Pi, Planck, Parsec),
+   ist mit ca: true markiert und wird mit einem "≈" ausgewiesen.
+   ==================================================================== */
+
+function E(sym, de, en, f, ca) {
+  return { sym: sym, de: de, en: en, f: f, ca: !!ca };
+}
+
+const SI_NACH_EXP = {};
+SI_PRAEFIX.forEach(function (p) { SI_NACH_EXP[p[3]] = p; });
+
+/* Praefixleiter fuer eine SI-Basiseinheit.
+   versatz: Verschiebung, wenn die Basiseinheit nicht auf 10^0 sitzt
+   (Masse rechnet in kg, die Praefixe haengen aber am Gramm). */
+function SI(sym, de, en, exps, versatz) {
+  versatz = versatz || 0;
+  const raus = [];
+  exps.forEach(function (e) {
+    if (e === 0) { raus.push(E(sym, de, en, "1e" + versatz)); return; }
+    const p = SI_NACH_EXP[e];
+    if (!p) return;
+    raus.push(E(p[0] + sym, p[1] + de.toLowerCase(), p[2] + en.toLowerCase(), "1e" + (e + versatz)));
+  });
+  return raus;
+}
+
+const E_VOLL = [30, 27, 24, 21, 18, 15, 12, 9, 6, 3, 2, 1, 0, -1, -2, -3, -6, -9, -12, -15, -18, -21, -24, -27, -30];
+const E_WEIT = [24, 21, 18, 15, 12, 9, 6, 3, 2, 1, 0, -1, -2, -3, -6, -9, -12, -15, -18];
+const E_GROSS = [15, 12, 9, 6, 3, 0, -3, -6, -9];
+const E_MITTEL = [12, 9, 6, 3, 0, -3, -6, -9, -12];
+const E_KLEIN = [9, 6, 3, 0, -3, -6, -9];
+const E_WINZIG = [3, 0, -3, -6, -9, -12];
+
+/* Binaereinheiten aus den IEC-Praefixen erzeugen; der Faktor ist eine
+   exakte Zweierpotenz, in voller Laenge ausgeschrieben. */
+function binaer(sym, de, en, proEinheit) {
+  return IEC_PRAEFIX.map(function (p) {
+    const wert = (2n ** BigInt(p[2])) * BigInt(proEinheit);
+    return E(p[0] + sym, p[1] + de, p[1].toLowerCase() + en, wert.toString());
+  });
+}
+
+const KATEGORIEN = [
+
+{ id: "laenge", de: "Länge", en: "Length", basis: "m", einheiten: [].concat(
+  SI("m", "Meter", "metre", E_VOLL), [
+  E("Å", "Ångström", "ångström", "1e-10"),
+  E("in", "Zoll", "inch", "0.0254"),
+  E("ft", "Fuß", "foot", "0.3048"),
+  E("yd", "Yard", "yard", "0.9144"),
+  E("mi", "Meile", "mile", "1609.344"),
+  E("nmi", "Seemeile", "nautical mile", "1852"),
+  E("fur", "Furlong", "furlong", "201.168"),
+  E("ch", "Chain", "chain", "20.1168"),
+  E("rd", "Rute", "rod", "5.0292"),
+  E("ftm", "Faden", "fathom", "1.8288"),
+  E("hh", "Hand", "hand", "0.1016"),
+  E("mil", "Thou", "thou", "0.0000254"),
+  E("ly", "Lichtjahr", "light-year", "9460730472580800"),
+  E("ls", "Lichtsekunde", "light-second", "299792458"),
+  E("lmin", "Lichtminute", "light-minute", "17987547480"),
+  E("lh", "Lichtstunde", "light-hour", "1079252848800"),
+  E("au", "Astronomische Einheit", "astronomical unit", "149597870700"),
+  E("pc", "Parsec", "parsec", "30856775814913673", true),
+  E("kpc", "Kiloparsec", "kiloparsec", "30856775814913673000", true),
+  E("Mpc", "Megaparsec", "megaparsec", "30856775814913673000000", true),
+  E("a₀", "Bohrscher Radius", "Bohr radius", "5.29177210903e-11", true),
+  E("R⊕", "Erdradius", "Earth radius", "6371000", true),
+  E("R☉", "Sonnenradius", "solar radius", "695700000", true),
+  E("ℓP", "Planck-Länge", "Planck length", "1.616255e-35", true)
+])},
+
+{ id: "flaeche", de: "Fläche", en: "Area", basis: "m²", einheiten: [
+  E("km²", "Quadratkilometer", "square kilometre", "1e6"),
+  E("hm²", "Quadrathektometer", "square hectometre", "1e4"),
+  E("dam²", "Quadratdekameter", "square decametre", "1e2"),
+  E("m²", "Quadratmeter", "square metre", "1"),
+  E("dm²", "Quadratdezimeter", "square decimetre", "1e-2"),
+  E("cm²", "Quadratzentimeter", "square centimetre", "1e-4"),
+  E("mm²", "Quadratmillimeter", "square millimetre", "1e-6"),
+  E("µm²", "Quadratmikrometer", "square micrometre", "1e-12"),
+  E("nm²", "Quadratnanometer", "square nanometre", "1e-18"),
+  E("a", "Ar", "are", "100"),
+  E("ha", "Hektar", "hectare", "10000"),
+  E("in²", "Quadratzoll", "square inch", "0.00064516"),
+  E("ft²", "Quadratfuß", "square foot", "0.09290304"),
+  E("yd²", "Quadratyard", "square yard", "0.83612736"),
+  E("ac", "Acre", "acre", "4046.8564224"),
+  E("mi²", "Quadratmeile", "square mile", "2589988.110336"),
+  E("Morgen", "Morgen", "Morgen", "2500", true),
+  E("b", "Barn", "barn", "1e-28")
+]},
+
+{ id: "volumen", de: "Volumen", en: "Volume", basis: "m³", einheiten: [
+  E("km³", "Kubikkilometer", "cubic kilometre", "1e9"),
+  E("m³", "Kubikmeter", "cubic metre", "1"),
+  E("dm³", "Kubikdezimeter", "cubic decimetre", "1e-3"),
+  E("cm³", "Kubikzentimeter", "cubic centimetre", "1e-6"),
+  E("mm³", "Kubikmillimeter", "cubic millimetre", "1e-9"),
+  E("kL", "Kiloliter", "kilolitre", "1"),
+  E("hL", "Hektoliter", "hectolitre", "0.1"),
+  E("daL", "Dekaliter", "decalitre", "0.01"),
+  E("L", "Liter", "litre", "0.001"),
+  E("dL", "Deziliter", "decilitre", "1e-4"),
+  E("cL", "Zentiliter", "centilitre", "1e-5"),
+  E("mL", "Milliliter", "millilitre", "1e-6"),
+  E("µL", "Mikroliter", "microlitre", "1e-9"),
+  E("in³", "Kubikzoll", "cubic inch", "0.000016387064"),
+  E("ft³", "Kubikfuß", "cubic foot", "0.028316846592"),
+  E("yd³", "Kubikyard", "cubic yard", "0.764554857984"),
+  E("gal", "Gallone (US)", "gallon (US)", "0.003785411784"),
+  E("galUK", "Gallone (UK)", "gallon (UK)", "0.00454609"),
+  E("qt", "Quart (US)", "quart (US)", "0.000946352946"),
+  E("qtUK", "Quart (UK)", "quart (UK)", "0.0011365225"),
+  E("pt", "Pint (US)", "pint (US)", "0.000473176473"),
+  E("ptUK", "Pint (UK)", "pint (UK)", "0.00056826125"),
+  E("fl oz", "Flüssigunze (US)", "fluid ounce (US)", "0.0000295735295625"),
+  E("fl ozUK", "Flüssigunze (UK)", "fluid ounce (UK)", "0.0000284130625"),
+  E("cup", "Tasse (US)", "cup (US)", "0.0002365882365"),
+  E("tbsp", "Esslöffel (US)", "tablespoon (US)", "0.00001478676478125"),
+  E("tsp", "Teelöffel (US)", "teaspoon (US)", "0.00000492892159375"),
+  E("bbl", "Barrel (Öl)", "barrel (oil)", "0.158987294928")
+]},
+
+{ id: "masse", de: "Masse", en: "Mass", basis: "kg", einheiten: [].concat(
+  SI("g", "Gramm", "gram", E_WEIT, -3), [
+  E("t", "Tonne", "tonne", "1000"),
+  E("kt", "Kilotonne", "kilotonne", "1e6"),
+  E("Mt", "Megatonne", "megatonne", "1e9"),
+  E("Gt", "Gigatonne", "gigatonne", "1e12"),
+  E("lb", "Pfund (angloam.)", "pound", "0.45359237"),
+  E("oz", "Unze", "ounce", "0.028349523125"),
+  E("st", "Stone", "stone", "6.35029318"),
+  E("lt", "Longton", "long ton", "1016.0469088"),
+  E("sh tn", "Shortton", "short ton", "907.18474"),
+  E("gr", "Gran", "grain", "0.00006479891"),
+  E("dr", "Drachme", "dram", "0.0017718451953125"),
+  E("ozt", "Feinunze", "troy ounce", "0.0311034768"),
+  E("dwt", "Pennyweight", "pennyweight", "0.00155517384"),
+  E("ct", "Karat", "carat", "0.0002"),
+  E("Pfd", "Pfund (dt.)", "pound (German)", "0.5"),
+  E("Ztr", "Zentner", "Zentner", "50"),
+  E("dz", "Doppelzentner", "double Zentner", "100"),
+  E("u", "Atomare Masseneinheit", "atomic mass unit", "1.66053906660e-27", true),
+  E("mₑ", "Elektronenmasse", "electron mass", "9.1093837015e-31", true),
+  E("mₚ", "Protonenmasse", "proton mass", "1.67262192369e-27", true),
+  E("mP", "Planck-Masse", "Planck mass", "2.176434e-8", true),
+  E("M⊕", "Erdmasse", "Earth mass", "5.9722e24", true),
+  E("M☉", "Sonnenmasse", "solar mass", "1.98847e30", true)
+])},
+
+{ id: "zeit", de: "Zeit", en: "Time", basis: "s", einheiten: [].concat(
+  SI("s", "Sekunde", "second", [6, 3, 0, -3, -6, -9, -12, -15, -18, -21, -24]), [
+  E("min", "Minute", "minute", "60"),
+  E("h", "Stunde", "hour", "3600"),
+  E("d", "Tag", "day", "86400"),
+  E("wk", "Woche", "week", "604800"),
+  E("fn", "Fortnight", "fortnight", "1209600"),
+  E("mo30", "Monat (30 Tage)", "month (30 days)", "2592000"),
+  E("mo", "Monat (mittel)", "month (mean)", "2629746", true),
+  E("a365", "Jahr (365 Tage)", "year (365 days)", "31536000"),
+  E("a", "Jahr (julianisch)", "year (Julian)", "31557600"),
+  E("aₜ", "Jahr (tropisch)", "year (tropical)", "31556925.216", true),
+  E("a366", "Schaltjahr", "leap year", "31622400"),
+  E("dez", "Jahrzehnt", "decade", "315576000"),
+  E("jh", "Jahrhundert", "century", "3155760000"),
+  E("jt", "Jahrtausend", "millennium", "31557600000"),
+  E("d*", "Sterntag", "sidereal day", "86164.0905", true),
+  E("shake", "Shake", "shake", "1e-8"),
+  E("tP", "Planck-Zeit", "Planck time", "5.391247e-44", true)
+])},
+
+{ id: "geschwindigkeit", de: "Geschwindigkeit", en: "Speed", basis: "m/s", einheiten: [
+  E("m/s", "Meter pro Sekunde", "metre per second", "1"),
+  E("km/h", "Kilometer pro Stunde", "kilometre per hour", "5/18"),
+  E("km/s", "Kilometer pro Sekunde", "kilometre per second", "1000"),
+  E("km/min", "Kilometer pro Minute", "kilometre per minute", "1000/60"),
+  E("m/min", "Meter pro Minute", "metre per minute", "1/60"),
+  E("cm/s", "Zentimeter pro Sekunde", "centimetre per second", "0.01"),
+  E("mm/s", "Millimeter pro Sekunde", "millimetre per second", "0.001"),
+  E("mph", "Meilen pro Stunde", "mile per hour", "0.44704"),
+  E("ft/s", "Fuß pro Sekunde", "foot per second", "0.3048"),
+  E("ft/min", "Fuß pro Minute", "foot per minute", "0.3048/60"),
+  E("kn", "Knoten", "knot", "1852/3600"),
+  E("Ma", "Mach (Meereshöhe)", "Mach (sea level)", "340.294", true),
+  E("c", "Lichtgeschwindigkeit", "speed of light", "299792458")
+]},
+
+{ id: "beschleunigung", de: "Beschleunigung", en: "Acceleration", basis: "m/s²", einheiten: [
+  E("m/s²", "Meter pro Sekundenquadrat", "metre per second squared", "1"),
+  E("g₀", "Normfallbeschleunigung", "standard gravity", "9.80665"),
+  E("km/h/s", "km/h pro Sekunde", "km/h per second", "5/18"),
+  E("ft/s²", "Fuß pro Sekundenquadrat", "foot per second squared", "0.3048"),
+  E("in/s²", "Zoll pro Sekundenquadrat", "inch per second squared", "0.0254"),
+  E("Gal", "Gal", "gal", "0.01"),
+  E("mGal", "Milligal", "milligal", "1e-5")
+]},
+
+{ id: "kraft", de: "Kraft", en: "Force", basis: "N", einheiten: [].concat(
+  SI("N", "Newton", "newton", E_KLEIN), [
+  E("dyn", "Dyn", "dyne", "1e-5"),
+  E("p", "Pond", "pond", "0.00980665"),
+  E("kp", "Kilopond", "kilopond", "9.80665"),
+  E("Mp", "Megapond", "megapond", "9806.65"),
+  E("lbf", "Pfundkraft", "pound-force", "4.4482216152605"),
+  E("ozf", "Unzenkraft", "ounce-force", "0.27801385095378125"),
+  E("pdl", "Poundal", "poundal", "0.138254954376"),
+  E("sn", "Sthène", "sthène", "1000")
+])},
+
+{ id: "druck", de: "Druck", en: "Pressure", basis: "Pa", einheiten: [].concat(
+  SI("Pa", "Pascal", "pascal", [9, 6, 3, 2, 0, -3, -6]), [
+  E("bar", "Bar", "bar", "100000"),
+  E("mbar", "Millibar", "millibar", "100"),
+  E("µbar", "Mikrobar", "microbar", "0.1"),
+  E("atm", "Physikalische Atmosphäre", "standard atmosphere", "101325"),
+  E("at", "Technische Atmosphäre", "technical atmosphere", "98066.5"),
+  E("Torr", "Torr", "torr", "101325/760"),
+  E("mmHg", "Millimeter Quecksilbersäule", "millimetre of mercury", "133.322387415"),
+  E("inHg", "Zoll Quecksilbersäule", "inch of mercury", "3386.388640341", true),
+  E("psi", "Pfund pro Quadratzoll", "pound per square inch", "4.4482216152605/0.00064516"),
+  E("ksi", "Kilopound pro Quadratzoll", "kilopound per square inch", "4448.2216152605/0.00064516"),
+  E("mmH₂O", "Millimeter Wassersäule", "millimetre of water", "9.80665"),
+  E("mH₂O", "Meter Wassersäule", "metre of water", "9806.65"),
+  E("inH₂O", "Zoll Wassersäule", "inch of water", "249.08891", true),
+  E("Ba", "Barye", "barye", "0.1")
+])},
+
+{ id: "energie", de: "Energie", en: "Energy", basis: "J", einheiten: [].concat(
+  SI("J", "Joule", "joule", E_GROSS), [
+  E("Ws", "Wattsekunde", "watt-second", "1"),
+  E("Wh", "Wattstunde", "watt-hour", "3600"),
+  E("kWh", "Kilowattstunde", "kilowatt-hour", "3600000"),
+  E("MWh", "Megawattstunde", "megawatt-hour", "3.6e9"),
+  E("GWh", "Gigawattstunde", "gigawatt-hour", "3.6e12"),
+  E("TWh", "Terawattstunde", "terawatt-hour", "3.6e15"),
+  E("cal", "Kalorie", "calorie", "4.184"),
+  E("kcal", "Kilokalorie", "kilocalorie", "4184"),
+  E("calIT", "Kalorie (IT)", "calorie (IT)", "4.1868"),
+  E("eV", "Elektronenvolt", "electronvolt", "1.602176634e-19"),
+  E("keV", "Kiloelektronenvolt", "kiloelectronvolt", "1.602176634e-16"),
+  E("MeV", "Megaelektronenvolt", "megaelectronvolt", "1.602176634e-13"),
+  E("GeV", "Gigaelektronenvolt", "gigaelectronvolt", "1.602176634e-10"),
+  E("TeV", "Teraelektronenvolt", "teraelectronvolt", "1.602176634e-7"),
+  E("BTU", "British Thermal Unit", "British thermal unit", "1055.05585262"),
+  E("thm", "Therm", "therm", "105505585.262"),
+  E("erg", "Erg", "erg", "1e-7"),
+  E("kpm", "Kilopondmeter", "kilopond-metre", "9.80665"),
+  E("ft·lbf", "Fußpfund", "foot-pound", "1.3558179483314004"),
+  E("PSh", "Pferdestärkenstunde", "metric horsepower-hour", "2647795.5"),
+  E("t TNT", "Tonne TNT", "ton of TNT", "4.184e9"),
+  E("kt TNT", "Kilotonne TNT", "kilotonne of TNT", "4.184e12"),
+  E("Mt TNT", "Megatonne TNT", "megatonne of TNT", "4.184e15"),
+  E("Eh", "Hartree", "hartree", "4.3597447222071e-18", true)
+])},
+
+{ id: "leistung", de: "Leistung", en: "Power", basis: "W", einheiten: [].concat(
+  SI("W", "Watt", "watt", E_GROSS), [
+  E("VA", "Voltampere", "volt-ampere", "1"),
+  E("PS", "Pferdestärke", "metric horsepower", "735.49875"),
+  E("hp", "Horsepower (mech.)", "horsepower (mechanical)", "745.6998715822702", true),
+  E("hpE", "Horsepower (elektr.)", "horsepower (electric)", "746"),
+  E("BTU/h", "BTU pro Stunde", "BTU per hour", "1055.05585262/3600"),
+  E("cal/s", "Kalorie pro Sekunde", "calorie per second", "4.184"),
+  E("kcal/h", "Kilokalorie pro Stunde", "kilocalorie per hour", "4184/3600"),
+  E("kpm/s", "Kilopondmeter pro Sekunde", "kilopond-metre per second", "9.80665"),
+  E("ft·lbf/s", "Fußpfund pro Sekunde", "foot-pound per second", "1.3558179483314004"),
+  E("erg/s", "Erg pro Sekunde", "erg per second", "1e-7")
+])},
+
+{ id: "daten", de: "Datenmenge", en: "Data", basis: "bit", einheiten: [].concat([
+  E("bit", "Bit", "bit", "1"),
+  E("nibble", "Nibble", "nibble", "4"),
+  E("B", "Byte", "byte", "8")
+],
+  [30, 27, 24, 21, 18, 15, 12, 9, 6, 3].map(function (e) {
+    const p = SI_NACH_EXP[e];
+    return E(p[0] + "B", p[1] + "byte", p[2] + "byte", "8e" + e);
+  }),
+  [18, 15, 12, 9, 6, 3].map(function (e) {
+    const p = SI_NACH_EXP[e];
+    return E(p[0] + "bit", p[1] + "bit", p[2] + "bit", "1e" + e);
+  }),
+  binaer("B", "byte", "byte", 8),
+  binaer("bit", "bit", "bit", 1)
+)},
+
+{ id: "datenrate", de: "Datenrate", en: "Data rate", basis: "bit/s", einheiten: [].concat([
+  E("bit/s", "Bit pro Sekunde", "bit per second", "1"),
+  E("B/s", "Byte pro Sekunde", "byte per second", "8")
+],
+  [12, 9, 6, 3].map(function (e) {
+    const p = SI_NACH_EXP[e];
+    return E(p[0] + "bit/s", p[1] + "bit pro Sekunde", p[2] + "bit per second", "1e" + e);
+  }),
+  [12, 9, 6, 3].map(function (e) {
+    const p = SI_NACH_EXP[e];
+    return E(p[0] + "B/s", p[1] + "byte pro Sekunde", p[2] + "byte per second", "8e" + e);
+  }),
+  IEC_PRAEFIX.slice(0, 5).map(function (p) {
+    return E(p[0] + "B/s", p[1] + "byte pro Sekunde", p[1].toLowerCase() + "byte per second",
+      ((2n ** BigInt(p[2])) * 8n).toString());
+  }),
+  IEC_PRAEFIX.slice(0, 5).map(function (p) {
+    return E(p[0] + "bit/s", p[1] + "bit pro Sekunde", p[1].toLowerCase() + "bit per second",
+      (2n ** BigInt(p[2])).toString());
+  })
+)},
+
+{ id: "winkel", de: "Winkel", en: "Angle", basis: "°", einheiten: [
+  E("°", "Grad", "degree", "1"),
+  E("′", "Bogenminute", "arcminute", "1/60"),
+  E("″", "Bogensekunde", "arcsecond", "1/3600"),
+  E("mas", "Millibogensekunde", "milliarcsecond", "1/3600000"),
+  E("gon", "Gon (Neugrad)", "gradian", "9/10"),
+  E("rad", "Radiant", "radian", "57.295779513082320876798154814105170332405", true),
+  E("mrad", "Milliradiant", "milliradian", "0.057295779513082320876798154814105170332405", true),
+  E("turn", "Vollkreis", "turn", "360"),
+  E("quad", "Quadrant", "quadrant", "90"),
+  E("sext", "Sextant", "sextant", "60"),
+  E("oct", "Oktant", "octant", "45"),
+  E("mil", "Strich (NATO)", "mil (NATO)", "360/6400"),
+  E("milWP", "Strich (WP)", "mil (Warsaw Pact)", "360/6000"),
+  E("hₐ", "Stundenwinkel", "hour angle", "15")
+]},
+
+{ id: "frequenz", de: "Frequenz", en: "Frequency", basis: "Hz", einheiten: [].concat(
+  SI("Hz", "Hertz", "hertz", [15, 12, 9, 6, 3, 0, -3, -6]), [
+  E("rpm", "Umdrehungen pro Minute", "revolution per minute", "1/60"),
+  E("rps", "Umdrehungen pro Sekunde", "revolution per second", "1"),
+  E("bpm", "Schläge pro Minute", "beat per minute", "1/60"),
+  E("rad/s", "Radiant pro Sekunde", "radian per second", "0.159154943091895335768883763372514362034459", true),
+  E("°/s", "Grad pro Sekunde", "degree per second", "1/360"),
+  E("1/d", "Pro Tag", "per day", "1/86400"),
+  E("1/a", "Pro Jahr", "per year", "1/31557600")
+])},
+
+{ id: "strom", de: "Stromstärke", en: "Current", basis: "A", einheiten: [].concat(
+  SI("A", "Ampere", "ampere", E_WINZIG), [
+  E("abA", "Abampere", "abampere", "10"),
+  E("statA", "Statampere", "statampere", "3.335641e-10", true)
+])},
+
+{ id: "spannung", de: "Spannung", en: "Voltage", basis: "V", einheiten: [].concat(
+  SI("V", "Volt", "volt", E_WINZIG), [
+  E("abV", "Abvolt", "abvolt", "1e-8"),
+  E("statV", "Statvolt", "statvolt", "299.792458")
+])},
+
+{ id: "widerstand", de: "Widerstand", en: "Resistance", basis: "Ω", einheiten: [].concat(
+  SI("Ω", "Ohm", "ohm", [12, 9, 6, 3, 0, -3, -6]), [
+  E("abΩ", "Abohm", "abohm", "1e-9"),
+  E("statΩ", "Statohm", "statohm", "898755178736.8", true)
+])},
+
+{ id: "ladung", de: "Ladung", en: "Charge", basis: "C", einheiten: [].concat(
+  SI("C", "Coulomb", "coulomb", E_WINZIG), [
+  E("Ah", "Amperestunde", "ampere-hour", "3600"),
+  E("mAh", "Milliamperestunde", "milliampere-hour", "3.6"),
+  E("e", "Elementarladung", "elementary charge", "1.602176634e-19"),
+  E("F", "Faraday-Konstante", "faraday", "96485.33212", true),
+  E("abC", "Abcoulomb", "abcoulomb", "10"),
+  E("statC", "Statcoulomb", "statcoulomb", "3.335641e-10", true)
+])},
+
+{ id: "kapazitaet", de: "Kapazität", en: "Capacitance", basis: "F", einheiten: [].concat(
+  SI("F", "Farad", "farad", [0, -3, -6, -9, -12]), [
+  E("abF", "Abfarad", "abfarad", "1e9"),
+  E("statF", "Statfarad", "statfarad", "1.11265e-12", true)
+])},
+
+{ id: "induktivitaet", de: "Induktivität", en: "Inductance", basis: "H", einheiten: [].concat(
+  SI("H", "Henry", "henry", [3, 0, -3, -6, -9]), [
+  E("abH", "Abhenry", "abhenry", "1e-9"),
+  E("statH", "Stathenry", "stathenry", "898755178736.8", true)
+])},
+
+{ id: "magnetfeld", de: "Magnetfeld", en: "Magnetic field", basis: "T", einheiten: [].concat(
+  SI("T", "Tesla", "tesla", [0, -3, -6, -9]), [
+  E("G", "Gauß", "gauss", "1e-4"),
+  E("mG", "Milligauß", "milligauss", "1e-7"),
+  E("γ", "Gamma", "gamma", "1e-9")
+])},
+
+{ id: "stoffmenge", de: "Stoffmenge", en: "Amount of substance", basis: "mol", einheiten: [].concat(
+  SI("mol", "Mol", "mole", [3, 0, -3, -6, -9]), [
+  E("N", "Teilchen", "particle", "1/602214076000000000000000")
+])},
+
+{ id: "lichtstaerke", de: "Lichtstärke", en: "Luminous intensity", basis: "cd", einheiten: [].concat(
+  SI("cd", "Candela", "candela", [3, 0, -3]), [
+  E("HK", "Hefnerkerze", "Hefner candle", "0.903", true),
+  E("cp", "Candlepower", "candlepower", "0.981", true)
+])},
+
+{ id: "beleuchtung", de: "Beleuchtungsstärke", en: "Illuminance", basis: "lx", einheiten: [].concat(
+  SI("lx", "Lux", "lux", [3, 0, -3]), [
+  E("ph", "Phot", "phot", "10000"),
+  E("fc", "Footcandle", "foot-candle", "1/0.09290304"),
+  E("nx", "Nox", "nox", "0.001")
+])},
+
+{ id: "radioaktivitaet", de: "Radioaktivität", en: "Radioactivity", basis: "Bq", einheiten: [].concat(
+  SI("Bq", "Becquerel", "becquerel", [12, 9, 6, 3, 0]), [
+  E("Ci", "Curie", "curie", "3.7e10"),
+  E("mCi", "Millicurie", "millicurie", "3.7e7"),
+  E("µCi", "Mikrocurie", "microcurie", "37000"),
+  E("Rd", "Rutherford", "rutherford", "1e6")
+])},
+
+{ id: "dosis", de: "Strahlendosis", en: "Radiation dose", basis: "Gy", einheiten: [
+  E("Gy", "Gray", "gray", "1"),
+  E("mGy", "Milligray", "milligray", "0.001"),
+  E("µGy", "Mikrogray", "microgray", "1e-6"),
+  E("rad", "Rad", "rad", "0.01"),
+  E("Sv", "Sievert", "sievert", "1"),
+  E("mSv", "Millisievert", "millisievert", "0.001"),
+  E("µSv", "Mikrosievert", "microsievert", "1e-6"),
+  E("rem", "Rem", "rem", "0.01"),
+  E("mrem", "Millirem", "millirem", "1e-5")
+]},
+
+{ id: "dichte", de: "Dichte", en: "Density", basis: "kg/m³", einheiten: [
+  E("kg/m³", "Kilogramm pro Kubikmeter", "kilogram per cubic metre", "1"),
+  E("g/cm³", "Gramm pro Kubikzentimeter", "gram per cubic centimetre", "1000"),
+  E("kg/L", "Kilogramm pro Liter", "kilogram per litre", "1000"),
+  E("t/m³", "Tonne pro Kubikmeter", "tonne per cubic metre", "1000"),
+  E("g/L", "Gramm pro Liter", "gram per litre", "1"),
+  E("g/m³", "Gramm pro Kubikmeter", "gram per cubic metre", "0.001"),
+  E("mg/L", "Milligramm pro Liter", "milligram per litre", "0.001"),
+  E("lb/ft³", "Pfund pro Kubikfuß", "pound per cubic foot", "0.45359237/0.028316846592"),
+  E("lb/in³", "Pfund pro Kubikzoll", "pound per cubic inch", "0.45359237/0.000016387064"),
+  E("lb/gal", "Pfund pro Gallone (US)", "pound per gallon (US)", "0.45359237/0.003785411784")
+]},
+
+{ id: "drehmoment", de: "Drehmoment", en: "Torque", basis: "N·m", einheiten: [
+  E("N·m", "Newtonmeter", "newton-metre", "1"),
+  E("kN·m", "Kilonewtonmeter", "kilonewton-metre", "1000"),
+  E("mN·m", "Millinewtonmeter", "millinewton-metre", "0.001"),
+  E("N·cm", "Newtonzentimeter", "newton-centimetre", "0.01"),
+  E("kp·m", "Kilopondmeter", "kilopond-metre", "9.80665"),
+  E("ft·lbf", "Fußpfund", "foot-pound", "1.3558179483314004"),
+  E("in·lbf", "Zollpfund", "inch-pound", "1.3558179483314004/12"),
+  E("dyn·cm", "Dynzentimeter", "dyne-centimetre", "1e-7")
+]},
+
+{ id: "typografie", de: "Typografie", en: "Typography", basis: "mm", einheiten: [
+  E("pt", "DTP-Punkt", "DTP point", "0.0254/72"),
+  E("pc", "Pica", "pica", "0.0254/6"),
+  E("px", "Pixel (96 dpi)", "pixel (96 dpi)", "0.0254/96"),
+  E("px72", "Pixel (72 dpi)", "pixel (72 dpi)", "0.0254/72"),
+  E("dd", "Didot-Punkt", "Didot point", "0.000376065", true),
+  E("cc", "Cicero", "cicero", "0.00451278", true),
+  E("Q", "Q (Japan)", "Q (Japan)", "0.00025"),
+  E("in", "Zoll", "inch", "0.0254"),
+  E("mm", "Millimeter", "millimetre", "0.001"),
+  E("cm", "Zentimeter", "centimetre", "0.01")
+]}
+
+];
+
+/* ====================================================================
+   6 | Kategorien mit eigener Rechenvorschrift
+
+   Temperatur ist affin (0 °C sind nicht 0 K), Verbrauch ist reziprok
+   (mehr Liter pro 100 km heisst weniger Kilometer pro Liter). Beides
+   laesst sich nicht als Faktor schreiben, also bekommt jede Einheit
+   dort ein Paar Umrechnungen.
+   ==================================================================== */
+
+function T(sym, de, en, zu, von) {
+  return { sym: sym, de: de, en: en, zu: zu, von: von, sonder: true };
+}
+
+const d27315 = dVon("273.15");
+const d37315 = dVon("373.15");
+const d45967 = dVon("459.67");
+const d75 = dVon("7.5");
+const f59 = { z: dVon("5"), n: dVon("9") };
+const f95 = { z: dVon("9"), n: dVon("5") };
+const f54 = { z: dVon("5"), n: dVon("4") };
+const f45 = { z: dVon("4"), n: dVon("5") };
+const f23 = { z: dVon("2"), n: dVon("3") };
+const f32 = { z: dVon("3"), n: dVon("2") };
+const f100_33 = { z: dVon("100"), n: dVon("33") };
+const f33_100 = { z: dVon("33"), n: dVon("100") };
+const f40_21 = { z: dVon("40"), n: dVon("21") };
+const f21_40 = { z: dVon("21"), n: dVon("40") };
+
+/* v mal Bruch, auf s Stellen */
+function mb(v, f, s) { return dDiv(dMul(v, f.z), f.n, s); }
+
+const TEMPERATUR = {
+  id: "temperatur", de: "Temperatur", en: "Temperature", basis: "K", sonder: true,
+  einheiten: [
+    T("K", "Kelvin", "kelvin",
+      function (v) { return v; },
+      function (k) { return k; }),
+    T("°C", "Grad Celsius", "degree Celsius",
+      function (v) { return dAdd(v, d27315); },
+      function (k) { return dSub(k, d27315); }),
+    T("°F", "Grad Fahrenheit", "degree Fahrenheit",
+      function (v, s) { return mb(dAdd(v, d45967), f59, s); },
+      function (k, s) { return dSub(mb(k, f95, s), d45967); }),
+    T("°R", "Grad Rankine", "degree Rankine",
+      function (v, s) { return mb(v, f59, s); },
+      function (k, s) { return mb(k, f95, s); }),
+    T("°Ré", "Grad Réaumur", "degree Réaumur",
+      function (v, s) { return dAdd(mb(v, f54, s), d27315); },
+      function (k, s) { return mb(dSub(k, d27315), f45, s); }),
+    T("°De", "Grad Delisle", "degree Delisle",
+      function (v, s) { return dSub(d37315, mb(v, f23, s)); },
+      function (k, s) { return mb(dSub(d37315, k), f32, s); }),
+    T("°N", "Grad Newton", "degree Newton",
+      function (v, s) { return dAdd(mb(v, f100_33, s), d27315); },
+      function (k, s) { return mb(dSub(k, d27315), f33_100, s); }),
+    T("°Rø", "Grad Rømer", "degree Rømer",
+      function (v, s) { return dAdd(mb(dSub(v, d75), f40_21, s), d27315); },
+      function (k, s) { return dAdd(mb(dSub(k, d27315), f21_40, s), d75); })
+  ]
+};
+
+/* Verbrauch: "f" heisst linear zur Basis L/100km, "r" heisst reziprok
+   (Basis = r / Wert), also die Kilometer-pro-Liter-Seite. */
+function V(sym, de, en, art, wert) {
+  const f = rVon(wert);
+  const linear = art === "f";
+  return {
+    sym: sym, de: de, en: en, sonder: true,
+    zu: function (v, s) {
+      return linear ? dDiv(dMul(v, f.z), f.n, s) : dDiv(f.z, dMul(v, f.n), s);
+    },
+    von: function (b, s) {
+      return linear ? dDiv(dMul(b, f.n), f.z, s) : dDiv(f.z, dMul(b, f.n), s);
+    }
+  };
+}
+
+const VERBRAUCH = {
+  id: "verbrauch", de: "Verbrauch", en: "Fuel economy", basis: "L/100km", sonder: true,
+  einheiten: [
+    V("L/100km", "Liter pro 100 km", "litre per 100 km", "f", "1"),
+    V("L/10km", "Liter pro 10 km", "litre per 10 km", "f", "10"),
+    V("L/km", "Liter pro km", "litre per km", "f", "100"),
+    V("km/L", "Kilometer pro Liter", "kilometre per litre", "r", "100"),
+    V("m/L", "Meter pro Liter", "metre per litre", "r", "100000"),
+    V("mi/L", "Meilen pro Liter", "mile per litre", "r", "100/1.609344"),
+    V("mpg", "Meilen pro Gallone (US)", "mile per gallon (US)", "r", "378.5411784/1.609344"),
+    V("mpgUK", "Meilen pro Gallone (UK)", "mile per gallon (UK)", "r", "454.609/1.609344"),
+    V("gal/100mi", "Gallonen pro 100 Meilen (US)", "gallon per 100 mi (US)", "f", "3.785411784/1.609344")
+  ]
+};
+
+KATEGORIEN.splice(5, 0, TEMPERATUR);
+KATEGORIEN.push(VERBRAUCH);
+
+/* ====================================================================
+   7 | Aufbereiten
+
+   Faktoren einmal in Brueche uebersetzen, Einheiten nach Groesse
+   ordnen (gross -> klein liest sich am besten und stellt Verwandtes
+   nebeneinander: Zoll landet zwischen Dezimeter und Zentimeter).
+   ==================================================================== */
+
+function rCmp(a, b) { return dCmp(dMul(a.z, b.n), dMul(b.z, a.n)); }
+
+/* Allein nach Groesse sortiert stuende immer der exotische Rand oben -
+   Quettameter vor Meter, Megaparsec vor Zentimeter. Darum kommen erst
+   die Einheiten, die man wirklich sucht, und darunter, durch eine Linie
+   abgesetzt, die vollstaendige Leiter von gross nach klein. */
+const GAENGIG = {
+  laenge: ["m", "cm", "mm", "km", "µm", "nm", "in", "ft", "yd", "mi", "fm", "pm", "Å", "nmi", "ly", "au"],
+  flaeche: ["m²", "cm²", "mm²", "km²", "ha", "a", "in²", "ft²", "yd²", "ac", "mi²"],
+  volumen: ["L", "mL", "m³", "cm³", "dm³", "cL", "dL", "hL", "gal", "in³", "ft³", "pt", "fl oz"],
+  masse: ["kg", "g", "mg", "t", "µg", "lb", "oz", "st", "ct"],
+  zeit: ["s", "min", "h", "d", "wk", "ms", "µs", "ns", "mo", "a"],
+  temperatur: ["°C", "K", "°F", "°R", "°Ré"],
+  geschwindigkeit: ["km/h", "m/s", "mph", "kn", "ft/s", "c"],
+  beschleunigung: ["m/s²", "g₀", "ft/s²", "Gal"],
+  kraft: ["N", "kN", "dyn", "kp", "lbf"],
+  druck: ["bar", "Pa", "hPa", "kPa", "MPa", "mbar", "atm", "psi", "Torr", "mmHg"],
+  energie: ["J", "kJ", "kWh", "Wh", "MJ", "cal", "kcal", "eV", "BTU"],
+  leistung: ["W", "kW", "PS", "hp", "MW", "mW"],
+  daten: ["B", "kB", "MB", "GB", "TB", "KiB", "MiB", "GiB", "TiB", "bit", "Mbit"],
+  datenrate: ["Mbit/s", "Gbit/s", "MB/s", "kbit/s", "bit/s", "MiB/s"],
+  winkel: ["°", "rad", "gon", "′", "″", "turn"],
+  frequenz: ["Hz", "kHz", "MHz", "GHz", "rpm"],
+  strom: ["A", "mA", "µA", "kA"],
+  spannung: ["V", "mV", "kV", "µV"],
+  widerstand: ["Ω", "kΩ", "MΩ", "mΩ"],
+  ladung: ["C", "Ah", "mAh", "mC"],
+  kapazitaet: ["F", "µF", "nF", "pF", "mF"],
+  induktivitaet: ["H", "mH", "µH", "nH"],
+  magnetfeld: ["T", "mT", "µT", "G"],
+  stoffmenge: ["mol", "mmol", "µmol", "N"],
+  lichtstaerke: ["cd", "mcd", "kcd"],
+  beleuchtung: ["lx", "klx", "fc"],
+  radioaktivitaet: ["Bq", "kBq", "MBq", "GBq", "Ci"],
+  dosis: ["Sv", "mSv", "µSv", "Gy", "mGy", "rem"],
+  dichte: ["kg/m³", "g/cm³", "kg/L", "g/L"],
+  drehmoment: ["N·m", "kN·m", "ft·lbf", "kp·m"],
+  typografie: ["pt", "px", "mm", "in", "pc"],
+  verbrauch: ["L/100km", "km/L", "mpg", "mpgUK"]
+};
+
+KATEGORIEN.forEach(function (k) {
+  k.einheiten.forEach(function (u) {
+    u.kat = k;
+    if (!u.sonder) u.rf = rVon(u.f);
+  });
+  if (!k.sonder) {
+    k.einheiten.sort(function (a, b) { return rCmp(b.rf, a.rf); });
+  }
+
+  const vorn = GAENGIG[k.id];
+  if (!vorn) return;
+  const rang = {};
+  vorn.forEach(function (sym, i) { rang[sym] = i; });
+  /* sort ist stabil, im Rest bleibt die Groessenordnung also erhalten */
+  k.einheiten.sort(function (a, b) {
+    const ra = rang[a.sym], rb = rang[b.sym];
+    if (ra !== undefined && rb !== undefined) return ra - rb;
+    if (ra !== undefined) return -1;
+    if (rb !== undefined) return 1;
+    return 0;
+  });
+  k.trennAb = k.einheiten.filter(function (u) { return rang[u.sym] !== undefined; }).length;
+});
+
+const KAT_NACH_ID = {};
+KATEGORIEN.forEach(function (k) { KAT_NACH_ID[k.id] = k; });
+
+/* Symbol -> Einheit, fuer die Eingabe "1fm" und fuer den URL-Hash. */
+const EINHEIT_NACH_SYM = {};
+KATEGORIEN.forEach(function (k) {
+  k.einheiten.forEach(function (u) {
+    const s = k.id + "/" + u.sym;
+    EINHEIT_NACH_SYM[s] = u;
+  });
+});
+
+/* ====================================================================
+   8 | Zweisprachigkeit
+   ==================================================================== */
+
+const TEXTE = {
+  de: {
+    untertitel: "Zahlen & Einheiten",
+    zahlen: "Zahlen", einheiten: "Einheiten",
+    suchen: "suchen (/)", stellen: "St.",
+    gelesen: "gelesen als", leer: "Zahl eingeben",
+    unbekannt: "nicht erkannt:", keinWert: "keine Zahl erkannt",
+    kopiert: "kopiert:", basis: "Basis",
+    zif: "Ziffern", wiss: "Wissenschaftlich", tech: "Technisch",
+    leiterDe: "Deutsch (lange Leiter)", leiterEn: "English (short scale)",
+    kuerzelEn: "Kürzel (en)", siP: "SI-Präfix", iecP: "Binärpräfix (IEC)",
+    indP: "Indisch", kehr: "Kehrwert 1/x",
+    verzeichnis: "Verzeichnis der Größenordnungen",
+    binTafel: "Binärpräfixe (IEC 80000-13)",
+    sExp: "Potenz", sDe: "Deutsch", sDeK: "Kürzel", sEn: "English",
+    sEnK: "Abk.", sSI: "SI", sInd: "Indisch", sZif: "Ziffern",
+    sSym: "Symbol", sName: "Name", sZwei: "Zweierpotenz", sWert: "Exakter Wert",
+    treffer: "Treffer", keineTreffer: "nichts gefunden",
+    mehr: "ganz zeigen", weniger: "kürzen",
+    zuLang: "Ziffernfolge zu lang",
+    fuss: "Alles rechnet exakt mit BigInt-Dezimalen, nichts wird nachgeladen. " +
+          "Geht eine Umrechnung exakt auf, steht sie vollständig da — die Stellenzahl " +
+          "begrenzt nur Ergebnisse, die ohnehin gerundet werden müssen. " +
+          "Mit ≈ markierte Einheiten beruhen auf gerundeten Konstanten. " +
+          "Werte anklicken kopiert sie, Einheitennamen anklicken rechnet weiter. " +
+          "Selbsttest: #test an die Adresse hängen.",
+    hinKat: "Alle Einheiten dieser Kategorie, live umgerechnet."
+  },
+  en: {
+    untertitel: "Numbers & units",
+    zahlen: "Numbers", einheiten: "Units",
+    suchen: "search (/)", stellen: "dig.",
+    gelesen: "read as", leer: "enter a number",
+    unbekannt: "not recognised:", keinWert: "no number recognised",
+    kopiert: "copied:", basis: "base",
+    zif: "Digits", wiss: "Scientific", tech: "Engineering",
+    leiterDe: "German (long scale)", leiterEn: "English (short scale)",
+    kuerzelEn: "Abbreviation (en)", siP: "SI prefix", iecP: "Binary prefix (IEC)",
+    indP: "Indian", kehr: "Reciprocal 1/x",
+    verzeichnis: "Directory of magnitudes",
+    binTafel: "Binary prefixes (IEC 80000-13)",
+    sExp: "Power", sDe: "German", sDeK: "Abbr.", sEn: "English",
+    sEnK: "Abbr.", sSI: "SI", sInd: "Indian", sZif: "Digits",
+    sSym: "Symbol", sName: "Name", sZwei: "Power of two", sWert: "Exact value",
+    treffer: "Matches", keineTreffer: "nothing found",
+    mehr: "show in full", weniger: "shorten",
+    zuLang: "digit string too long",
+    fuss: "Everything is computed exactly with BigInt decimals; nothing is loaded from the network. " +
+          "A conversion that comes out exact is shown in full — the digit setting only limits " +
+          "results that have to be rounded anyway. " +
+          "Units marked ≈ rest on rounded constants. " +
+          "Click a value to copy it, click a unit name to continue from there. " +
+          "Self-test: append #test to the address.",
+    hinKat: "Every unit in this category, converted live."
+  }
+};
+
+function t(k) { return TEXTE[S.spr][k]; }
+function nm(u) { return u[S.spr]; }
+function nm2(u) { return u[S.spr === "de" ? "en" : "de"]; }
+
+/* ====================================================================
+   9 | Zustand
+   ==================================================================== */
+
+const S = {
+  spr: "de",
+  stellen: 12,
+  modus: "einheiten",
+  kat: KATEGORIEN[0],
+  einheit: null,
+  wert: D(1n, 0),
+  roh: "1",
+  suche: "",
+  meldung: null
+};
+
+S.einheit = S.kat.einheiten.filter(function (u) { return u.sym === "m"; })[0] || S.kat.einheiten[0];
+
+const STELLEN_STUFEN = [3, 6, 9, 12, 15, 20, 25, 30];
+
+function merke(k, v) { try { localStorage.setItem("num." + k, v); } catch (e) {} }
+function hole(k) { try { return localStorage.getItem("num." + k); } catch (e) { return null; } }
+
+/* ====================================================================
+   10 | Eingabe lesen
+
+   Absichtlich grosszuegig: 1234 · 1 234 567 · 1.234.567,89 · 1e15 ·
+   10^-15 · 10⁻¹⁵ · 2,5 Mrd · 3 quadrillion · 5 Qa · 1 Googol · 3 KiB ·
+   7 femto · 1fm · 2 Mio km. Was gelesen wurde, wird zurueckgespiegelt.
+   ==================================================================== */
+
+const TIEF = { "⁰": "0", "¹": "1", "²": "2", "³": "3", "⁴": "4", "⁵": "5",
+               "⁶": "6", "⁷": "7", "⁸": "8", "⁹": "9", "⁻": "-" };
+
+/* Trennzeichen aufloesen. Eindeutige Faelle entscheidet die Zeichenfolge
+   selbst, nur beim echten Patt ("1.234") entscheidet die Sprache. */
+function normZahl(s) {
+  s = s.replace(/[\s']/g, "");
+  const kA = s.indexOf(","), kZ = s.lastIndexOf(",");
+  const pA = s.indexOf("."), pZ = s.lastIndexOf(".");
+  const hatK = kA >= 0, hatP = pA >= 0;
+
+  if (hatK && hatP) {
+    /* beide vorhanden: das letzte ist das Dezimaltrennzeichen */
+    return kZ > pZ ? s.replace(/\./g, "").replace(/,/g, ".")
+                   : s.replace(/,/g, "");
+  }
+  if (hatK) {
+    if (kA !== kZ) return s.replace(/,/g, "");              /* mehrfach = Gruppierung */
+    const nach = s.slice(kZ + 1);
+    if (!/^\d{3}$/.test(nach)) return s.replace(",", ".");  /* eindeutig Dezimal */
+    return S.spr === "de" ? s.replace(",", ".") : s.replace(",", "");
+  }
+  if (hatP) {
+    if (pA !== pZ) return s.replace(/\./g, "");
+    const nach = s.slice(pZ + 1);
+    if (!/^\d{3}$/.test(nach)) return s;                    /* eindeutig Dezimal */
+    return S.spr === "de" ? s.replace(".", "") : s;
+  }
+  return s;
+}
+
+function skalaVon(tk) {
+  if (KUERZEL_EXP[tk] !== undefined) return { e: KUERZEL_EXP[tk] };
+  if (IEC_WERT[tk]) return { d: IEC_WERT[tk] };
+  const kl = tk.toLowerCase();
+  if (IEC_WERT[kl]) return { d: IEC_WERT[kl] };
+  const e = NAME_EXP[S.spr][kl];
+  if (e !== undefined) return { e: e };
+  return null;
+}
+
+function einheitIn(kat, tk) {
+  let tr = kat.einheiten.filter(function (u) { return u.sym === tk; })[0];
+  if (tr) return tr;
+  const kl = tk.toLowerCase();
+  return kat.einheiten.filter(function (u) {
+    return u.sym.toLowerCase() === kl || u.de.toLowerCase() === kl || u.en.toLowerCase() === kl;
+  })[0] || null;
+}
+
+function einheitIrgendwo(tk) {
+  for (let i = 0; i < KATEGORIEN.length; i++) {
+    const u = einheitIn(KATEGORIEN[i], tk);
+    if (u) return u;
+  }
+  return null;
+}
+
+function lese(roh) {
+  const leer = { wert: null, einheit: null, hinweis: t("leer") };
+  let s = String(roh).trim();
+  if (!s) return leer;
+
+  /* 10⁻¹⁵ -> 10^-15 (nur direkt hinter einer 10, damit cm² heil bleibt) */
+  s = s.replace(/10([⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+)/g, function (_, h) {
+    return "10^" + h.split("").map(function (c) { return TIEF[c]; }).join("");
+  });
+  /* 2,5 × 10^9 -> 2,5e9 ;  10^-15 -> e-15 */
+  s = s.replace(/(?:×|·|\*|x)?\s*10\s*\^\s*([+-]?\d+)/g, function (_, e) { return "e" + e; });
+  if (/^e[+-]?\d/i.test(s)) s = "1" + s;
+
+  const m = /^([+-]?[0-9][0-9.,'\s]*(?:[eE][+-]?[0-9]+)?)?\s*(.*)$/.exec(s);
+  const zahlRoh = (m && m[1]) ? m[1] : "";
+  const rest = (m && m[2] ? m[2] : "").trim();
+
+  let wert = zahlRoh ? dVon(normZahl(zahlRoh)) : D(1n, 0);
+  if (!wert) return { wert: null, einheit: null, hinweis: t("keinWert"), fehler: true };
+
+  let einheit = null;
+  const unbekannt = [];
+
+  rest.split(/\s+/).filter(Boolean).forEach(function (tk) {
+    /* Reihenfolge mit Absicht: in der offenen Kategorie schlaegt die
+       Einheit die Groessenordnung. Sonst waere "5 B" in der Datenmenge
+       nicht 5 Byte, sondern 5 Milliarden. */
+    let u = einheitIn(S.kat, tk);
+    if (u) { einheit = u; return; }
+
+    const sk = skalaVon(tk);
+    if (sk) {
+      wert = sk.d ? dMul(wert, sk.d) : dMul(wert, D(1n, sk.e));
+      return;
+    }
+
+    u = einheitIrgendwo(tk);
+    if (u) { einheit = u; return; }
+
+    unbekannt.push(tk);
+  });
+
+  return {
+    wert: wert,
+    einheit: einheit,
+    unbekannt: unbekannt,
+    hinweis: unbekannt.length ? t("unbekannt") + " " + unbekannt.join(" ") : null,
+    fehler: unbekannt.length > 0
+  };
+}
+
+/* ====================================================================
+   11 | Umrechnen
+   ==================================================================== */
+
+/* Wert in Einheit "von" ausgedrueckt in Einheit "nach". */
+function um(wert, von, nach, stellen) {
+  if (!wert) return null;
+  if (von === nach) return wert;
+  if (von.sonder || nach.sonder) {
+    const basis = von.zu(wert, stellen + 8);
+    if (!basis) return null;
+    const r = nach.von(basis, stellen + 8);
+    return r ? dRund(r, stellen) : null;
+  }
+  /* Geht es exakt auf, wird ungekuerzt gezeigt: die Stellen-Einstellung
+     begrenzt nur das, was ohnehin gerundet werden muss. */
+  const genau = rechneGenau(wert, von.rf, nach.rf);
+  if (genau && dLaenge(genau) <= ZU_LANG) return genau;
+  return rechne(wert, von.rf, nach.rf, stellen);
+}
+
+/* ====================================================================
+   12 | Zwischenablage
+
+   Unter file:// ist die Clipboard-API nicht ueberall freigegeben,
+   deshalb der alte Weg als Rueckfall.
+   ==================================================================== */
+
+let meldungZeit = null;
+
+function melde(text) {
+  const el = document.getElementById("meldung");
+  el.textContent = text;
+  el.classList.add("an");
+  clearTimeout(meldungZeit);
+  meldungZeit = setTimeout(function () { el.classList.remove("an"); }, 1600);
+}
+
+function kopiere(text) {
+  function fertig() { melde(t("kopiert") + " " + text); }
+  function altWeg() {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); fertig(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(fertig, altWeg);
+  } else {
+    altWeg();
+  }
+}
+
+/* ====================================================================
+   13 | Bausteine der Anzeige
+   ==================================================================== */
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined && text !== null) n.textContent = text;
+  return n;
+}
+
+/* Ziffernfolge und Zehnerpotenz untereinander - beides immer, das ist
+   der Kern der Sache. Sehr lange Folgen werden angerissen und lassen
+   sich aufklappen. */
+/* Lange Ziffernfolgen werden angerissen, lassen sich aufklappen und
+   kopieren beim Anklicken den vollen Wert. */
+function textZiffern(anzeige, kopierText) {
+  const zif = el("span", "ziffern");
+  const kurz = kuerze(anzeige);
+  const text = document.createTextNode(kurz || anzeige);
+  zif.appendChild(text);
+  zif.title = t("kopiert").replace(":", "");
+  zif.addEventListener("click", function () { kopiere(kopierText === undefined ? anzeige : kopierText); });
+  if (kurz) {
+    const b = el("button", "mehr", t("mehr"));
+    b.type = "button";
+    let offen = false;
+    b.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      offen = !offen;
+      text.nodeValue = offen ? anzeige : kurz;
+      b.textContent = offen ? t("weniger") : t("mehr");
+    });
+    zif.appendChild(b);
+  }
+  return zif;
+}
+
+function werteBlock(a, ca) {
+  const box = el("div", "werte");
+  if (a === null) { box.appendChild(el("span", "ziffern", "—")); return box; }
+
+  const plain = dPlain(a);
+  const zif = plain === null
+    ? el("span", "ziffern", t("zuLang"))
+    : textZiffern(gruppiere(plain, S.spr), komma(plain, S.spr));
+
+  if (ca) zif.insertBefore(el("span", "ca", "≈ "), zif.firstChild);
+  box.appendChild(zif);
+
+  const pot = potenzKnoten(a, S.spr, "potenz");
+  pot.addEventListener("click", function () { kopiere(potenzText(a, S.spr)); });
+  box.appendChild(pot);
+
+  return box;
+}
+
+function namenBlock(u, klickbar) {
+  const box = el("div", "namen");
+  const inhalt = klickbar ? el("button") : el("span");
+  if (klickbar) inhalt.type = "button";
+
+  const haupt = el("span", "haupt");
+  haupt.appendChild(document.createTextNode(nm(u)));
+  haupt.appendChild(el("span", "sym", u.sym));
+  inhalt.appendChild(haupt);
+  inhalt.appendChild(el("span", "neben", nm2(u)));
+
+  if (klickbar) {
+    inhalt.addEventListener("click", function () {
+      waehle(u);
+    });
+  }
+  box.appendChild(inhalt);
+  return box;
+}
+
+function zeile(links, rechts, aktiv) {
+  const z = el("div", "zeile" + (aktiv ? " aktiv" : ""));
+  z.appendChild(links);
+  z.appendChild(rechts);
+  return z;
+}
+
+function beschriftung(text, neben) {
+  const box = el("div", "namen");
+  const s = el("span");
+  s.appendChild(el("span", "haupt", text));
+  if (neben) s.appendChild(el("span", "neben", neben));
+  box.appendChild(s);
+  return box;
+}
+
+/* ====================================================================
+   14 | Modus "Einheiten"
+   ==================================================================== */
+
+function zeichneEinheiten(ziel) {
+  const kopf = el("p", "quelle",
+    nm(S.kat) + " · " + t("basis") + " " + S.kat.basis + " · " + S.kat.einheiten.length);
+  ziel.appendChild(kopf);
+
+  const liste = el("div", "zeilen");
+  S.kat.einheiten.forEach(function (u, i) {
+    const w = um(S.wert, S.einheit, u, S.stellen);
+    const z = zeile(namenBlock(u, true), werteBlock(w, u.ca), u === S.einheit);
+    if (i === S.kat.trennAb) z.className += " trenn";
+    liste.appendChild(z);
+  });
+  ziel.appendChild(liste);
+  ziel.appendChild(el("p", "hinweis", t("hinKat")));
+}
+
+/* ====================================================================
+   15 | Modus "Zahlen"
+   ==================================================================== */
+
+function alsIEC(a, stellen) {
+  if (a.m === 0n || a.m < 0n) return null;
+  let treffer = null;
+  for (let i = IEC_PRAEFIX.length - 1; i >= 0; i--) {
+    const w = IEC_WERT[IEC_PRAEFIX[i][0]];
+    if (dCmp(a, w) >= 0) { treffer = IEC_PRAEFIX[i]; break; }
+  }
+  if (!treffer) return null;
+  const zahl = dDiv(a, IEC_WERT[treffer[0]], stellen);
+  return { zahl: zahl, name: treffer[1], sym: treffer[0], b: treffer[2] };
+}
+
+function zeichneZahlen(ziel) {
+  const a = S.wert;
+  const s = S.stellen;
+
+  ziel.appendChild(el("p", "quelle", t("zahlen")));
+  const tafel = el("div", "zeilen tafel");
+
+  function reihe(titel, neben, inhalt) {
+    tafel.appendChild(zeile(beschriftung(titel, neben), inhalt));
+  }
+
+  reihe(t("zif"), null, werteBlock(a, false));
+
+  const wiss = el("div", "werte");
+  const w1 = potenzKnoten(a, S.spr, "ziffern");
+  w1.addEventListener("click", function () { kopiere(potenzText(a, S.spr)); });
+  wiss.appendChild(w1);
+  const sci = dSci(a);
+  wiss.appendChild(el("span", "potenz", komma(sci.m, S.spr) + "e" + sci.e));
+  reihe(t("wiss"), null, wiss);
+
+  const tech = el("div", "werte");
+  tech.appendChild(engKnoten(a, S.spr, "ziffern"));
+  const eng = dEng(a);
+  tech.appendChild(potSpan("potenz", null, "10", eng.e, null));
+  reihe(t("tech"), null, tech);
+
+  /* Die beiden Leitern nebeneinander - genau hier gehen Deutsch und
+     Englisch auseinander: 10^12 ist Billion, aber trillion. */
+  [["de", "de", t("leiterDe")], ["en", "en", t("leiterEn")]].forEach(function (r) {
+    const st = alsStufe(a, LEITER[r[0]], r[1], s, S.spr);
+    const box = el("div", "werte");
+    if (!st) {
+      box.appendChild(el("span", "ziffern", "—"));
+    } else {
+      box.appendChild(textZiffern(st.text));
+      box.appendChild(potSpan("potenz", "× ", "10", st.e, st.kurz ? "  ·  " + st.kurz : null));
+    }
+    reihe(r[2], null, box);
+  });
+
+  const stEn = alsStufe(a, SKALA_LISTE.filter(function (x) { return x.enK; }), "enK", s, S.spr);
+  const kbox = el("div", "werte");
+  if (stEn) {
+    kbox.appendChild(textZiffern(stEn.text));
+    kbox.appendChild(potSpan("potenz", "× ", "10", stEn.e, null));
+  } else kbox.appendChild(el("span", "ziffern", "—"));
+  reihe(t("kuerzelEn"), null, kbox);
+
+  const stSi = stufeFuer(a, LEITER.si);
+  const sibox = el("div", "werte");
+  if (stSi) {
+    const zahl = dDiv(a, D(1n, stSi.e), s);
+    const txt = gruppiere(dPlain(zahl), S.spr) + " " + stSi.si +
+      "  (" + (S.spr === "de" ? stSi.siDe : stSi.siEn) + ")";
+    sibox.appendChild(textZiffern(txt));
+    sibox.appendChild(potSpan("potenz", "× ", "10", stSi.e, null));
+  } else sibox.appendChild(el("span", "ziffern", "—"));
+  reihe(t("siP"), null, sibox);
+
+  const iec = alsIEC(a, s);
+  const ibox = el("div", "werte");
+  if (iec) {
+    const txt = gruppiere(dPlain(iec.zahl), S.spr) + " " + iec.sym + "  (" + iec.name + ")";
+    ibox.appendChild(textZiffern(txt));
+    ibox.appendChild(potSpan("potenz", "× ", "2", iec.b, null));
+  } else ibox.appendChild(el("span", "ziffern", "—"));
+  reihe(t("iecP"), null, ibox);
+
+  const stInd = alsStufe(a, LEITER.ind, "ind", s, S.spr);
+  const indbox = el("div", "werte");
+  if (stInd) {
+    indbox.appendChild(textZiffern(stInd.text));
+    indbox.appendChild(potSpan("potenz", "× ", "10", stInd.e, null));
+  } else indbox.appendChild(el("span", "ziffern", "—"));
+  reihe(t("indP"), null, indbox);
+
+  reihe(t("kehr"), null, werteBlock(dNull(a) ? null : dDiv(D(1n, 0), a, s), false));
+
+  ziel.appendChild(tafel);
+
+  /* ---- Verzeichnis aller Stufen ---- */
+
+  ziel.appendChild(el("p", "quelle", t("verzeichnis")));
+  const rahmen = el("div", "rahmen");
+  const tb = el("table");
+  const thead = el("thead");
+  const tr = el("tr");
+  [t("sExp"), t("sDe"), t("sDeK"), t("sEn"), t("sEnK"), t("sSI"), t("sInd"), t("sZif")]
+    .forEach(function (h) { tr.appendChild(el("th", null, h)); });
+  thead.appendChild(tr);
+  tb.appendChild(thead);
+
+  const tbody = el("tbody");
+  const hierE = dNull(a) ? null : dSci(a).e;
+  SKALA_LISTE.forEach(function (sk) {
+    const r = el("tr");
+    if (hierE !== null && sk.e === hierE) r.className = "hier";
+    r.appendChild(potBau(el("td", "p"), null, "10", sk.e, null));
+    r.appendChild(el("td", null, sk.de || "—"));
+    r.appendChild(el("td", "kurz", sk.deK || ""));
+    r.appendChild(el("td", null, sk.en || "—"));
+    r.appendChild(el("td", "kurz", sk.enK || ""));
+    r.appendChild(el("td", "kurz", sk.si || ""));
+    r.appendChild(el("td", null, sk.ind || ""));
+    const ziffern = gruppiere(dPlain(D(1n, sk.e)), S.spr);
+    const zt = el("td", "z", ziffern === null ? t("zuLang") : ziffern);
+    zt.title = ziffern || "";
+    r.appendChild(zt);
+    tbody.appendChild(r);
+  });
+  tb.appendChild(tbody);
+  rahmen.appendChild(tb);
+  ziel.appendChild(rahmen);
+
+  /* ---- Binaerpraefixe ---- */
+
+  ziel.appendChild(el("p", "quelle", t("binTafel")));
+  const rahmen2 = el("div", "rahmen");
+  const tb2 = el("table");
+  const th2 = el("thead");
+  const tr2 = el("tr");
+  [t("sSym"), t("sName"), t("sZwei"), t("sWert")]
+    .forEach(function (h) { tr2.appendChild(el("th", null, h)); });
+  th2.appendChild(tr2);
+  tb2.appendChild(th2);
+  const tbody2 = el("tbody");
+  IEC_PRAEFIX.forEach(function (p) {
+    const r = el("tr");
+    r.appendChild(el("td", "kurz", p[0]));
+    r.appendChild(el("td", null, p[1]));
+    r.appendChild(potBau(el("td", "p"), null, "2", p[2], null));
+    r.appendChild(el("td", "z", gruppiere(dPlain(IEC_WERT[p[0]]), S.spr)));
+    tbody2.appendChild(r);
+  });
+  tb2.appendChild(tbody2);
+  rahmen2.appendChild(tb2);
+  ziel.appendChild(rahmen2);
+}
+
+/* ====================================================================
+   16 | Suche quer durch alle Kategorien
+   ==================================================================== */
+
+function zeichneSuche(ziel) {
+  const q = S.suche.toLowerCase();
+  const treffer = [];
+  KATEGORIEN.forEach(function (k) {
+    k.einheiten.forEach(function (u) {
+      if (u.sym.toLowerCase().indexOf(q) >= 0 ||
+          u.de.toLowerCase().indexOf(q) >= 0 ||
+          u.en.toLowerCase().indexOf(q) >= 0 ||
+          k.de.toLowerCase().indexOf(q) >= 0 ||
+          k.en.toLowerCase().indexOf(q) >= 0) {
+        treffer.push(u);
+      }
+    });
+  });
+
+  ziel.appendChild(el("p", "quelle", t("treffer") + " · " + treffer.length));
+  if (!treffer.length) {
+    ziel.appendChild(el("p", "hinweis", t("keineTreffer")));
+    return;
+  }
+
+  const liste = el("div", "zeilen");
+  treffer.slice(0, 180).forEach(function (u) {
+    const links = namenBlock(u, true);
+    links.querySelector(".neben").textContent = nm2(u) + " · " + nm(u.kat);
+    /* Quer durch die Kategorien waere eine Umrechnung sinnlos, also
+       zeigt die Suche, wie viel eine Einheit in ihrer Basis ist. */
+    const basisU = u.kat.basisU;
+    const w = um(D(1n, 0), u, basisU, S.stellen);
+    const box = werteBlock(w, u.ca);
+    box.insertBefore(el("span", "potenz", "1 " + u.sym + " = … " + basisU.sym), box.firstChild);
+    liste.appendChild(zeile(links, box, u === S.einheit));
+  });
+  ziel.appendChild(liste);
+}
+
+/* ====================================================================
+   17 | Zusammensetzen
+   ==================================================================== */
+
+function zeichneKategorien() {
+  const nav = document.getElementById("kategorien");
+  nav.textContent = "";
+  KATEGORIEN.forEach(function (k) {
+    const b = el("button", null, nm(k));
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(k === S.kat && !S.suche));
+    b.addEventListener("click", function () {
+      S.kat = k;
+      S.einheit = k.einheiten[0];
+      S.suche = "";
+      document.getElementById("suche").value = "";
+      S.modus = "einheiten";
+      zeichne();
+    });
+    nav.appendChild(b);
+  });
+  nav.style.display = S.modus === "einheiten" && !S.suche ? "" : "none";
+}
+
+function fuelleAuswahl() {
+  const sel = document.getElementById("einheit");
+  sel.textContent = "";
+  KATEGORIEN.forEach(function (k) {
+    const g = document.createElement("optgroup");
+    g.label = nm(k);
+    k.einheiten.forEach(function (u) {
+      const o = document.createElement("option");
+      o.value = k.id + "/" + u.sym;
+      o.textContent = nm(u) + " (" + u.sym + ")";
+      g.appendChild(o);
+    });
+    sel.appendChild(g);
+  });
+  sel.value = S.kat.id + "/" + S.einheit.sym;
+}
+
+function waehle(u) {
+  S.einheit = u;
+  S.kat = u.kat;
+  S.suche = "";
+  document.getElementById("suche").value = "";
+  S.modus = "einheiten";
+  document.getElementById("einheit").value = u.kat.id + "/" + u.sym;
+  zeichne();
+}
+
+function zeichne() {
+  document.documentElement.lang = S.spr;
+  document.getElementById("untertitel").textContent = t("untertitel");
+  document.getElementById("sprache").textContent = S.spr === "de" ? "EN" : "DE";
+  document.getElementById("stellenAuf").textContent = S.stellen + " " + t("stellen");
+  document.getElementById("suche").placeholder = t("suchen");
+  document.getElementById("modusZahlen").textContent = t("zahlen");
+  document.getElementById("modusEinheiten").textContent = t("einheiten");
+  document.getElementById("modusZahlen").setAttribute("aria-pressed", String(S.modus === "zahlen"));
+  document.getElementById("modusEinheiten").setAttribute("aria-pressed", String(S.modus === "einheiten"));
+  document.getElementById("fuss").textContent = t("fuss");
+
+  const gel = document.getElementById("gelesen");
+  const g = lese(S.roh);
+  gel.className = "gelesen" + (g.fehler ? " fehler" : "");
+  gel.textContent = "";
+  if (g.hinweis) {
+    gel.textContent = g.hinweis;
+  } else if (g.wert) {
+    gel.appendChild(document.createTextNode(t("gelesen") + ": "));
+    gel.appendChild(potenzKnoten(g.wert, S.spr, "gel"));
+    if (dLaenge(g.wert) <= 40) {
+      gel.appendChild(document.createTextNode("  =  " + gruppiere(dPlain(g.wert), S.spr)));
+    }
+  }
+  if (g.wert) S.wert = g.wert;
+  if (g.einheit && g.einheit !== S.einheit) {
+    S.einheit = g.einheit;
+    S.kat = g.einheit.kat;
+    document.getElementById("einheit").value = S.kat.id + "/" + S.einheit.sym;
+  }
+
+  zeichneKategorien();
+
+  const ziel = document.getElementById("ausgabe");
+  ziel.textContent = "";
+  if (S.suche) zeichneSuche(ziel);
+  else if (S.modus === "zahlen") zeichneZahlen(ziel);
+  else zeichneEinheiten(ziel);
+
+  schreibeHash();
+}
+
+function schreibeHash() {
+  const h = S.modus === "zahlen"
+    ? "#z=" + encodeURIComponent(S.roh)
+    : "#e=" + S.kat.id + "/" + encodeURIComponent(S.einheit.sym) + "/" + encodeURIComponent(S.roh);
+  try { history.replaceState(null, "", h); } catch (e) {}
+}
+
+function leseHash() {
+  const h = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (!h) return;
+  if (h.indexOf("e=") === 0) {
+    const teile = h.slice(2).split("/");
+    const u = EINHEIT_NACH_SYM[teile[0] + "/" + teile[1]];
+    if (u) { S.einheit = u; S.kat = u.kat; S.modus = "einheiten"; }
+    if (teile[2] !== undefined) S.roh = teile.slice(2).join("/");
+  } else if (h.indexOf("z=") === 0) {
+    S.modus = "zahlen";
+    S.roh = h.slice(2);
+  }
+}
+
+/* ====================================================================
+   18 | Bedienung
+   ==================================================================== */
+
+function bindeEreignisse() {
+  const wert = document.getElementById("wert");
+  const einheit = document.getElementById("einheit");
+  const suche = document.getElementById("suche");
+
+  wert.addEventListener("input", function () {
+    S.roh = wert.value;
+    zeichne();
+  });
+
+  einheit.addEventListener("change", function () {
+    const u = EINHEIT_NACH_SYM[einheit.value];
+    if (u) { S.einheit = u; S.kat = u.kat; S.modus = "einheiten"; S.suche = ""; suche.value = ""; }
+    zeichne();
+  });
+
+  document.getElementById("modusZahlen").addEventListener("click", function () {
+    S.modus = "zahlen"; S.suche = ""; suche.value = ""; zeichne();
+  });
+
+  document.getElementById("modusEinheiten").addEventListener("click", function () {
+    S.modus = "einheiten"; S.suche = ""; suche.value = ""; zeichne();
+  });
+
+  document.getElementById("sprache").addEventListener("click", function () {
+    S.spr = S.spr === "de" ? "en" : "de";
+    merke("spr", S.spr);
+    fuelleAuswahl();
+    zeichne();
+  });
+
+  document.getElementById("stellenAuf").addEventListener("click", function () {
+    const i = STELLEN_STUFEN.indexOf(S.stellen);
+    S.stellen = STELLEN_STUFEN[(i + 1) % STELLEN_STUFEN.length];
+    merke("stellen", String(S.stellen));
+    zeichne();
+  });
+
+  suche.addEventListener("input", function () {
+    S.suche = suche.value.trim();
+    zeichne();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    const imFeld = /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName);
+    if (e.key === "/" && !imFeld) { e.preventDefault(); suche.focus(); }
+    else if (e.key === "Escape") {
+      if (S.suche) { S.suche = ""; suche.value = ""; zeichne(); }
+      document.activeElement.blur();
+    }
+  });
+}
+
+/* ====================================================================
+   19 | Selbsttest  (#test)
+
+   Bekannte Werte, die exakt stimmen muessen - plus eine Rundreise
+   durch jede einzelne Einheit: Wert -> Basis -> Wert muss wieder
+   herauskommen, sonst driftet irgendwo eine Rundung.
+   ==================================================================== */
+
+function U(kat, sym) { return EINHEIT_NACH_SYM[kat + "/" + sym]; }
+
+function wandle(kat, von, nach, wert, stellen) {
+  const a = U(kat, von), b = U(kat, nach);
+  if (!a || !b) return "EINHEIT FEHLT " + kat + "/" + von + " " + nach;
+  const r = um(dVon(wert), a, b, stellen || 24);
+  return r === null ? "null" : dPlain(r);
+}
+
+function pruefe() {
+  const box = document.getElementById("pruefung");
+  const haupt = document.querySelector("main");
+  haupt.style.display = "none";
+  box.className = "an";
+
+  let gut = 0, schlecht = 0;
+
+  function abschnitt(titel) { box.appendChild(el("div", "kopf", titel)); }
+
+  function p(name, ist, soll) {
+    const ok = String(ist) === String(soll);
+    ok ? gut++ : schlecht++;
+    const z = el("div", ok ? "ok" : "fail");
+    z.textContent = (ok ? "ok   " : "FEHL ") + name +
+      (ok ? "  =  " + ist : "\n       ist:  " + ist + "\n       soll: " + soll);
+    z.style.whiteSpace = "pre";
+    box.appendChild(z);
+  }
+
+  abschnitt("Rechenkern");
+  p("1/3 auf 20 Stellen", dPlain(dDiv(dVon("1"), dVon("3"), 20)), "0.33333333333333333333");
+  p("0,1 + 0,2 exakt", dPlain(dAdd(dVon("0.1"), dVon("0.2"))), "0.3");
+  p("Googol = 1 und 100 Nullen", dPlain(D(1n, 100)).length, 101);
+  p("2^100 exakt", dPlain(IEC_WERT["Qi"]), "1267650600228229401496703205376");
+
+  abschnitt("Länge");
+  p("1 in -> cm", wandle("laenge", "in", "cm", "1"), "2.54");
+  p("1 mi -> m", wandle("laenge", "mi", "m", "1"), "1609.344");
+  p("1 fm -> cm", wandle("laenge", "fm", "cm", "1"), "0.0000000000001");
+  p("1 fm -> cm als Potenz", potenzText(um(dVon("1"), U("laenge", "fm"), U("laenge", "cm"), 12), "de"), "10⁻¹³");
+  p("1 ly -> m", wandle("laenge", "ly", "m", "1"), "9460730472580800");
+  p("1 nmi -> m", wandle("laenge", "nmi", "m", "1"), "1852");
+  p("1 yd -> in", wandle("laenge", "yd", "in", "1"), "36");
+
+  abschnitt("Fläche, Volumen, Masse");
+  p("1 ha -> m²", wandle("flaeche", "ha", "m²", "1"), "10000");
+  p("1 ac -> m²", wandle("flaeche", "ac", "m²", "1"), "4046.8564224");
+  p("1 gal -> L", wandle("volumen", "gal", "L", "1"), "3.785411784");
+  p("1 L -> m³", wandle("volumen", "L", "m³", "1"), "0.001");
+  p("1 lb -> kg", wandle("masse", "lb", "kg", "1"), "0.45359237");
+  p("1 st -> lb", wandle("masse", "st", "lb", "1"), "14");
+  p("1 t -> g", wandle("masse", "t", "g", "1"), "1000000");
+
+  abschnitt("Zeit, Temperatur");
+  p("1 d -> s", wandle("zeit", "d", "s", "1"), "86400");
+  p("1 a julian. -> d", wandle("zeit", "a", "d", "1"), "365.25");
+  p("0 °C -> K", wandle("temperatur", "°C", "K", "0"), "273.15");
+  p("0 °C -> °F", wandle("temperatur", "°C", "°F", "0"), "32");
+  p("100 °C -> °F", wandle("temperatur", "°C", "°F", "100"), "212");
+  p("-40 °C -> °F", wandle("temperatur", "°C", "°F", "-40"), "-40");
+  p("0 K -> °C", wandle("temperatur", "K", "°C", "0"), "-273.15");
+  p("0 K -> °F", wandle("temperatur", "K", "°F", "0"), "-459.67");
+  p("100 °De -> °C", wandle("temperatur", "°De", "°C", "100"), "33.3333333333333333333333");
+
+  abschnitt("Daten");
+  p("1 YiB -> B", wandle("daten", "YiB", "B", "1"), "1208925819614629174706176");
+  p("1 YiB -> B bei 3 Stellen (exakt bleibt exakt)",
+    wandle("daten", "YiB", "B", "1", 3), "1208925819614629174706176");
+  p("1 m -> in auf 12 Stellen (gerundet)",
+    wandle("laenge", "m", "in", "1", 12), "39.3700787402");
+  p("1 GiB -> MiB", wandle("daten", "GiB", "MiB", "1"), "1024");
+  p("1 B -> bit", wandle("daten", "B", "bit", "1"), "8");
+  p("1 GB -> B", wandle("daten", "GB", "B", "1"), "1000000000");
+  p("1 TiB -> GB", wandle("daten", "TiB", "GB", "1"), "1099.511627776");
+
+  abschnitt("Technik");
+  p("1 kWh -> J", wandle("energie", "kWh", "J", "1"), "3600000");
+  p("1 eV -> J", wandle("energie", "eV", "J", "1"), "0.0000000000000000001602176634");
+  p("1 PS -> W", wandle("leistung", "PS", "W", "1"), "735.49875");
+  p("1 atm -> Torr", wandle("druck", "atm", "Torr", "1"), "760");
+  p("1 bar -> Pa", wandle("druck", "bar", "Pa", "1"), "100000");
+  p("1 kp -> N", wandle("kraft", "kp", "N", "1"), "9.80665");
+  p("3,6 km/h -> m/s", wandle("geschwindigkeit", "km/h", "m/s", "3.6"), "1");
+  p("1 kn -> km/h", wandle("geschwindigkeit", "kn", "km/h", "1"), "1.852");
+  p("1 T -> G", wandle("magnetfeld", "T", "G", "1"), "10000");
+  p("1 Ci -> Bq", wandle("radioaktivitaet", "Ci", "Bq", "1"), "37000000000");
+  p("1 rem -> Sv", wandle("dosis", "rem", "Sv", "1"), "0.01");
+  p("1 g/cm³ -> kg/m³", wandle("dichte", "g/cm³", "kg/m³", "1"), "1000");
+  p("1 ft·lbf -> in·lbf", wandle("drehmoment", "ft·lbf", "in·lbf", "1"), "12");
+  p("1 mol -> Teilchen", wandle("stoffmenge", "mol", "N", "1"), "602214076000000000000000");
+  p("1 turn -> °", wandle("winkel", "turn", "°", "1"), "360");
+  p("1 ° -> ″", wandle("winkel", "°", "″", "1"), "3600");
+  p("1 in -> pt", wandle("typografie", "in", "pt", "1"), "72");
+  p("1 in -> px", wandle("typografie", "in", "px", "1"), "96");
+
+  abschnitt("Verbrauch (reziprok)");
+  p("1 L/100km -> km/L", wandle("verbrauch", "L/100km", "km/L", "1"), "100");
+  p("100 km/L -> L/100km", wandle("verbrauch", "km/L", "L/100km", "100"), "1");
+  p("235 mpg -> L/100km (6 St.)", wandle("verbrauch", "mpg", "L/100km", "235", 6), "1.00091");
+  p("1 L/km -> L/100km", wandle("verbrauch", "L/km", "L/100km", "1"), "100");
+
+  abschnitt("Größenordnungen");
+  p("10^9 deutsch", SKALA[9].de, "Milliarde");
+  p("10^9 englisch", SKALA[9].en, "billion");
+  p("10^12 deutsch", SKALA[12].de, "Billion");
+  p("10^12 englisch", SKALA[12].en, "trillion");
+  p("10^15 deutsch", SKALA[15].de, "Billiarde");
+  p("10^15 englisch", SKALA[15].en, "quadrillion");
+  p("10^15 Kürzel en", SKALA[15].enK, "Qa");
+  p("10^18 Kürzel en", SKALA[18].enK, "Qi");
+  p("10^9 Kürzel de", SKALA[9].deK, "Mrd");
+  p("10^-15 deutsch", SKALA[-15].de, "Billiardstel");
+  p("10^-15 SI", SKALA[-15].si, "f");
+  p("10^100 deutsch", SKALA[100].de, "Googol");
+
+  abschnitt("Eingabe lesen");
+  const alt = S.spr, altKat = S.kat;
+  S.spr = "de"; S.kat = KAT_NACH_ID["laenge"];
+  p("2,5 Mrd", dPlain(lese("2,5 Mrd").wert), "2500000000");
+  p("10^-15", dPlain(lese("10^-15").wert), "0.000000000000001");
+  p("10⁻¹⁵", dPlain(lese("10⁻¹⁵").wert), "0.000000000000001");
+  p("1.234.567,89", dPlain(lese("1.234.567,89").wert), "1234567.89");
+  p("5 Qa", dPlain(lese("5 Qa").wert), "5000000000000000");
+  p("3 Quadrillion (de = 10^24)", dPlain(lese("3 Quadrillion").wert), "3000000000000000000000000");
+  p("3 Billion (de = 10^12)", dPlain(lese("3 Billion").wert), "3000000000000");
+  p("2 Mio", dPlain(lese("2 Mio").wert), "2000000");
+  p("1e15", dPlain(lese("1e15").wert), "1000000000000000");
+  p("2,5 × 10^9", dPlain(lese("2,5 × 10^9").wert), "2500000000");
+  p("3 Ki", dPlain(lese("3 Ki").wert), "3072");
+  p("0.0254 bleibt dezimal", dPlain(lese("0.0254").wert), "0.0254");
+  p("1 Googol Stellen", dPlain(lese("1 Googol").wert).length, 101);
+  p("1 fm setzt Einheit", lese("1 fm").einheit.sym, "fm");
+  p("7 femto", dPlain(lese("7 femto").wert), "0.000000000000007");
+  S.spr = "en";
+  p("3 quadrillion (en = 10^15)", dPlain(lese("3 quadrillion").wert), "3000000000000000");
+  p("3 billion (en = 10^9)", dPlain(lese("3 billion").wert), "3000000000");
+  p("1,234,567.89 (en)", dPlain(lese("1,234,567.89").wert), "1234567.89");
+  S.spr = alt; S.kat = altKat;
+
+  abschnitt("Rundreise: jede Einheit Wert -> Basis -> Wert");
+  let rGut = 0;
+  const rFehler = [];
+  KATEGORIEN.forEach(function (k) {
+    const ref = k.einheiten[0];
+    k.einheiten.forEach(function (u) {
+      const hin = um(dVon("1"), u, ref, 30);
+      const zurueck = hin === null ? null : um(hin, ref, u, 30);
+      const ist = zurueck === null ? "null" : dPlain(dRund(zurueck, 10));
+      if (ist === "1") rGut++;
+      else rFehler.push(k.id + "/" + u.sym + " -> " + ist);
+    });
+  });
+  p("Rundreisen bestanden", rFehler.length ? rFehler.join(" | ") : rGut, rGut);
+
+  const summe = el("div", "kopf");
+  summe.textContent = schlecht === 0
+    ? "Alles bestanden: " + gut + " Prüfungen, " + rGut + " Rundreisen."
+    : schlecht + " von " + (gut + schlecht) + " Prüfungen fehlgeschlagen.";
+  box.insertBefore(summe, box.firstChild);
+}
+
+/* ====================================================================
+   20 | Start
+   ==================================================================== */
+
+KATEGORIEN.forEach(function (k) {
+  k.basisU = k.einheiten.filter(function (u) { return u.sym === k.basis; })[0] || k.einheiten[0];
+});
+
+(function start() {
+  const spr = hole("spr");
+  if (spr === "de" || spr === "en") S.spr = spr;
+  const st = parseInt(hole("stellen"), 10);
+  if (STELLEN_STUFEN.indexOf(st) >= 0) S.stellen = st;
+
+  if (location.hash === "#test") {
+    pruefe();
+    return;
+  }
+
+  leseHash();
+  fuelleAuswahl();
+  bindeEreignisse();
+  document.getElementById("wert").value = S.roh;
+  zeichne();
+})();
+</script>
+
+</body>
+</html>
