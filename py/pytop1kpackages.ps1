@@ -1,4 +1,4 @@
-# python top 1k packages installer (also with pygamece and i18n)
+# python top 1k+ packages installer (also with pygamece, i18n & Some that I use)
 $pkgs = @(
   "boto3",
   "packaging",
@@ -1002,7 +1002,45 @@ $pkgs = @(
   "mkdocs",
   "pygame-ce",
   "python-i18n",
-  "python-i18n[YAML]"
+  "python-i18n[YAML]",
+  "aqtinstall",
+  "mistralai",
+  "vulture",
+  "radon",
+  "pynput",
+  "nuitka",
+  "pymunk",
+  "librosa",
+  "pyinstaller",
+  "pytube",
+  "yt-dlp",
+  "spotdl",
+  "truststore",
+  "kivy",
+  "yt-dlp-ejs",
+  "pyzbar",
+  "niquests",
+  "pydantic-handlebars",
+  "pydantic-evals",
+  "pyqt6",
+  "pyttsx3",
+  "pyfiglet",
+  "ollama",
+  "pyarmor",
+  "plotext",
+  "slack-bolt",
+  "gtts",
+  "rembg",
+  "matrix-nio",
+  "moviepy",
+  "python-barcode",
+  "gradio",
+  "tinydb",
+  "sqlmodel",
+  "reflex",
+  "taipy",
+  "bokeh",
+  "pyfiglet"
 )
 $failed = @()
 $i = 0
