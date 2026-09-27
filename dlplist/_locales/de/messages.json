@@ -1,0 +1,18 @@
+{
+  "extName": {
+    "message": "dlplist",
+    "description": "Name der Erweiterung in der Symbolleiste und auf chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Links per Rechtsklick sammeln – YouTube-Videos und Shorts werden automatisch sortiert – und als fertigen yt-dlp-Befehl exportieren (.txt, .bat, .ps1). by herrlamatv",
+    "description": "Beschreibung auf chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "dlplist",
+    "description": "Tooltip des Symbolleisten-Knopfs"
+  },
+  "cmdAddTab": {
+    "message": "Aktuellen Tab zu dlplist hinzufügen",
+    "description": "Beschreibung des Tastenkürzels auf chrome://extensions/shortcuts"
+  }
+}

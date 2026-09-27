@@ -1,0 +1,12 @@
+{
+  "name": "dlplist",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome extension: collect links by right-click and export them as a ready yt-dlp command (.txt / .bat / .ps1)",
+  "author": "herrlamatv",
+  "scripts": {
+    "test": "node test/test.mjs",
+    "icons": "node tools/icons.mjs"
+  }
+}

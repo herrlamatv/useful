@@ -1,0 +1,18 @@
+{
+  "extName": {
+    "message": "dlplist",
+    "description": "Extension name, shown in the toolbar and on chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Collect links by right-click – YouTube videos and shorts are sorted automatically – and export them as a ready yt-dlp command (.txt, .bat, .ps1). by herrlamatv",
+    "description": "Extension description on chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "dlplist",
+    "description": "Tooltip of the toolbar button"
+  },
+  "cmdAddTab": {
+    "message": "Add the current tab to dlplist",
+    "description": "Keyboard shortcut description on chrome://extensions/shortcuts"
+  }
+}

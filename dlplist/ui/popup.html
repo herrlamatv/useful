@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="popup.title">dlplist</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="popup">
+    <div class="row between" style="margin-bottom: 14px">
+      <div class="brand">
+        <div class="logo" role="img" aria-label="dlplist"></div>
+        <div>
+          <h1>dlplist</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <label class="toggle" data-i18n-title="app.masterTitle">
+        <input type="checkbox" id="master" />
+        <span class="track"></span>
+      </label>
+    </div>
+
+    <div class="panel always-on">
+      <div class="panel-head">
+        <div class="row between">
+          <div>
+            <div class="big-count" id="pending">0</div>
+            <p id="status" data-i18n="popup.loading">loading …</p>
+          </div>
+          <span class="chip" id="stateChip"></span>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel-body">
+        <div class="label" style="margin-bottom: 8px" data-i18n="popup.recent">Recently added</div>
+        <div id="recent"></div>
+      </div>
+
+      <div class="panel-body">
+        <div class="row">
+          <button class="btn primary grow" id="openExport" type="button" data-i18n="popup.openExport">Open export</button>
+          <button class="btn" id="addTab" type="button" data-i18n="popup.addTab">Add this tab</button>
+        </div>
+        <div class="row" style="margin-top: 8px">
+          <button class="btn ghost small" id="undo" type="button" data-i18n="popup.undo">Undo last add</button>
+          <span class="grow"></span>
+          <span id="clearSlot"></span>
+        </div>
+        <div class="flash" id="flash"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body">
+        <div class="hint" id="howto" data-i18n="popup.howto">
+          Right-click a link → “Add link to dlplist”. Alt+Shift+D adds the current tab.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <a href="#" id="openOptions" data-i18n="popup.allSettings">Export &amp; settings …</a>
+      <span data-i18n="popup.footer">dlplist · by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

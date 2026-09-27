@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="export.title">dlplist – Export</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="export">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="dlplist"></div>
+        <div>
+          <h1>dlplist</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="langSwitch" class="lang-switch"></div>
+        <span class="hint" id="masterLabel">on</span>
+        <label class="toggle" data-i18n-title="app.masterTitle">
+          <input type="checkbox" id="master" />
+          <span class="track"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="col" id="main">
+        <!-- ------------------------------ Liste ------------------------------ -->
+        <div class="panel always-on">
+          <div class="panel-head">
+            <div class="row between wrap">
+              <div>
+                <h2 data-i18n="list.title">Your list</h2>
+                <p id="listSummary"></p>
+              </div>
+              <div id="catTabs"></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="listBox"></div>
+          </div>
+          <div class="panel-body">
+            <label class="field">
+              <span data-i18n="list.pasteLabel">Paste links</span>
+              <textarea class="links" id="paste" data-i18n-ph="list.pastePh"></textarea>
+            </label>
+            <div class="row wrap" style="margin-top: 10px">
+              <button class="btn primary small" id="pasteAdd" type="button" data-i18n="list.pasteAdd">Add</button>
+              <span class="hint" data-i18n="list.dropHint">… or drag links onto this page</span>
+              <span class="grow"></span>
+              <span class="row" id="listTools"></span>
+            </div>
+            <div class="flash" id="listFlash"></div>
+          </div>
+        </div>
+
+        <div id="slotPresets"></div>
+        <div id="slotFormat"></div>
+        <div id="slotGeneral"></div>
+        <div id="slotEnv"></div>
+        <div id="slotOutput"></div>
+
+        <!-- ------------------------------ Verlauf ---------------------------- -->
+        <div class="panel">
+          <div class="panel-head">
+            <h2 data-i18n="history.title">Recent exports</h2>
+            <p data-i18n="history.desc">The last 10 files – download again with one click.</p>
+          </div>
+          <div class="panel-body" id="history"></div>
+        </div>
+
+        <div id="slotExt"></div>
+      </div>
+
+      <!-- ------------------------------ Vorschau ----------------------------- -->
+      <div class="col side">
+        <div class="panel always-on">
+          <div class="panel-head">
+            <div class="row between">
+              <h2 data-i18n="preview.title">Preview</h2>
+              <span class="chip ellipsis" id="fileChip" style="max-width: 260px"></span>
+            </div>
+            <p id="previewSummary"></p>
+          </div>
+          <div class="panel-body">
+            <pre class="code" id="code"></pre>
+            <div class="warns" id="warns" style="margin-top: 10px"></div>
+          </div>
+          <div class="panel-body">
+            <div class="actionbar">
+              <button class="btn primary" id="download" type="button" data-i18n="preview.download">Download</button>
+              <button class="btn" id="copy" type="button" data-i18n="preview.copy">Copy</button>
+              <span class="grow"></span>
+              <button class="btn ghost small" id="copyLinks" type="button" data-i18n="preview.copyLinks">Copy links only</button>
+            </div>
+            <div class="flash" id="actionFlash"></div>
+            <div id="danger"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span data-i18n="export.footerHint">Right-click a link on any page to add it.</span>
+      <span data-i18n="popup.footer">dlplist · by herrlamatv</span>
+    </footer>
+
+    <div class="drop-overlay" id="drop" hidden data-i18n="list.dropHere">Drop links here</div>
+
+    <script type="module" src="export.js"></script>
+  </body>
+</html>
