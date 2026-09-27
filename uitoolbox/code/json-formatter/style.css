@@ -1,0 +1,56 @@
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; }
+
+header.bar h1 { white-space: nowrap; }
+.indent { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-2); }
+.muted { font-size: 12px; font-family: var(--mono); }
+
+main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+section.panel { display: flex; flex-direction: column; min-height: 0; min-width: 0; border: 0; border-radius: 0; box-shadow: none; }
+.panel + .panel { border-left: 1px solid var(--line); }
+.code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 14px; min-height: 45px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+
+/* Input with line-number gutter */
+.input-wrap { flex: 1; display: flex; min-height: 0; background: var(--surface); }
+.gutter { width: 48px; flex: none; overflow: hidden; padding: 12px 10px 60px 0; text-align: right; font: 13px/1.55 var(--mono); color: var(--text-3); background: var(--surface-2); border-right: 1px solid var(--line-soft); user-select: none; white-space: pre; }
+.gutter .err { color: var(--red); font-weight: 700; background: var(--red-soft); }
+.input-wrap textarea { flex: 1; min-width: 0; margin: 0; padding: 12px 14px; border: 0; border-radius: 0; resize: none; outline: none; background: transparent; color: var(--text); font: 13px/1.55 var(--mono); white-space: pre; overflow: auto; tab-size: 4; }
+.input-wrap textarea::selection { background: #f4c7c2; }
+.status { padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 12.5px; color: var(--text-2); min-height: 38px; }
+.status.ok { color: var(--green); }
+.status.err { color: var(--red); background: var(--red-soft); }
+
+/* Output */
+.tabs.seg { flex: none; }
+.tabs .tab { padding: 4px 14px; }
+.seg button.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(60, 50, 30, .16); }
+.tree-actions { display: flex; gap: 4px; flex: 1; }
+.tree-actions button { padding: 4px 9px; font-size: 12px; box-shadow: none; }
+pre { flex: 1; margin: 0; padding: 12px 14px; overflow: auto; font-size: 13px; line-height: 1.55; white-space: pre; tab-size: 4; background: var(--surface); }
+pre.wrap { white-space: pre-wrap; word-break: break-all; }
+
+/* Tree view */
+.tree { flex: 1; overflow: auto; padding: 10px 14px; font: 13px/1.65 var(--mono); background: var(--surface); }
+.tree .prop { color: var(--syn-prop); }
+.tree .str { color: var(--syn-str); }
+.tree .num { color: var(--syn-num); }
+.tree .key { color: var(--syn-key); }
+.tree .mute { color: var(--syn-mute); }
+.tree details { margin: 0 0 0 16px; background: none; border: 0; border-radius: 0; }
+.tree > details { margin-left: 0; }
+.tree summary { display: block; padding: 0 4px; font-weight: 400; font-size: inherit; border-radius: 4px; }
+.tree summary::after { content: none; }
+.tree summary::before { content: '▸'; display: inline-block; width: 14px; color: var(--text-3); transition: transform .1s; }
+.tree details[open] > summary::before { transform: rotate(90deg); }
+.tree summary:hover { background: var(--surface-2); }
+.tree .leaf { margin-left: 16px; padding: 0 4px 0 18px; }
+.tree .meta { color: var(--text-3); font-size: 11px; margin-left: 6px; }
+.tree .type { font-size: 10.5px; color: var(--text-3); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-left: 6px; }
+
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 9px 14px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--text-2); }
+.stats b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 1000px) {
+  main { grid-template-columns: 1fr; grid-template-rows: 55vh 70vh; overflow-y: auto; }
+  .panel + .panel { border-left: 0; border-top: 1px solid var(--line); }
+}

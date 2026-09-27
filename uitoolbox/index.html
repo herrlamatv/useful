@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI ToolBox</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="eyebrow keep">herrlamatv / useful</span>
+    <span class="top-right"><span class="eyebrow keep">UI ToolBox</span><span data-lang-switch></span></span>
+  </div>
+
+  <div class="intro">
+    <h1>UI ToolBox</h1>
+    <p data-i18n="intro"></p>
+  </div>
+
+  <nav class="list big">
+    <a href="animations/index.html">
+      <span class="glyph">~</span>
+      <span><div class="t">Animations</div><div class="d" data-i18n="animDesc"></div></span>
+      <span><span class="count">8</span><span class="go">→</span></span>
+    </a>
+    <a href="code/index.html">
+      <span class="glyph">&lt;/&gt;</span>
+      <span><div class="t">Code</div><div class="d" data-i18n="codeDesc"></div></span>
+      <span><span class="count">11</span><span class="go">→</span></span>
+    </a>
+  </nav>
+
+  <footer>herrlamatv · useful</footer>
+</div>
+<script src="i18n.js"></script>
+<script>
+I18N.add({
+  en: {
+    intro: 'Small websites built with HTML, CSS and JavaScript. No libraries, no build step – just open them, everything runs offline.',
+    animDesc: 'Canvas effects to play with – matrix, particles, fireworks, Game of Life and more',
+    codeDesc: 'Tools for web development – editor, CSS generators, regex, JSON, colours'
+  },
+  de: {
+    intro: 'Kleine Websites aus HTML, CSS und JavaScript. Keine Bibliotheken, kein Build – einfach öffnen, alles läuft offline.',
+    animDesc: 'Canvas-Effekte zum Rumspielen – Matrix, Partikel, Feuerwerk, Game of Life und mehr',
+    codeDesc: 'Werkzeuge für Web-Entwicklung – Editor, CSS-Generatoren, Regex, JSON, Farben'
+  }
+});
+</script>
+</body>
+</html>

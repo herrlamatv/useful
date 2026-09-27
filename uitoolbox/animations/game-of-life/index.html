@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Game of Life</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🧬 Game of Life</h1><span data-lang-switch></span></div>
+  <p class="info" id="info">Generation 0 · Population 0</p>
+  <div class="row">
+    <button id="play">Start</button>
+    <button id="step" data-i18n="step">Step</button>
+  </div>
+  <div class="row">
+    <button id="random" data-i18n="random">Random</button>
+    <button id="clear" data-i18n="clear">Clear</button>
+  </div>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="1" max="60" value="12"></label>
+  <label><span data-i18n="cellSize">Cell size</span> <input type="range" id="size" min="4" max="30" value="12"></label>
+  <label><span data-i18n="pattern">Pattern</span>
+    <select id="pattern">
+      <option value="" data-i18n="insert">insert…</option>
+      <option value="glider">Glider</option>
+      <option value="gun">Gosper Glider Gun</option>
+      <option value="pulsar">Pulsar</option>
+      <option value="lwss">LWSS</option>
+      <option value="rpent">R-Pentomino</option>
+    </select>
+  </label>
+  <p class="hint" data-i18n="hint">Click &amp; drag = draw / erase cells</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animations – UI ToolBox</title>
+<link rel="stylesheet" href="../theme.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../index.html" data-i18n="back"></a>
+    <span class="top-right"><span class="eyebrow keep">uitoolbox / animations</span><span data-lang-switch></span></span>
+  </div>
+
+  <div class="intro">
+    <h1>Animations</h1>
+    <p data-i18n="intro"></p>
+  </div>
+
+  <section class="group">
+    <span class="eyebrow" data-i18n="gEffects"></span>
+    <nav class="list">
+      <a href="matrix-rain/index.html"><span class="glyph">01</span><span><div class="t">Matrix Rain</div><div class="d" data-i18n="matrix"></div></span><span class="go">→</span></a>
+      <a href="particles/index.html"><span class="glyph">·:·</span><span><div class="t" data-i18n="particlesT"></div><div class="d" data-i18n="particles"></div></span><span class="go">→</span></a>
+      <a href="starfield/index.html"><span class="glyph">✳</span><span><div class="t">Starfield</div><div class="d" data-i18n="starfield"></div></span><span class="go">→</span></a>
+      <a href="fireworks/index.html"><span class="glyph">✺</span><span><div class="t" data-i18n="fireworksT"></div><div class="d" data-i18n="fireworks"></div></span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  <section class="group">
+    <span class="eyebrow" data-i18n="gMath"></span>
+    <nav class="list">
+      <a href="flow-field/index.html"><span class="glyph">≋</span><span><div class="t">Flow Field</div><div class="d" data-i18n="flow"></div></span><span class="go">→</span></a>
+      <a href="game-of-life/index.html"><span class="glyph">▦</span><span><div class="t">Game of Life</div><div class="d" data-i18n="life"></div></span><span class="go">→</span></a>
+      <a href="fractal-tree/index.html"><span class="glyph">Y</span><span><div class="t" data-i18n="treeT"></div><div class="d" data-i18n="tree"></div></span><span class="go">→</span></a>
+      <a href="spirograph/index.html"><span class="glyph">∞</span><span><div class="t">Spirograph</div><div class="d" data-i18n="spiro"></div></span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  <footer>herrlamatv · useful</footer>
+</div>
+<script src="../i18n.js"></script>
+<script>
+I18N.add({
+  en: {
+    back: '← Overview',
+    intro: 'Interactive canvas effects. Every page has a small panel with sliders – try the mouse, clicks and keyboard.',
+    gEffects: 'Effects', gMath: 'Generative & maths',
+    matrix: 'Falling characters – colour, speed, charset, your own text',
+    particlesT: 'Particles', particles: 'Network of dots that follows or avoids the mouse',
+    starfield: 'Warp flight through the stars – mouse steers, space bar for hyperspace',
+    fireworksT: 'Fireworks', fireworks: 'Click to launch or use auto mode – with gravity and afterglow',
+    flow: 'Thousands of lines following a noise flow field',
+    life: 'Conway’s cellular automaton – paint cells, load patterns, watch',
+    treeT: 'Fractal Tree', tree: 'Recursive tree in the wind – set angle, depth and length',
+    spiro: 'Gear curves and Lissajous figures that draw themselves'
+  },
+  de: {
+    back: '← Übersicht',
+    intro: 'Interaktive Effekte auf Canvas. Jede Seite hat ein kleines Panel mit Reglern – Maus, Klicks und Tastatur ausprobieren.',
+    gEffects: 'Effekte', gMath: 'Generativ & Mathe',
+    matrix: 'Fallende Zeichen – Farbe, Tempo, Zeichensatz, eigener Text',
+    particlesT: 'Partikel', particles: 'Netzwerk aus Punkten, das der Maus folgt oder ausweicht',
+    starfield: 'Warp-Flug durch Sterne – Maus lenkt, Leertaste für Hyperspace',
+    fireworksT: 'Feuerwerk', fireworks: 'Klicken zum Zünden oder Automatik – mit Schwerkraft und Nachglühen',
+    flow: 'Tausende Linien folgen einem Noise-Strömungsfeld',
+    life: 'Conways Zellautomat – Zellen malen, Muster laden, zusehen',
+    treeT: 'Fraktal-Baum', tree: 'Rekursiver Baum im Wind – Winkel, Tiefe und Länge einstellen',
+    spiro: 'Zahnrad-Kurven und Lissajous-Figuren, die sich selbst zeichnen'
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Fractal Tree</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🌳 Fractal Tree</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="angle">Angle</span> <input type="range" id="angle" min="0" max="90" value="24"></label>
+  <label><span data-i18n="depth">Depth</span> <input type="range" id="depth" min="1" max="12" value="10"></label>
+  <label><span data-i18n="factor">Length factor</span> <input type="range" id="factor" min="0.5" max="0.85" step="0.01" value="0.72"></label>
+  <label><span data-i18n="thick">Trunk width</span> <input type="range" id="thick" min="2" max="30" value="14"></label>
+  <label><span data-i18n="leaves">Leaves</span>
+    <select id="leaves"><option value="green" data-i18n="green">green</option><option value="pink" data-i18n="pink">pink (blossom)</option><option value="autumn" data-i18n="autumn">autumn</option></select>
+  </label>
+  <label><input type="checkbox" id="wind" checked> <span data-i18n="wind">Wind</span></label>
+  <div class="row">
+    <button id="random" data-i18n="random">Random</button>
+    <button id="sym" data-i18n="sym">Symmetric</button>
+  </div>
+  <p class="hint" data-i18n="hint">“Random” = new variation per branch</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

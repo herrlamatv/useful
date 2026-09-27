@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="docTitle">JSON Formatter</title>
+<link rel="stylesheet" href="../../theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../index.html" class="back" data-i18n="back">← Overview</a>
+  <h1>JSON Formatter</h1>
+  <label class="indent"><span data-i18n="indent">Indent</span>
+    <select id="indent">
+      <option value="2" data-i18n="spaces2">2 spaces</option>
+      <option value="4" data-i18n="spaces4">4 spaces</option>
+      <option value="tab" data-i18n="tab">Tab</option>
+    </select>
+  </label>
+  <button id="format" class="primary" title="Ctrl+Enter" data-i18n="format" data-i18n-attr="title:formatHint">Format</button>
+  <button id="minify" data-i18n="minify">Minify</button>
+  <button id="validate" data-i18n="validate">Validate</button>
+  <button id="sort" data-i18n="sort">Sort</button>
+  <button id="sample" data-i18n="sample">Load example</button>
+  <button id="clear" data-i18n="clear">Clear</button>
+  <span data-lang-switch></span>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="code-head">
+      <span class="eyebrow" data-i18n="input">Input</span>
+      <span class="muted" id="cursorPos">Ln 1, Col 1</span>
+    </div>
+    <div class="input-wrap">
+      <div class="gutter" id="gutter" aria-hidden="true"></div>
+      <textarea id="input" spellcheck="false" placeholder="Paste JSON here …" data-i18n-attr="placeholder:inputPh"></textarea>
+    </div>
+    <div class="status" id="status">Ready.</div>
+  </section>
+
+  <section class="panel">
+    <div class="code-head">
+      <div class="tabs seg">
+        <button class="tab active" data-tab="code" data-i18n="tabCode">Code</button>
+        <button class="tab" data-tab="tree" data-i18n="tabTree">Tree</button>
+      </div>
+      <div class="tree-actions" id="treeActions" hidden>
+        <button id="expandAll" data-i18n="expandAll">Expand all</button>
+        <button id="collapseAll" data-i18n="collapseAll">Collapse all</button>
+      </div>
+      <button id="copy" data-i18n="copy">Copy</button>
+    </div>
+    <pre id="output"></pre>
+    <div class="tree" id="tree" hidden></div>
+    <div class="stats" id="stats"></div>
+  </section>
+</main>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

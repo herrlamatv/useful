@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="docTitle">Cubic-Bezier Editor</title>
+<link rel="stylesheet" href="../../theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../index.html" class="back" data-i18n="back">← Overview</a>
+  <h1 data-i18n="heading">Cubic-Bezier Editor</h1>
+  <button id="play" class="primary" data-i18n="play">Play</button>
+  <button id="resetAll" data-i18n="reset">Reset</button>
+  <span data-lang-switch></span>
+</header>
+
+<main>
+  <aside id="controls">
+    <details open>
+      <summary data-i18n="controlPoints">Control points</summary>
+      <div class="rows">
+        <div class="nums">
+          <label>x1 <input type="number" id="n0" min="0" max="1" step="0.01"></label>
+          <label>y1 <input type="number" id="n1" min="-0.8" max="1.8" step="0.01"></label>
+          <label>x2 <input type="number" id="n2" min="0" max="1" step="0.01"></label>
+          <label>y2 <input type="number" id="n3" min="-0.8" max="1.8" step="0.01"></label>
+        </div>
+        <p class="hint" data-i18n="rangeHint">x: 0 – 1, y: −0.8 – 1.8 (values outside 0 – 1 cause overshoot).</p>
+      </div>
+    </details>
+    <details open>
+      <summary data-i18n="presets">Presets</summary>
+      <div class="rows"><div class="presets" id="presets"></div></div>
+    </details>
+    <details open>
+      <summary data-i18n="compareTitle">Comparison &amp; timing</summary>
+      <div class="rows">
+        <div class="row"><span data-i18n="compare">Compare with</span><select id="compare"></select></div>
+        <div class="row"><span data-i18n="duration">Duration</span><input type="range" id="dur" min="0.2" max="4" step="0.1"><output id="durOut"></output></div>
+        <label class="check"><input type="checkbox" id="auto" checked> <span data-i18n="autoRepeat">Repeat automatically</span></label>
+      </div>
+    </details>
+  </aside>
+
+  <section class="preview-area" id="previewArea">
+    <svg id="editor" viewBox="0 0 300 420" aria-label="Bezier curve" data-i18n-attr="aria-label:curveLabel">
+      <rect x="70" y="130" width="160" height="160" class="frame"/>
+      <g id="gridLines"></g>
+      <path id="cmpCurve" class="cmp-curve"/>
+      <line id="l1" class="arm"/>
+      <line id="l2" class="arm"/>
+      <path id="curve" class="curve"/>
+      <circle id="p1" r="10" class="pt pt1"/>
+      <circle id="p2" r="10" class="pt pt2"/>
+    </svg>
+    <div class="race">
+      <div class="track"><span class="lbl" data-i18n="yourCurve">Your curve</span><div class="runner mine" id="runMine"></div></div>
+      <div class="track"><span class="lbl" id="cmpLbl">linear</span><div class="runner cmp" id="runCmp"></div></div>
+    </div>
+  </section>
+
+  <section class="code-area">
+    <div class="code-head">
+      <span class="eyebrow" data-i18n="generated">Generated CSS</span>
+      <button id="copy" data-i18n="copy">Copy</button>
+    </div>
+    <pre id="code"></pre>
+  </section>
+</main>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

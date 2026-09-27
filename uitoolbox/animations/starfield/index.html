@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Starfield</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🌌 Starfield</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="0.1" max="5" step="0.1" value="1"></label>
+  <label><span data-i18n="count">Number of stars</span> <input type="range" id="count" min="100" max="3000" step="50" value="800"></label>
+  <label><span data-i18n="color">Colour</span>
+    <select id="color"><option value="white" data-i18n="white">white</option><option value="color" data-i18n="colorful">colourful</option></select>
+  </label>
+  <p class="hint" data-i18n-html="hint">Mouse = steer direction<br>Hold space = hyperspace</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

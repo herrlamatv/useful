@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Fireworks</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🎆 Fireworks</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="count">Particles per burst</span> <input type="range" id="count" min="20" max="400" value="120"></label>
+  <label><span data-i18n="gravity">Gravity</span> <input type="range" id="gravity" min="0" max="0.2" step="0.005" value="0.06"></label>
+  <label><input type="checkbox" id="auto" checked> <span data-i18n="auto">Auto</span></label>
+  <p class="hint" data-i18n-html="hint">Click = launch rocket<br>Shapes: sphere, ring, heart</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

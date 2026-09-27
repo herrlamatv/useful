@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Particle Network</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">✨ Particles</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="count">Count</span> <input type="range" id="count" min="20" max="400" value="140"></label>
+  <label><span data-i18n="dist">Link distance</span> <input type="range" id="dist" min="40" max="250" value="130"></label>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="0" max="4" step="0.1" value="1"></label>
+  <label><span data-i18n="color">Colour</span> <input type="color" id="color" value="#58a6ff"></label>
+  <label><input type="checkbox" id="rainbow"> <span data-i18n="rainbow">Rainbow</span></label>
+  <label><span data-i18n="mouse">Mouse</span>
+    <select id="mode"><option value="attract" data-i18n="attract">attract</option><option value="repel" data-i18n="repel">repel</option><option value="none" data-i18n="off">off</option></select>
+  </label>
+  <p class="hint" data-i18n="hint">Click = add particles</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

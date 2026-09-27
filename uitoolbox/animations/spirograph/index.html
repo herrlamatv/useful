@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Spirograph</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🌀 Spirograph</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="mode">Mode</span>
+    <select id="mode">
+      <option value="hypo">Hypotrochoid</option>
+      <option value="epi">Epitrochoid</option>
+      <option value="liss">Lissajous</option>
+    </select>
+  </label>
+  <label><span data-i18n="R">R (fixed circle)</span> <input type="range" id="R" min="20" max="200" value="120"></label>
+  <label><span data-i18n="r">r (rolling circle)</span> <input type="range" id="r" min="5" max="150" value="45"></label>
+  <label><span data-i18n="d">d (pen offset)</span> <input type="range" id="d" min="0" max="150" value="70"></label>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="1" max="30" value="6"></label>
+  <label><span data-i18n="width">Line width</span> <input type="range" id="width" min="0.5" max="5" step="0.5" value="1.5"></label>
+  <label><span data-i18n="color">Colour</span> <input type="color" id="color" value="#58a6ff"></label>
+  <label><input type="checkbox" id="rainbow" checked> <span data-i18n="rainbow">Rainbow</span></label>
+  <label><input type="checkbox" id="gears" checked> <span data-i18n="gears">Show circles</span></label>
+  <div class="row">
+    <button id="redraw" data-i18n="redraw">Redraw</button>
+    <button id="random" data-i18n="random">Random</button>
+  </div>
+  <p class="hint" id="info"></p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

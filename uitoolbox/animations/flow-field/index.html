@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Flow Field</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<div class="panel">
+  <div class="panel-head"><h1 data-i18n="heading">🌊 Flow Field</h1><span data-lang-switch></span></div>
+  <label><span data-i18n="palette">Palette</span>
+    <select id="palette">
+      <option value="ozean" data-i18n="ocean">Ocean</option>
+      <option value="sonne" data-i18n="sunset">Sunset</option>
+      <option value="wald" data-i18n="forest">Forest</option>
+      <option value="neon">Neon</option>
+      <option value="mono">Mono</option>
+    </select>
+  </label>
+  <label><span data-i18n="scale">Noise scale</span> <input type="range" id="scale" min="0.0005" max="0.01" step="0.0005" value="0.003"></label>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="0.2" max="4" step="0.1" value="1.5"></label>
+  <label><span data-i18n="count">Particles</span> <input type="range" id="count" min="500" max="8000" step="100" value="3000"></label>
+  <div class="row"><button id="new" data-i18n="new">New</button></div>
+  <p class="hint" data-i18n="hint">Lines build up over time</p>
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

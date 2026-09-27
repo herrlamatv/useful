@@ -1,0 +1,43 @@
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; }
+button:disabled { opacity: .45; cursor: default; }
+
+main { flex: 1; display: grid; grid-template-columns: 320px 1fr 340px; min-height: 0; }
+
+aside { overflow-y: auto; padding: 14px; border-right: 1px solid var(--line); }
+details .rows { padding: 2px 13px 13px; display: flex; flex-direction: column; gap: 9px; }
+.row { display: grid; grid-template-columns: 90px 1fr 54px; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-2); }
+.row input[type=range] { width: 100%; }
+.row select, .row input[type=text], .row input[type=number] { min-width: 0; grid-column: 2 / 4; }
+.row output { text-align: right; font-size: 12px; color: var(--text); }
+.hint { margin: 0; font-size: 12px; color: var(--text-2); line-height: 1.45; }
+.seg button { flex: 1 1 auto; font-size: 11.5px; }
+.invalid { border-color: var(--red) !important; background: var(--red-soft) !important; }
+
+.preview-area { display: grid; place-items: center; overflow: hidden; background: var(--bg); }
+
+.code-area { display: flex; flex-direction: column; border-left: 1px solid var(--line); background: var(--surface); min-height: 0; }
+.code-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line-soft); }
+pre { flex: 1; margin: 0; padding: 14px; overflow: auto; font-size: 12.5px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+
+@media (max-width: 1000px) {
+  main { grid-template-columns: 1fr; grid-template-rows: auto 420px auto; overflow-y: auto; }
+  aside, .code-area { border: 0; }
+}
+
+/* Flexbox playground */
+.group { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: var(--text-2); }
+.group .label { font-family: var(--mono); font-size: 11.5px; }
+.rows-inner { display: flex; flex-direction: column; gap: 9px; }
+.preview-area { padding: 24px; }
+#container {
+  display: flex; width: 92%; height: 85%; min-width: 120px; min-height: 120px; resize: both; overflow: auto;
+  padding: 10px; border: 1px dashed var(--text-3); border-radius: var(--r-md); background: var(--surface);
+}
+.item {
+  display: grid; place-items: center; min-width: 48px; border-radius: var(--r-sm); font-weight: 600; color: #fff;
+  cursor: pointer; user-select: none; outline: 2px solid transparent; outline-offset: 2px;
+  box-shadow: var(--shadow-sm); transition: outline-color .15s;
+}
+.item.sel { outline-color: var(--text); }
+.item small { display: block; font-weight: 400; font-size: .7rem; opacity: .85; }

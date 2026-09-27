@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="docTitle">Grid Generator</title>
+<link rel="stylesheet" href="../../theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../index.html" class="back" data-i18n="back">← Overview</a>
+  <h1 data-i18n="heading">Grid Generator</h1>
+  <button id="clearAreas" data-i18n="clearAreas">Clear areas</button>
+  <button id="resetAll" data-i18n="reset">Reset</button>
+  <span data-lang-switch></span>
+</header>
+
+<main>
+  <aside id="controls">
+    <details open>
+      <summary data-i18n="gridTitle">Grid</summary>
+      <div class="rows">
+        <div class="row"><span data-i18n="cols">Columns</span><input type="range" id="cols" min="1" max="12" step="1"><output id="colsOut"></output></div>
+        <div class="row"><span data-i18n="rows">Rows</span><input type="range" id="rows" min="1" max="12" step="1"><output id="rowsOut"></output></div>
+        <div class="row"><span>column-gap</span><input type="range" id="colGap" min="0" max="60" step="1"><output id="colGapOut"></output></div>
+        <div class="row"><span>row-gap</span><input type="range" id="rowGap" min="0" max="60" step="1"><output id="rowGapOut"></output></div>
+      </div>
+    </details>
+    <details open>
+      <summary data-i18n="colSizes">Column sizes</summary>
+      <div class="rows sizes" id="colSizes"></div>
+    </details>
+    <details open>
+      <summary data-i18n="rowSizes">Row sizes</summary>
+      <div class="rows sizes" id="rowSizes"></div>
+    </details>
+    <details open>
+      <summary data-i18n="areas">Areas</summary>
+      <div class="rows">
+        <p class="hint" data-i18n="areaHint">Drag across empty cells in the preview to create an area.</p>
+        <p class="hint status" id="status"></p>
+        <div id="areaList" class="area-list"></div>
+      </div>
+    </details>
+  </aside>
+
+  <section class="preview-area" id="previewArea">
+    <div id="grid"></div>
+  </section>
+
+  <section class="code-area">
+    <div class="code-head">
+      <span class="eyebrow">CSS</span>
+      <button id="copyCss" data-i18n="copy">Copy</button>
+    </div>
+    <pre id="cssCode"></pre>
+    <div class="code-head split">
+      <span class="eyebrow">HTML</span>
+      <button id="copyHtml" data-i18n="copy">Copy</button>
+    </div>
+    <pre id="htmlCode"></pre>
+  </section>
+</main>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

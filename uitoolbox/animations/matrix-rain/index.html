@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="title">Matrix Rain</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<a href="../index.html" class="back" data-i18n="back">← Overview</a>
+
+<button id="toggle" title="Settings" data-i18n-attr="title:settings">⚙</button>
+<div class="panel" id="panel">
+  <div class="panel-head"><span data-lang-switch></span></div>
+  <label><span data-i18n="color">Colour</span> <input type="color" id="color" value="#00ff41"></label>
+  <label><span data-i18n="speed">Speed</span> <input type="range" id="speed" min="10" max="100" value="50"></label>
+  <label><span data-i18n="fontSize">Font size</span> <input type="range" id="size" min="10" max="36" value="16"></label>
+  <label><span data-i18n="trail">Trail</span> <input type="range" id="trail" min="2" max="30" value="8"></label>
+  <label><span data-i18n="chars">Characters</span>
+    <select id="charset">
+      <option value="matrix" data-i18n="csMatrix">Katakana + digits</option>
+      <option value="binary" data-i18n="csBinary">Binary 0/1</option>
+      <option value="hex">Hex</option>
+      <option value="latin">A–Z</option>
+    </select>
+  </label>
+  <label><input type="checkbox" id="rainbow"> <span data-i18n="rainbow">Rainbow</span></label>
+  <input type="text" id="message" placeholder="Custom text (optional)" data-i18n-attr="placeholder:message" maxlength="40">
+</div>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code – UI ToolBox</title>
+<link rel="stylesheet" href="../theme.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../index.html" data-i18n="back"></a>
+    <span class="top-right"><span class="eyebrow keep">uitoolbox / code</span><span data-lang-switch></span></span>
+  </div>
+
+  <div class="intro">
+    <h1>Code</h1>
+    <p data-i18n="intro"></p>
+  </div>
+
+  <section class="group">
+    <span class="eyebrow" data-i18n="gWrite"></span>
+    <nav class="list">
+      <a href="code-editor/index.html"><span class="glyph">&lt;/&gt;</span><span><div class="t">Code Editor</div><div class="d" data-i18n="editor"></div></span><span class="go">→</span></a>
+      <a href="regex-tester/index.html"><span class="glyph">.*</span><span><div class="t">Regex Tester</div><div class="d" data-i18n="regex"></div></span><span class="go">→</span></a>
+      <a href="json-formatter/index.html"><span class="glyph">{ }</span><span><div class="t">JSON Formatter</div><div class="d" data-i18n="json"></div></span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  <section class="group">
+    <span class="eyebrow" data-i18n="gCss"></span>
+    <nav class="list">
+      <a href="css-playground/index.html"><span class="glyph">Aa</span><span><div class="t">CSS Playground</div><div class="d" data-i18n="playground"></div></span><span class="go">→</span></a>
+      <a href="gradient-generator/index.html"><span class="glyph">▤</span><span><div class="t">Gradient Generator</div><div class="d" data-i18n="gradient"></div></span><span class="go">→</span></a>
+      <a href="flexbox-playground/index.html"><span class="glyph">⇆</span><span><div class="t">Flexbox Playground</div><div class="d" data-i18n="flex"></div></span><span class="go">→</span></a>
+      <a href="grid-generator/index.html"><span class="glyph">#</span><span><div class="t">Grid Generator</div><div class="d" data-i18n="grid"></div></span><span class="go">→</span></a>
+      <a href="cubic-bezier/index.html"><span class="glyph">∿</span><span><div class="t">Cubic Bezier</div><div class="d" data-i18n="bezier"></div></span><span class="go">→</span></a>
+      <a href="clip-path-maker/index.html"><span class="glyph">◇</span><span><div class="t">Clip Path Maker</div><div class="d" data-i18n="clip"></div></span><span class="go">→</span></a>
+      <a href="loaders/index.html"><span class="glyph">◌</span><span><div class="t" data-i18n="loadersT"></div><div class="d" data-i18n="loaders"></div></span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  <section class="group">
+    <span class="eyebrow" data-i18n="gColor"></span>
+    <nav class="list">
+      <a href="color-tools/index.html"><span class="glyph">●</span><span><div class="t" data-i18n="colorT"></div><div class="d" data-i18n="color"></div></span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  <footer>herrlamatv · useful</footer>
+</div>
+<script src="../i18n.js"></script>
+<script>
+I18N.add({
+  en: {
+    back: '← Overview',
+    intro: 'Small tools for web development. Everything runs locally in your browser, nothing gets uploaded.',
+    gWrite: 'Write & test', gCss: 'CSS generators', gColor: 'Colour',
+    editor: 'HTML, CSS and JS live with preview, console and export',
+    regex: 'Matches highlighted live, groups, replace, cheat sheet',
+    json: 'Format, minify, validate – with error position and tree view',
+    playground: 'Shadow, radius, gradient, transform and filter with sliders',
+    gradient: 'Linear, radial, conic – just drag the colour stops',
+    flex: 'Try out containers and items, take the CSS with you',
+    grid: 'Set up a grid, drag areas, copy CSS and HTML',
+    bezier: 'Drag your own easing curves and race them against each other',
+    clip: 'Shapes from points – star, arrow, speech bubble and more',
+    loadersT: 'CSS Loaders', loaders: 'Twelve loading animations without JavaScript, click to copy',
+    colorT: 'Colour Tools', color: 'Convert HEX, RGB, HSL, palettes, WCAG contrast'
+  },
+  de: {
+    back: '← Übersicht',
+    intro: 'Kleine Werkzeuge für Web-Entwicklung. Alles läuft lokal im Browser, nichts wird hochgeladen.',
+    gWrite: 'Schreiben & Testen', gCss: 'CSS Generatoren', gColor: 'Farbe',
+    editor: 'HTML, CSS und JS live mit Vorschau, Konsole und Export',
+    regex: 'Treffer live markiert, Gruppen, Ersetzen, Spickzettel',
+    json: 'Formatieren, minifizieren, prüfen – mit Fehlerstelle und Baum',
+    playground: 'Schatten, Radius, Verlauf, Transform und Filter per Regler',
+    gradient: 'Linear, radial, conic – Farbstopps einfach ziehen',
+    flex: 'Container und Items durchprobieren, CSS mitnehmen',
+    grid: 'Raster anlegen, Bereiche aufziehen, CSS und HTML kopieren',
+    bezier: 'Eigene Easing-Kurven ziehen und gegeneinander antreten lassen',
+    clip: 'Formen aus Punkten – Stern, Pfeil, Sprechblase und mehr',
+    loadersT: 'CSS Loader', loaders: 'Zwölf Ladeanimationen ohne JavaScript, Klick kopiert',
+    colorT: 'Farb-Tools', color: 'HEX, RGB, HSL umrechnen, Paletten, Kontrast nach WCAG'
+  }
+});
+</script>
+</body>
+</html>

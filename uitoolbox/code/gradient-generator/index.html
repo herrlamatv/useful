@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="docTitle">Gradient Generator</title>
+<link rel="stylesheet" href="../../theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../index.html" class="back" data-i18n="back">← Overview</a>
+  <h1 data-i18n="heading">Gradient Generator</h1>
+  <button id="random" data-i18n="random">Random</button>
+  <button id="resetAll" data-i18n="reset">Reset</button>
+  <span data-lang-switch></span>
+</header>
+
+<main>
+  <aside id="controls">
+    <details open>
+      <summary data-i18n="type">Type</summary>
+      <div class="rows">
+        <div class="seg" id="typeSeg">
+          <button data-type="linear">Linear</button>
+          <button data-type="radial">Radial</button>
+          <button data-type="conic">Conic</button>
+        </div>
+        <div class="row" id="angleRow"><span data-i18n="angle">Angle</span><input type="range" id="angle" min="0" max="360" step="1"><output id="angleOut"></output></div>
+        <div class="row" id="shapeRow"><span data-i18n="shape">Shape</span>
+          <select id="shape"><option value="circle">circle</option><option value="ellipse">ellipse</option></select>
+        </div>
+        <div class="row" id="posRow"><span data-i18n="position">Position</span>
+          <select id="pos">
+            <option>center</option><option>top</option><option>bottom</option><option>left</option><option>right</option>
+            <option>top left</option><option>top right</option><option>bottom left</option><option>bottom right</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <details open>
+      <summary data-i18n="colourStop">Colour stop</summary>
+      <div class="rows">
+        <p class="hint" data-i18n="hint">Click the bar = new stop, drag = move, Del = delete.</p>
+        <div class="row"><span data-i18n="colour">Colour</span><input type="color" id="stopColor"><span></span></div>
+        <div class="row"><span data-i18n="alpha">Alpha</span><input type="range" id="stopAlpha" min="0" max="100" step="1"><output id="alphaOut"></output></div>
+        <div class="row"><span data-i18n="position">Position</span><input type="range" id="stopPos" min="0" max="100" step="1"><output id="posOut"></output></div>
+        <button id="delStop" data-i18n="delStop">Delete stop</button>
+      </div>
+    </details>
+
+    <details open>
+      <summary data-i18n="presets">Presets</summary>
+      <div class="rows"><div class="presets" id="presets"></div></div>
+    </details>
+  </aside>
+
+  <section class="preview-area" id="previewArea">
+    <div class="stopbar" id="bar">
+      <div class="bar-fill" id="barFill"></div>
+      <div class="handles" id="handles"></div>
+    </div>
+    <div id="preview"></div>
+  </section>
+
+  <section class="code-area">
+    <div class="code-head">
+      <span class="eyebrow" data-i18n="generated">Generated CSS</span>
+      <button id="copy" data-i18n="copy">Copy</button>
+    </div>
+    <pre id="code"></pre>
+  </section>
+</main>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

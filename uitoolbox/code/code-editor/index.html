@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="docTitle">Live Code Editor</title>
+<link rel="stylesheet" href="../../theme.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a href="../index.html" class="back" data-i18n="back">← Overview</a>
+  <h1 data-i18n="heading">Live Code Editor</h1>
+  <select id="template" data-i18n-attr="title:loadTemplate">
+    <option value="" data-i18n="loadTemplateOpt">Load template…</option>
+    <option value="hello" data-i18n="tplHello">Hello World</option>
+    <option value="button" data-i18n="tplButton">Animated button</option>
+    <option value="card" data-i18n="tplCard">Glass card</option>
+    <option value="bounce" data-i18n="tplBounce">Bouncing ball</option>
+    <option value="clock" data-i18n="tplClock">Digital clock (JS)</option>
+  </select>
+  <label class="check"><input type="checkbox" id="autorun" checked> <span data-i18n="autorun">Auto-run</span></label>
+  <button id="run" class="primary" data-i18n="run" data-i18n-attr="title:runHint">Run</button>
+  <button id="layout" data-i18n="layout" data-i18n-attr="title:layoutHint">Layout</button>
+  <button id="export" data-i18n="export" data-i18n-attr="title:exportHint">Export</button>
+  <button id="reset" class="danger" data-i18n="reset">Reset</button>
+  <span data-lang-switch></span>
+</header>
+
+<main id="workspace" class="layout-side">
+  <section class="editors">
+    <div class="pane">
+      <div class="pane-title html">HTML</div>
+      <textarea id="html" spellcheck="false"></textarea>
+    </div>
+    <div class="pane">
+      <div class="pane-title css">CSS</div>
+      <textarea id="css" spellcheck="false"></textarea>
+    </div>
+    <div class="pane">
+      <div class="pane-title js">JS</div>
+      <textarea id="js" spellcheck="false"></textarea>
+    </div>
+  </section>
+  <section class="preview">
+    <div class="pane-title" data-i18n="preview">Preview</div>
+    <iframe id="output" sandbox="allow-scripts allow-modals" data-i18n-attr="title:preview"></iframe>
+    <div class="console" id="console"></div>
+  </section>
+</main>
+
+<script src="../../i18n.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
