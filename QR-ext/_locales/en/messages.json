@@ -1,0 +1,30 @@
+{
+  "extName": {
+    "message": "QR-ext",
+    "description": "Extension name, shown in the toolbar and on chrome://extensions"
+  },
+  "extDescription": {
+    "message": "QR codes for the current page, links, text, Wi-Fi, email, phone and contacts — as PNG or SVG. by herrlamatv",
+    "description": "Extension description on chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "Create QR code",
+    "description": "Tooltip of the toolbar button"
+  },
+  "menuLink": {
+    "message": "QR code for this link",
+    "description": "Right-click on a link"
+  },
+  "menuSelection": {
+    "message": "QR code for selected text",
+    "description": "Right-click on selected text"
+  },
+  "menuImage": {
+    "message": "QR code for the image address",
+    "description": "Right-click on an image"
+  },
+  "menuPage": {
+    "message": "QR code for this page",
+    "description": "Right-click anywhere on the page"
+  }
+}

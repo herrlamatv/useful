@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="app.title">QR-ext</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="wide">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="QR-ext"></div>
+        <div>
+          <h1>QR-ext</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <div class="lang-switch" id="lang"></div>
+    </header>
+
+    <div class="layout">
+      <div>
+        <div class="panel" id="editorPanel"></div>
+        <div class="panel" id="stylePanel"></div>
+      </div>
+      <div class="sticky">
+        <div class="panel" id="previewPanel"></div>
+      </div>
+    </div>
+
+    <div class="below">
+      <div class="panel" id="historyPanel"></div>
+      <div class="panel" id="settingsPanel"></div>
+    </div>
+
+    <footer>
+      <span data-i18n="wide.privacy">Everything happens in your browser – nothing is uploaded.</span>
+      <span data-i18n="app.footer">QR-ext · by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="qr.js"></script>
+  </body>
+</html>

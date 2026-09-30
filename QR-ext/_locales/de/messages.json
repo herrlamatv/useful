@@ -1,0 +1,30 @@
+{
+  "extName": {
+    "message": "QR-ext",
+    "description": "Name der Erweiterung, sichtbar in der Symbolleiste und unter chrome://extensions"
+  },
+  "extDescription": {
+    "message": "QR-Codes für die aktuelle Seite, Links, Text, WLAN, E-Mail, Telefon und Kontakte — als PNG oder SVG. by herrlamatv",
+    "description": "Beschreibung der Erweiterung unter chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "QR-Code erstellen",
+    "description": "Tooltip der Schaltfläche in der Symbolleiste"
+  },
+  "menuLink": {
+    "message": "QR-Code für diesen Link",
+    "description": "Rechtsklick auf einen Link"
+  },
+  "menuSelection": {
+    "message": "QR-Code für markierten Text",
+    "description": "Rechtsklick auf markierten Text"
+  },
+  "menuImage": {
+    "message": "QR-Code für die Bildadresse",
+    "description": "Rechtsklick auf ein Bild"
+  },
+  "menuPage": {
+    "message": "QR-Code für diese Seite",
+    "description": "Rechtsklick irgendwo auf der Seite"
+  }
+}
