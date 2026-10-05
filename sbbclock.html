@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBB Uhr</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #f6f6f6;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  svg {
+    width: min(80vmin, 500px);
+    height: auto;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .12));
+  }
+</style>
+</head>
+<body>
+<svg viewBox="-100 -100 200 200" aria-label="SBB Bahnhofsuhr">
+  <circle r="99" fill="#e8e8e8"/>
+  <circle r="96" fill="#fff"/>
+
+  <g id="ticks" fill="#111"></g>
+
+  <polygon id="hour" points="-5.2,20 5.2,20 4.2,-55 -4.2,-55" fill="#111"/>
+  <polygon id="minute" points="-4.4,20 4.4,20 3.2,-86 -3.2,-86" fill="#111"/>
+  <g id="second" fill="#eb0000">
+    <rect x="-1.2" y="-60" width="2.4" height="91"/>
+    <circle cy="-60" r="9"/>
+  </g>
+</svg>
+
+<script>
+  // 60 lines, every 5th one = 5 min marks so bigger
+  const ticks = document.getElementById('ticks');
+  for (let i = 0; i < 60; i++) {
+    const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    const isHour = i % 5 === 0;
+    const w = isHour ? 6.4 : 2.4;
+    const h = isHour ? 24 : 7.5;
+    r.setAttribute('x', -w / 2);
+    r.setAttribute('y', -90);
+    r.setAttribute('width', w);
+    r.setAttribute('height', h);
+    r.setAttribute('transform', `rotate(${i * 6})`);
+    ticks.appendChild(r);
+  }
+
+  const hourEl = document.getElementById('hour');
+  const minEl = document.getElementById('minute');
+  const secEl = document.getElementById('second');
+
+  // pointer goes around in 58.5s, then stops at 12 until the next minute starts
+  const SWEEP_MS = 58500;
+
+  function tick() {
+    const now = new Date();
+    const msInMinute = now.getSeconds() * 1000 + now.getMilliseconds();
+    const sec = Math.min(msInMinute / SWEEP_MS, 1) * 360;
+    const min = now.getMinutes() * 6;
+    const hour = (now.getHours() % 12) * 30 + now.getMinutes() * 0.5;
+
+    secEl.setAttribute('transform', `rotate(${sec})`);
+    minEl.setAttribute('transform', `rotate(${min})`);
+    hourEl.setAttribute('transform', `rotate(${hour})`);
+    requestAnimationFrame(tick);
+  }
+  tick();
+</script>
+</body>
+</html>
