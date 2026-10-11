@@ -210,10 +210,26 @@ async function buildMenus() {
   await make({ id: 'open-export', title: tr('menu.openExport'), contexts: ['action'] });
   if (!settings.enabled) return;
   await make({ id: 'add-tab', title: tr('menu.addTab'), contexts: ['action'] });
+  await make({ id: 'add-all-action', title: tr('menu.addAll'), contexts: ['action'] });
+  await make({ id: 'sep-action', type: 'separator', contexts: ['action'] });
+  await make({ id: 'menu-direct', type: 'checkbox', checked: settings.menuDirect, title: tr('menu.direct'), contexts: ['action'] });
+
+  // Chrome zeigt pro Erweiterung nur EINEN Eintrag direkt im Rechtsklick-Menü -
+  // passen zwei, landen beide im „dlplist ▸“-Untermenü. Direkt-Modus: an jeder
+  // Stelle nur ein Eintrag, „Alle Links der Seite“ gibt es dann nur am Symbol.
   await make({ id: 'add-link', title: tr('menu.addLink'), contexts: ['link'], targetUrlPatterns: ['http://*/*', 'https://*/*'] });
-  await make({ id: 'add-page', title: tr('menu.addPage'), contexts: ['page'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
-  await make({ id: 'add-all', title: tr('menu.addAll'), contexts: ['page'], documentUrlPatterns: ['*://*.youtube.com/*'] });
+  await make({ id: 'add-page', title: tr('menu.addPage'), contexts: ['page', 'video'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
+  if (!settings.menuDirect) {
+    await make({ id: 'add-all', title: tr('menu.addAll'), contexts: ['page'], documentUrlPatterns: ['*://*.youtube.com/*'] });
+  }
   await make({ id: 'add-selection', title: tr('menu.addSelection'), contexts: ['selection'] });
+}
+
+/** Seite zum Hinzufügen - in einem eingebetteten YouTube-Player lieber das Video selbst. */
+function pageUrl(info, tab) {
+  const frame = info.frameUrl ? parseLink(info.frameUrl) : null;
+  if (frame && frame.ok && (frame.cat === 'videos' || frame.cat === 'shorts')) return info.frameUrl;
+  return info.pageUrl || (tab && tab.url);
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -222,6 +238,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 async function onMenu(info, tab) {
   if (info.menuItemId === 'open-export') return chrome.runtime.openOptionsPage();
+  if (info.menuItemId === 'menu-direct') return patchSettings({ menuDirect: !!info.checked });
   const settings = await getSettings();
   if (!settings.enabled) return;
   const tr = translator(settings.language);
@@ -234,10 +251,11 @@ async function onMenu(info, tab) {
       break;
     case 'add-page':
     case 'add-tab':
-      urls = [info.pageUrl || (tab && tab.url)];
+      urls = [pageUrl(info, tab)];
       source = 'page';
       break;
-    case 'add-all': {
+    case 'add-all':
+    case 'add-all-action': {
       const links = arr(await inTab(tab, 0, collectLinks));
       urls = links.filter((u) => {
         const p = parseLink(u);
@@ -432,7 +450,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (s) {
     const before = mergeSettings(s.oldValue);
     const after = mergeSettings(s.newValue);
-    if (before.enabled !== after.enabled || before.language !== after.language) setupMenus();
+    if (before.enabled !== after.enabled || before.language !== after.language || before.menuDirect !== after.menuDirect) setupMenus();
     if (after.titles && !before.titles) fillTitlesSoon();
   }
   if (s || changes[KEYS.items]) updateBadge().catch(() => {});

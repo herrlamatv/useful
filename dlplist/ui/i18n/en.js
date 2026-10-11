@@ -42,6 +42,7 @@ export default {
   'menu.addPage': 'Add this page to dlplist',
   'menu.addAll': 'Add all video & shorts links on this page',
   'menu.addSelection': 'Add links in selection to dlplist',
+  'menu.direct': 'Right-click: add directly (no submenu)',
   'action.title': 'dlplist – {n} links waiting',
   'action.titleOff': 'dlplist (off) – {n} links waiting',
 
@@ -271,6 +272,8 @@ export default {
   'ext.titlesRetry': 'Fetch again',
   'ext.badge': 'Counter on the icon',
   'ext.badgeDesc': 'Number of links not yet exported.',
+  'ext.menuDirect': 'Directly in the right-click menu',
+  'ext.menuDirectDesc': 'One click, no hovering over “dlplist ▸”. “All video & shorts links” is then in the toolbar icon’s right-click menu. Off = everything in the submenu.',
   'ext.shortcut': 'Keyboard shortcut',
   'ext.shortcutDesc': 'Alt+Shift+D adds the current tab. Change it on the shortcuts page.',
   'ext.shortcutOpen': 'Shortcuts …',

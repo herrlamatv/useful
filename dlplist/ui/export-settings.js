@@ -425,6 +425,7 @@ export function extensionPanel(api) {
         ])
       ),
       toggleRow(t('ext.badge'), t('ext.badgeDesc'), s.badge, (v) => api.patchSettings({ badge: v })),
+      toggleRow(t('ext.menuDirect'), t('ext.menuDirectDesc'), s.menuDirect, (v) => api.patchSettings({ menuDirect: v })),
       row(
         t('ext.shortcut'),
         t('ext.shortcutDesc'),

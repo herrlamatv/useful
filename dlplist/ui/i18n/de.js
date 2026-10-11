@@ -42,6 +42,7 @@ export default {
   'menu.addPage': 'Diese Seite zu dlplist hinzufügen',
   'menu.addAll': 'Alle Video- & Shorts-Links dieser Seite hinzufügen',
   'menu.addSelection': 'Links aus der Markierung zu dlplist hinzufügen',
+  'menu.direct': 'Rechtsklick: direkt hinzufügen (ohne Untermenü)',
   'action.title': 'dlplist – {n} Links warten',
   'action.titleOff': 'dlplist (aus) – {n} Links warten',
 
@@ -271,6 +272,8 @@ export default {
   'ext.titlesRetry': 'Neu holen',
   'ext.badge': 'Zähler am Symbol',
   'ext.badgeDesc': 'Anzahl der noch nicht exportierten Links.',
+  'ext.menuDirect': 'Direkt im Rechtsklick-Menü',
+  'ext.menuDirectDesc': 'Ein Klick, ohne über „dlplist ▸“ zu fahren. „Alle Video- & Shorts-Links“ gibt es dann per Rechtsklick aufs Symbol. Aus = alles im Untermenü.',
   'ext.shortcut': 'Tastenkürzel',
   'ext.shortcutDesc': 'Alt+Shift+D fügt den aktuellen Tab hinzu. Ändern auf der Seite für Tastenkürzel.',
   'ext.shortcutOpen': 'Tastenkürzel …',

@@ -203,6 +203,7 @@ head('Liste');
 
   ok('Badge-Text', badgeText(0) === '' && badgeText(7) === '7' && badgeText(1200) === '1k+');
   ok('mergeSettings repariert Unsinn', mergeSettings({ enabled: 0, language: 'fr' }).enabled === false && mergeSettings({ language: 'fr' }).language === 'auto');
+  ok('mergeSettings: Rechtsklick direkt ist Standard', mergeSettings({}).menuDirect === true && mergeSettings({ menuDirect: 0 }).menuDirect === false);
   let h = [];
   for (let i = 0; i < 14; i++) h = addHistory(h, { at: i });
   ok('Verlauf hält die letzten 10', h.length === 10 && h[0].at === 13);

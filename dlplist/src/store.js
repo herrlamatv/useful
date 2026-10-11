@@ -4,7 +4,7 @@
  * chrome.storage.local, mehrere Schlüssel, damit eine neue Zeile nicht jedes
  * Mal die Einstellungen mitschreibt:
  *   dlplist.items     [Eintrag, …]
- *   dlplist.settings  { enabled, language, toast, titles, badge }
+ *   dlplist.settings  { enabled, language, toast, titles, badge, menuDirect }
  *   dlplist.export    Export-Einstellungen (siehe command.js)
  *   dlplist.presets   eigene Vorlagen
  *   dlplist.history   die letzten Exporte
@@ -29,12 +29,13 @@ export const DEFAULT_SETTINGS = {
   language: 'auto',
   toast: true,
   titles: true,
-  badge: true
+  badge: true,
+  menuDirect: true
 };
 
 export function mergeSettings(raw) {
   const s = Object.assign({}, DEFAULT_SETTINGS, raw && typeof raw === 'object' ? raw : {});
-  for (const k of ['enabled', 'toast', 'titles', 'badge']) s[k] = !!s[k];
+  for (const k of ['enabled', 'toast', 'titles', 'badge', 'menuDirect']) s[k] = !!s[k];
   if (!['auto', 'de', 'en'].includes(s.language)) s.language = 'auto';
   return s;
 }
