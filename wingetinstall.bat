@@ -22,8 +22,8 @@ REM csharp and .net
 winget install --id Microsoft.DotNet.SDK.8 -e --accept-package-agreements --accept-source-agreements
 winget install --id Microsoft.DotNet.SDK.9 -e --accept-package-agreements --accept-source-agreements
 winget install --id Microsoft.DotNet.SDK.10 -e --accept-package-agreements --accept-source-agreements
-winget install --id Microsoft.DotNet.Runtime.9 -e --accept-package-agreements --accept-source-agreeme
-winget install --id Microsoft.DotNet.SDK.Preview -e --accept-package-agreements --accept-source-agreementsnts
+winget install --id Microsoft.DotNet.Runtime.9 -e --accept-package-agreements --accept-source-agreements
+winget install --id Microsoft.DotNet.SDK.Preview -e --accept-package-agreements --accept-source-agreements
 winget install --id Microsoft.DotNet.Runtime.8 -e --accept-package-agreements --accept-source-agreements
 winget install --id Microsoft.DotNet.Runtime.10 -e --accept-package-agreements --accept-source-agreements
 REM golang
