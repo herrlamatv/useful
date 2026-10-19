@@ -1,0 +1,12 @@
+{
+  "name": "ai-chat-export",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ai (or Si) exporter, for chats, but works also for other sites",
+  "author": "herrlamatv",
+  "scripts": {
+    "test": "node test/test.mjs",
+    "icons": "node tools/icons.mjs"
+  }
+}

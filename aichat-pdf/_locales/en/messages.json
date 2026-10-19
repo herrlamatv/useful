@@ -1,0 +1,22 @@
+{
+  "extName": {
+    "message": "AI Chat Export",
+    "description": "Extension name, shown in the toolbar and on chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Save chats from ChatGPT, Claude, Grok, Copilot, Gemini, Perplexity & more as Markdown, PDF, HTML, TXT or JSON – one chat, single answers or all chats as a ZIP. by herrlamatv",
+    "description": "Extension description on chrome://extensions"
+  },
+  "actionTitle": {
+    "message": "AI Chat Export",
+    "description": "Tooltip of the toolbar button"
+  },
+  "cmdOpen": {
+    "message": "Open AI Chat Export",
+    "description": "Keyboard shortcut: open the popup"
+  },
+  "cmdQuick": {
+    "message": "Quick export the open chat (default format)",
+    "description": "Keyboard shortcut: export right away"
+  }
+}

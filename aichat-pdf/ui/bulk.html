@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="bulk.title">AI Chat Export – All chats</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="app">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="AI Chat Export"></div>
+        <div>
+          <h1 data-i18n="bulk.title">AI Chat Export – All chats</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <div id="langSwitch" class="lang-switch"></div>
+    </header>
+
+    <div class="layout">
+      <!-- --------------------------- Liste --------------------------- -->
+      <div class="col">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="row between">
+              <h2 id="sourceTitle" data-i18n="bulk.source">Source</h2>
+              <span class="chip site" id="platformChip"></span>
+            </div>
+            <p id="sourceDesc"></p>
+          </div>
+          <div class="panel-body">
+            <div class="row wrap">
+              <button class="btn primary" id="load" type="button" data-i18n="bulk.load">Load chat list</button>
+              <span class="hint grow" id="loadStatus"></span>
+            </div>
+          </div>
+          <div class="panel-body" id="filterBody" hidden>
+            <div class="row wrap">
+              <input type="search" id="search" class="grow" data-i18n-ph="bulk.search" style="flex: 1 1 220px; width: auto" />
+              <label class="hint" for="since" data-i18n="bulk.since">Changed since</label>
+              <input type="date" id="since" style="width: auto" />
+            </div>
+            <div class="list" style="margin-top: 10px" id="onlyNewRow"></div>
+            <div class="row between" style="margin-top: 10px">
+              <div class="row">
+                <button class="btn ghost small" id="selAll" type="button" data-i18n="popup.all">All</button>
+                <button class="btn ghost small" id="selNone" type="button" data-i18n="popup.none">None</button>
+              </div>
+              <span class="hint" id="selCount"></span>
+            </div>
+            <div class="chat-list" id="chatList" style="margin-top: 10px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------- Export -------------------------- -->
+      <div class="col sticky">
+        <div class="panel">
+          <div class="panel-head"><h2 data-i18n="bulk.formats">Formats</h2></div>
+          <div class="panel-body">
+            <div class="chips" id="formatChips" style="margin-top: 0"></div>
+            <div class="hint" style="margin-top: 8px" data-i18n="bulk.imagesNote"></div>
+          </div>
+          <div class="panel-body">
+            <div class="label" style="margin-bottom: 8px" data-i18n="bulk.dest">Destination</div>
+            <div id="destSeg"></div>
+            <div class="hint" id="destDesc" style="margin-top: 6px"></div>
+          </div>
+          <div class="panel-body">
+            <button class="btn primary wide" id="start" type="button" data-i18n="bulk.start">Export</button>
+            <div id="runBox" hidden style="margin-top: 12px">
+              <div class="bar" id="bar"><span></span></div>
+              <div class="row between" style="margin-top: 8px">
+                <span class="hint" id="progress"></span>
+                <div class="row">
+                  <button class="btn small" id="pause" type="button" data-i18n="bulk.pause">Pause</button>
+                  <button class="btn small danger" id="stop" type="button" data-i18n="bulk.stop">Stop</button>
+                </div>
+              </div>
+            </div>
+            <div class="note" id="result" style="margin-top: 12px" hidden></div>
+            <div class="log" id="log"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span data-i18n="app.footer">AI Chat Export 1.0 · Manifest V3</span>
+      <span data-i18n="app.by">by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="bulk.js"></script>
+  </body>
+</html>

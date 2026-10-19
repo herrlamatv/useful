@@ -1,0 +1,133 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "short_name": "AI Chat Export",
+  "version": "1.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "storage",
+    "downloads",
+    "contextMenus",
+    "scripting",
+    "activeTab",
+    "debugger"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://grok.com/*",
+    "https://x.com/*",
+    "https://copilot.microsoft.com/*",
+    "https://copilot.com/*",
+    "https://www.copilot.com/*",
+    "https://m365.cloud.microsoft/*",
+    "https://gemini.google.com/*",
+    "https://aistudio.google.com/*",
+    "https://www.perplexity.ai/*",
+    "https://perplexity.ai/*",
+    "https://chat.deepseek.com/*",
+    "https://chat.mistral.ai/*",
+    "https://chat.qwen.ai/*",
+    "https://www.meta.ai/*",
+    "https://poe.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/chatgpt.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/claude.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://grok.com/*", "https://x.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/grok.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://copilot.microsoft.com/*", "https://copilot.com/*", "https://www.copilot.com/*", "https://m365.cloud.microsoft/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/copilot.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/gemini.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://aistudio.google.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/aistudio.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.perplexity.ai/*", "https://perplexity.ai/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/perplexity.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://chat.deepseek.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/deepseek.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://chat.mistral.ai/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/lechat.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://chat.qwen.ai/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/qwen.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.meta.ai/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/metaai.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://poe.com/*"],
+      "js": ["src/content/core.js", "src/content/html2md.js", "src/content/adapters/poe.js", "src/content/buttons.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "__MSG_actionTitle__",
+    "default_popup": "ui/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "ui/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+E" },
+      "description": "__MSG_cmdOpen__"
+    },
+    "quick-export": {
+      "suggested_key": { "default": "Alt+Shift+M" },
+      "description": "__MSG_cmdQuick__"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

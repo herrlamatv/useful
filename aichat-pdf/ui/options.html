@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="options.title">AI Chat Export – Settings</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="options">
+    <header>
+      <div class="brand">
+        <div class="logo" role="img" aria-label="AI Chat Export"></div>
+        <div>
+          <h1>AI Chat Export</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="hint" id="savedHint"></span>
+        <div id="langSwitch" class="lang-switch"></div>
+      </div>
+    </header>
+
+    <!-- ---------------------------- Standard -------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.defaults">Defaults</h2>
+        <p data-i18n="opt.defaultsDesc"></p>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="defaults"></div>
+      </div>
+      <div class="panel-body">
+        <div class="label" style="margin-bottom: 8px" data-i18n="opt.method">How the PDF is made</div>
+        <div id="methodSeg"></div>
+        <div class="note" id="methodNote" style="margin-top: 10px"></div>
+      </div>
+    </div>
+
+    <!-- ----------------------------- Inhalt --------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.content">Content</h2>
+        <p data-i18n="opt.contentDesc"></p>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="include"></div>
+      </div>
+    </div>
+
+    <!-- ----------------------------- Dateien -------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.files">Files</h2>
+        <p data-i18n="opt.filesDesc"></p>
+      </div>
+      <div class="panel-body">
+        <div class="field">
+          <label for="folder" data-i18n="opt.folder">Folder</label>
+          <input type="text" id="folder" spellcheck="false" />
+        </div>
+        <div class="field">
+          <label for="file" data-i18n="opt.file">File name</label>
+          <input type="text" id="file" spellcheck="false" />
+        </div>
+        <div class="hint preview" data-i18n="opt.tokens"></div>
+        <div class="hint mono preview" id="pathPreview"></div>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="files"></div>
+      </div>
+    </div>
+
+    <!-- ----------------------------- Obsidian ------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.obsidian">Obsidian &amp; Markdown</h2>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="obsidian"></div>
+        <div class="field" style="margin-top: 12px">
+          <label for="tags" data-i18n="opt.tags">Tags</label>
+          <input type="text" id="tags" spellcheck="false" />
+        </div>
+        <div class="hint preview" data-i18n="opt.tagsDesc"></div>
+      </div>
+    </div>
+
+    <!-- ----------------------------- Im Chat -------------------------- -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.inChat">In the chat</h2>
+      </div>
+      <div class="panel-body">
+        <div class="list" id="inChat"></div>
+      </div>
+    </div>
+
+    <!-- --------------------------- Plattformen ------------------------ -->
+    <div class="panel">
+      <div class="panel-head">
+        <h2 data-i18n="opt.platforms">Supported sites</h2>
+        <p data-i18n="opt.platformsDesc"></p>
+      </div>
+      <div class="panel-body">
+        <div class="platform-list" id="platforms"></div>
+      </div>
+      <div class="panel-body">
+        <div class="row wrap">
+          <span class="hint grow" id="resetStatus"></span>
+          <button class="btn danger" id="reset" type="button" data-i18n="reset.button">Reset everything</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span data-i18n="app.footer">AI Chat Export 1.0 · Manifest V3</span>
+      <span data-i18n="app.by">by herrlamatv</span>
+    </footer>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

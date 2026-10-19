@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="render.title">AI Chat Export – PDF</title>
+    <style>
+      /* Nur die Leiste oben - das Dokument bringt sein eigenes CSS mit (src/export/html.js). */
+      .aix-bar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 18px;
+        background: rgba(255, 253, 248, 0.95);
+        border-bottom: 1px solid #e7dfd0;
+        font: 13px/1.4 -apple-system, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+        color: #1f1d18;
+      }
+      .aix-bar .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: url("../icons/icon128.png") center / contain no-repeat;
+        flex: none;
+      }
+      .aix-bar .text {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .aix-bar .text.error {
+        color: #b4282d;
+      }
+      .aix-bar button {
+        border: 1px solid #0071e3;
+        background: #0071e3;
+        color: #fff;
+        border-radius: 999px;
+        padding: 7px 15px;
+        font: 500 13px system-ui, sans-serif;
+        cursor: pointer;
+      }
+      @media print {
+        .aix-bar {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="aix-bar" id="bar">
+      <div class="logo"></div>
+      <div class="text" id="barText" data-i18n="render.working">Creating the PDF …</div>
+      <button type="button" id="printBtn" hidden data-i18n="render.print">Print / Save as PDF</button>
+    </div>
+    <div id="content"></div>
+    <script type="module" src="render.js"></script>
+  </body>
+</html>

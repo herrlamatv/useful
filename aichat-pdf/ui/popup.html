@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title data-i18n="popup.title">AI Chat Export</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="popup">
+    <div class="row between" style="margin-bottom: 14px">
+      <div class="brand">
+        <div class="logo" role="img" aria-label="AI Chat Export"></div>
+        <div>
+          <h1>AI Chat Export</h1>
+          <div class="by" data-i18n="app.by">by herrlamatv</div>
+        </div>
+      </div>
+      <span class="chip" id="platformChip" hidden></span>
+    </div>
+
+    <!-- ----------------------------- Chat ----------------------------- -->
+    <div class="panel" id="chatPanel">
+      <div class="panel-head">
+        <div class="chat-title" id="chatTitle">…</div>
+        <div class="meta" id="chatMeta" data-i18n="popup.loading">reading the chat …</div>
+      </div>
+
+      <div class="panel-body" id="pickBody" hidden>
+        <div class="hint" id="pickHint" data-i18n="popup.universalHint"></div>
+        <button class="btn small" id="pick" type="button" style="margin-top: 9px" data-i18n="popup.pick">Pick chat area</button>
+      </div>
+
+      <div class="panel-body" id="selectBody" hidden>
+        <div class="row between">
+          <button class="linkish" id="toggleList" type="button"></button>
+          <span class="hint" id="selCount"></span>
+        </div>
+        <div id="listWrap" hidden>
+          <div id="roleSeg" style="margin-top: 10px"></div>
+          <div class="msg-list" id="msgList"></div>
+          <div class="row" style="margin-top: 8px">
+            <button class="btn ghost small" id="selAll" type="button" data-i18n="popup.all">All</button>
+            <button class="btn ghost small" id="selNone" type="button" data-i18n="popup.none">None</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------------------------- Formate --------------------------- -->
+    <div class="panel" id="formatPanel" hidden>
+      <div class="panel-head"><div class="label" data-i18n="popup.saveAs">Save as</div></div>
+      <div class="panel-body">
+        <div class="formats" id="formats"></div>
+        <div class="pdf-row">
+          <span class="label" data-i18n="popup.pdf">PDF</span>
+          <div id="pdfSeg" class="grow"></div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="label" data-i18n="popup.include">Include</div>
+        <div class="chips" id="includeChips"></div>
+      </div>
+      <div class="panel-body status" id="status" hidden></div>
+    </div>
+
+    <footer>
+      <a href="#" id="openBulk" hidden data-i18n="popup.bulk">Export all chats …</a>
+      <a href="#" id="openOptions" data-i18n="popup.settings">Settings</a>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
