@@ -1,3 +1,6 @@
+> **Disclaimer:** Everything in this repo is provided "as is", without warranty of any kind.                                                                                                                                  
+> Use at your own risk. I am not liable for any damage, data loss or other consequences.                                                                                                                                         
+
 ## Useful stuff
 This **repo** brings useful stuff I use on a daily basis<br>Here you can find plenty of stuff I use, such as:<br>**Scripts** for applications & more
 ### Directory:
